@@ -1,0 +1,15 @@
+.btn {
+  @apply px-6 py-4 w-full  rounded-md flex items-center gap-2 justify-center active:scale-90 duration-200 ease-in-out text-base font-bold shadow-md hover:opacity-70 transition-all;
+}
+
+.btn-primary {
+  @apply bg-slate-700 border border-transparent text-white;
+}
+
+.btn-outline {
+  @apply bg-transparent border border-brand-orange-100 text-brand-orange-100 hover:bg-brand-orange-100 hover:text-white;
+}
+
+.btn-lite {
+  @apply bg-slate-800 text-white px-3 py-1 rounded-md;
+}
