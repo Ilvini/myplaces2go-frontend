@@ -10,9 +10,17 @@ module.exports = {
     extend: {
       colors: {
         brand: {
-          gray: {
-            50: '#949494',
+          red: {
+            200: '#F05966',
+            500: '#DC2C3B'
           },
+
+          gray: {
+            400: '#A8A8A8',
+            500: '#9B9B9B',
+            600: '#595959'
+          },
+
           green: {
             100: '#3f9623',
           },
@@ -22,6 +30,7 @@ module.exports = {
           blue: {
             50: '#F6F7FF',
             100: '#008ea2',
+            800: '#12238A',
           },
           purple: {
             600: '#52448f',

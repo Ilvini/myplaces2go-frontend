@@ -4,12 +4,14 @@ import { Label } from './Label'
 import { LabelError } from './LabelError'
 
 export function TextFormPassword({
+  placeholder,
   register,
   errors,
   name,
   label,
   required = false,
 }: {
+  placeholder: string
   register: any
   errors: any
   name: string
@@ -20,9 +22,10 @@ export function TextFormPassword({
 
   return (
     <div>
-      <Label label={label} name={name} />
+      {/*   <Label label={label} name={name} /> */}
       <div className="relative">
         <input
+          placeholder={placeholder}
           type={showPassword}
           className="input-text"
           style={errors[name] && { border: '1px solid red' }}
@@ -32,7 +35,7 @@ export function TextFormPassword({
         />
 
         <span
-          className="cursor-pointer absolute right-2 top-1/2 -translate-y-1/2"
+          className="cursor-pointer absolute right-6 top-1/2 -translate-y-1/2"
           onClick={() =>
             setShowPassword(showPassword === 'password' ? 'text' : 'password')
           }
@@ -61,3 +64,4 @@ export function TextFormPassword({
     </div>
   )
 }
+

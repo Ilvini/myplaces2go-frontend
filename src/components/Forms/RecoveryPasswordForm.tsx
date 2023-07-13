@@ -12,10 +12,9 @@ import Link from 'next/link'
 
 interface FormProps {
   email: string
-  password: string
 }
 
-export function LoginForm() {
+export function RecoveryPasswordForm() {
   const router = useRouter()
   const {
     register,
@@ -24,19 +23,15 @@ export function LoginForm() {
     reset,
   } = useForm<FormProps>()
 
-  async function handleLogin({ email, password }: FormProps) {
+  async function handleRecoveryPassword({ email }: FormProps) {
     try {
-      const response = await api.post('/login', {
+      const response = await api.post('/recuperar-senha', {
         email,
-        password,
       })
 
-      Cookies.set('token', response.data.results.token)
-
-      if (Cookies.get('token')) {
-        router.push('/dashboard/pastas')
-      }
-      reset({ email: '', password: '' })
+      router.push('/')
+      toast.success('Solicitação enviada com sucesso!')
+      reset({ email: '' })
     } catch (error: any) {
       errorHandler(error)
     }
@@ -51,36 +46,27 @@ export function LoginForm() {
 
   return (
     <form
-      onSubmit={handleSubmit(handleLogin)}
+      onSubmit={handleSubmit(handleRecoveryPassword)}
       className="grid gap-2 w-full mt-10 "
     >
       <TextForm
         name={'email'}
-        placeholder="Login"
+        label={'E-mail'}
+        placeholder="E-mail"
         register={register}
         errors={errors}
         required
       />
-      <TextFormPassword
-        placeholder="Senha"
-        name={'password'}
-        label={'Senha'}
-        register={register}
-        errors={errors}
-        required
-      />
-      <Link href="/recuperar-senha">
-        <div className="flex justify-end items-center ">
-          <img
-            src="/svg/recover-password-icon.svg"
-            alt="icone de recuperar senha"
-          />
-          <strong className="text-brand-blue-800 ml-2">Recuperar Senha</strong>
-        </div>
-      </Link>
+
+      <div className="flex justify-end">
+        <Link href={'/'}>
+          <strong className="text-brand-blue-800">Voltar para o login</strong>
+        </Link>
+      </div>
+
       <div className="mt-5 items-end">
         <ButtonPrimary type="submit" disabled={isSubmitting}>
-          {isSubmitting ? 'Entrando...' : 'Entrar'}
+          {isSubmitting ? 'Solicitando...' : 'Solicitar nova senha'}
         </ButtonPrimary>
       </div>
     </form>

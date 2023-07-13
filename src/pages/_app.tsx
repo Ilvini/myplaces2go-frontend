@@ -6,10 +6,9 @@ import { DefaultSeo } from 'next-seo'
 import { useEffect } from 'react'
 import { api } from '../services/axios'
 import useUserStore from '../stores/useUserStore'
+import Modals from '../components/Modals'
 
 export default function MyApp({ Component, pageProps }: any) {
-
-
   useEffect(() => {
     if (typeof window !== undefined) {
       // @ts-ignore
@@ -34,31 +33,33 @@ export default function MyApp({ Component, pageProps }: any) {
   return (
     <GlobalContextProvider>
       <DefaultSeo
-        title="Tver Mídia Digital"
-        description="Nossas notícias estão sendo exibidas em mais de 300 monitores nos principais pontos de Belém."
-        canonical="https://tver-pwa.vercel.app"
+        title="Comercial dos plásticos Distribuídora"
+        description="Seja para sua festa, seu negócio, ou no dia-a-dia, aqui na Comercial dos Plásticos, você encontra produtos de qualidade e com o melhor preço!"
+        canonical="https://comercial-dos-plasticos-pwa.vercel.app"
         openGraph={{
-          url: 'https://tver-pwa.vercel.app',
-          title: 'Tver Mídia Digital',
+          url: 'https://comercial-dos-plasticos-pwa.vercel.app',
+          title: 'Comercial dos plásticos Distribuídora',
           description:
-            'Nossas notícias estão sendo exibidas em mais de 300 monitores nos principais pontos de Belém.',
+            'Seja para sua festa, seu negócio, ou no dia-a-dia, aqui na Comercial dos Plásticos, você encontra produtos de qualidade e com o melhor preço!',
           images: [
             {
-              url: 'https://tver-pwa.vercel.app/seo.png',
+              url: '/seo.png',
               width: 1200,
               height: 627,
-              alt: 'Tver Mídia Digital',
+              alt: 'Comercial dos plásticos Distribuídora',
               type: 'image/png',
             },
           ],
-          siteName: 'https://tver-pwa.vercel.app',
+          siteName: 'https://comercial-dos-plasticos-pwa.vercel.app',
         }}
       />
       <Head>
-        <title>Tver Mídia Digital</title>
+        <title>Comercial dos plásticos Distribuídora</title>
       </Head>
       <Component {...pageProps} />
+      <Modals />
       <ToasterComponent />
     </GlobalContextProvider>
   )
 }
+

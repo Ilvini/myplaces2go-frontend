@@ -2,7 +2,7 @@
 import type { NextPage } from 'next'
 import { LoginForm } from '../components/Forms/LoginForm'
 import Container from '../components/Partials/Container'
-import Modals from '../components/Modals'
+import { RecoveryPasswordForm } from '../components/Forms/RecoveryPasswordForm'
 
 const Home: NextPage = () => {
   return (
@@ -16,7 +16,14 @@ const Home: NextPage = () => {
         <Container>
           <div className="w-full bg-white/60 p-5 rounded-lg backdrop-blur z-50 relative">
             <img src="/img/logo.png" alt="Tver" className="w-[290px] mx-auto" />
-            <LoginForm />
+            <h2 className="text-brand-blue-800 font-bold text-center text-2xl mt-10">
+              Recuperar Senha
+            </h2>
+            <p className="text-center mt-3 text-brand-gray-600">
+              Informe um dos dados abaixo e receba em seu e-mail um link para
+              mudar sua senha
+            </p>
+            <RecoveryPasswordForm />
           </div>
         </Container>
         <img

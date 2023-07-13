@@ -3,24 +3,25 @@ import { Label } from './Label'
 import { LabelError } from './LabelError'
 
 export function TextForm({
+  placeholder,
   register,
   errors,
   name,
-  label,
   required = false,
   disabled = false,
 }: {
+  placeholder: string
   register: any
   errors: any
   name: string
-  label: string
   required?: boolean
   disabled?: boolean
 }) {
   return (
     <div>
-      <Label label={label} name={name} />
+      {/* <Label label={label} name={name} /> */}
       <input
+        placeholder={placeholder}
         type="text"
         id={name}
         style={errors[name] && { border: '1px solid red' }}
@@ -37,3 +38,4 @@ export function TextForm({
     </div>
   )
 }
+

@@ -31,7 +31,7 @@ export default function Header() {
         )}
         <Link href="/dashboard/pastas">
           <img
-            src="/logo.png"
+            src="/img/logo.png"
             alt="segtron"
             className="w-20 md:w-12 absolute left-1/2 transform -translate-x-1/2 hover:scale-95 transition-all cursor-pointer"
           />
@@ -49,3 +49,4 @@ export default function Header() {
     </div>
   )
 }
+

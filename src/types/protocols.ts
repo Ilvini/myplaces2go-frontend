@@ -70,3 +70,10 @@ export type MemberProps = {
   nome: string
   foto: string
 }
+
+export type Requestify<T> = {
+  error: boolean
+  message: string
+  results: T
+}
+

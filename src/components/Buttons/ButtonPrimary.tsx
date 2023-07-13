@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 export default function ButtonPrimary(
   props: React.DetailedHTMLProps<
@@ -9,7 +9,8 @@ export default function ButtonPrimary(
   return (
     <button
       {...props}
-      className="btn btn-primary"
+      className="bg-brand-blue-800 font-bold text-white w-full px-5 py-5 text-base rounded-full"
     />
-  );
+  )
 }
+

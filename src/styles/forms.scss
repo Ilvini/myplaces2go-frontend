@@ -1,13 +1,14 @@
-input[type='text'], input[type='number'] {
-  @apply border border-gray-300 text-gray-900 text-base rounded-lg px-2 py-1;
+input[type='text'],
+input[type='number'] {
+  @apply border border-gray-300 text-gray-900 text-base rounded-full py-0;
 }
 
 .input-style {
-  @apply bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-4;
+  @apply bg-gray-50 border border-gray-300 text-gray-500 px-10 text-base rounded-full focus:ring-blue-500 focus:border-blue-500 block w-full;
 }
 
 .input-text {
-  @apply input-style  h-[60px];
+  @apply input-style  h-[50px];
 }
 
 .input-textarea {
@@ -20,3 +21,4 @@ input[type='text'], input[type='number'] {
 .label {
   @apply block mb-1 mt-2 text-base font-medium text-gray-900;
 }
+
