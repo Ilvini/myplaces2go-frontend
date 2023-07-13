@@ -12,7 +12,7 @@ const Dashboard = () => {
       <TopNavigation />
       <main className="w-full min-h-[500px] justify-center  flex">
         <Container>
-          <div className="w-full flex justify-center mt-8 flex-col">
+          <div className="w-full flex justify-center mb-4 mt-8 flex-col">
             <p className="text-brand-gray-600 text-xl text-center">
               Supermercado Barato
             </p>

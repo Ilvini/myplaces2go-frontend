@@ -14,7 +14,7 @@ export const ButtonDecorateTable = ({
 }: IButtonDecorate) => {
   return (
     <Link href={href}>
-      <div className="bg-brand-blue-800  w-full min-h-[107px] max-w-[300px] rounded-3xl text-white/90 flex justify-between items-center px-10 py-2">
+      <div className="bg-brand-blue-800 w-full min-h-[104px] max-w-[300px] rounded-3xl text-white/90 flex justify-between items-center px-10 py-2">
         <img
           src={iconUrl}
           alt="adicionar pedido"

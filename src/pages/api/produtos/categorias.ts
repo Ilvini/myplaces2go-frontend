@@ -12,32 +12,32 @@ export default async function handler(
       results: [
         {
           id: 1,
-          nome: 'ARTIGOS PARA FESTA',
+          nome: 'Artigos para festa',
         },
         {
           id: 2,
-          nome: 'EMBALAGENS',
+          nome: 'Embalagens',
         },
         {
           id: 3,
-          nome: 'DOCES',
+          nome: 'Doces',
         },
         {
           id: 4,
-          nome: 'SACOS E SACOLAS',
+          nome: 'Sacos e sacolas',
         },
         {
           id: 5,
-          nome: 'PRODUTOS DE LIMPEZA',
+          nome: 'Produtos de limpeza',
         },
         {
           id: 6,
-          nome: 'FRIOS',
+          nome: 'Frios',
         },
 
         {
           id: 7,
-          nome: 'MERCEARIA',
+          nome: 'Mercearia',
         },
       ],
     }

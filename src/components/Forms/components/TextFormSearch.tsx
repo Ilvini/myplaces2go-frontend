@@ -14,12 +14,12 @@ export function TextFormSearch({
   return (
     <div>
       {/*   <Label label={label} name={name} /> */}
-      <div className="relative  max-w-[300px] w-full flex">
+      <div className="relative   w-full flex">
         <input
           placeholder={placeholder}
           name={name}
           type="text"
-          className="input-text max-w-[300px] w-full flex"
+          className="input-text  w-full flex"
         />
 
         <span className="cursor-pointer absolute right-6 top-1/2 -translate-y-1/2">

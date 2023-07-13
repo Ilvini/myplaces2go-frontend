@@ -16,7 +16,7 @@ import { get } from 'http'
 
 const Produtos = () => {
   const [products, setProducts] = React.useState([])
-
+  const [productsCategories, setProductsCategories] = React.useState([])
   async function getProducts() {
     try {
       const response = await api_contract.get('/produtos')
@@ -25,9 +25,18 @@ const Produtos = () => {
       errorHandler(error)
     }
   }
+  async function getProductsCategories() {
+    try {
+      const response = await api_contract.get('/produtos/categorias')
+      setProductsCategories(response.data.results)
+    } catch (error: any) {
+      errorHandler(error)
+    }
+  }
 
   useEffect(() => {
     getProducts()
+    getProductsCategories()
   }, [])
   return (
     <>
@@ -40,68 +49,25 @@ const Produtos = () => {
               Escolha os produtos
             </strong>
             <TextFormSearch name="search" placeholder="Buscar" />
+            <select className="bg-brand-blue-800 font-bold text-base text-white mt-2 rounded-full px-6 py-5">
+              {productsCategories?.map((categorie) => {
+                return <option value={categorie.id}>{categorie.nome}</option>
+              })}
+            </select>
             <div className="mt-2 space-y-2 md:overflow-auto md:grid md:grid-cols-4 md:gap-4 md:flex-wrap  overflow-scroll max-h-[500px]">
-              {products?.map((item) => {
+              {products?.map((product) => {
                 return (
                   <CartCard
-                    key={item.id}
-                    image_url={item.imagem_url}
-                    id={item.id}
-                    price={item.valor}
-                    title={item.nome}
-                    description={item.descricao}
+                    key={product.id}
+                    image_url={product.imagem_url}
+                    id={product.id}
+                    price={product.valor}
+                    title={product.nome}
+                    description={product.descricao}
                     hasAddButton={true}
                   />
                 )
               })}
-              {/*   <CartCard
-                image_url="/img/produto.png"
-                id="12312312"
-                price={10}
-                title="Saco de lixo 100 lts katalixo c/05 und"
-                description="<p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Excepturi corrupti cum neque reiciendis amet? Dolorum ut repellat voluptas est eius.</p>"
-                hasAddButton={true}
-              />
-              <CartCard
-                image_url="/img/produto.png"
-                id="12312312"
-                price={10}
-                title="Saco de lixo 100 lts katalixo c/05 und"
-                description="<p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Excepturi corrupti cum neque reiciendis amet? Dolorum ut repellat voluptas est eius.</p>"
-                hasAddButton={true}
-              />
-              <CartCard
-                image_url="/img/produto.png"
-                id="12312312"
-                price={10}
-                title="Saco de lixo 100 lts katalixo c/05 und"
-                description="<p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Excepturi corrupti cum neque reiciendis amet? Dolorum ut repellat voluptas est eius.</p>"
-                hasAddButton={true}
-              />
-              <CartCard
-                image_url="/img/produto.png"
-                id="12312312"
-                price={10}
-                title="Saco de lixo 100 lts katalixo c/05 und"
-                description="<p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Excepturi corrupti cum neque reiciendis amet? Dolorum ut repellat voluptas est eius.</p>"
-                hasAddButton={true}
-              />
-              <CartCard
-                image_url="/img/produto.png"
-                id="12312312"
-                price={10}
-                title="Saco de lixo 100 lts katalixo c/05 und"
-                description="<p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Excepturi corrupti cum neque reiciendis amet? Dolorum ut repellat voluptas est eius.</p>"
-                hasAddButton={true}
-              />
-              <CartCard
-                image_url="/img/produto.png"
-                id="12312312"
-                price={10}
-                title="Saco de lixo 100 lts katalixo c/05 und"
-                description="<p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Excepturi corrupti cum neque reiciendis amet? Dolorum ut repellat voluptas est eius.</p>"
-                hasAddButton={true}
-              /> */}
             </div>
             <div className=" max-w-[300px] mx-auto w-full">
               <ButtonPrimary>Finalizar Pedido</ButtonPrimary>
