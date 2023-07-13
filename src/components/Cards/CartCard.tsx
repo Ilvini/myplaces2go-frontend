@@ -1,6 +1,7 @@
 import { Icon } from '@iconify/react'
 import React, { useState } from 'react'
-
+import useFromStore from '../../hooks/useFromStore'
+import { useCartStore } from '../../stores/cartStore'
 interface ICartCard {
   id: string
   title: string
@@ -8,6 +9,7 @@ interface ICartCard {
   price: number
   description?: string
   hasAddButton?: boolean
+  product?: any
 }
 
 export const CartCard = ({
@@ -17,9 +19,11 @@ export const CartCard = ({
   image_url,
   description = '',
   hasAddButton = false,
+  product,
 }: ICartCard) => {
   const [qtd, setQtd] = useState(1)
   const [showDescription, setShowDescription] = useState(false)
+  const addToCart = useCartStore((state) => state.addToCart)
 
   return (
     <div
@@ -87,7 +91,10 @@ export const CartCard = ({
           )}
 
           {hasAddButton && (
-            <button className="flex items-center">
+            <button
+              className="flex items-center"
+              onClick={() => addToCart({ ...product, quantidade: qtd })}
+            >
               <div className="bg-brand-blue-800 font-bold border-brand-blue-800 border p-2 rounded-full text-sm">
                 <Icon
                   icon="fontisto:shopping-basket"

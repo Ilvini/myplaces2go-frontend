@@ -1,3 +1,4 @@
+'use client'
 import React from 'react'
 import { TopNavigation } from '../../../components/TopNavigation'
 import Container from '../../../components/Partials/Container'
