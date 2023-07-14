@@ -1,15 +1,14 @@
-import Link from 'next/link'
 import React from 'react'
 import Container from '../../components/Partials/Container'
-import { ButtonDecorate } from '../../components/Buttons/ButtonDecorate'
-import { TopNavigation } from '../../components/TopNavigation'
-import { BottomNavigation } from '../../components/BottomNavigation'
 import { ButtonDecorateTable } from '../../components/Buttons/ButtonDecorateTable'
 import { LayoutWIthElementFloat } from '../../components/Layout/LayoutWIthElementFloat'
 import useTabelaStore from '../../stores/useTabela'
+import useClientStore from '../../stores/useClientStore'
 
 const Dashboard = () => {
   console.log(useTabelaStore.getState().tabela)
+
+  const client_name = useClientStore.getState().cliente
 
   return (
     <>
@@ -17,7 +16,7 @@ const Dashboard = () => {
         <Container>
           <div className="w-full flex justify-center mb-4 mt-8 flex-col">
             <p className="text-brand-gray-600 text-xl text-center">
-              Supermercado Barato
+              {client_name?.nome}
             </p>
             <strong className="text-brand-blue-800 font-bold text-center text-2xl mt-0">
               Escolha o tipo de valor

@@ -1,8 +1,5 @@
-import Link from 'next/link'
 import React, { useEffect } from 'react'
 import Container from '../../components/Partials/Container'
-import { TopNavigation } from '../../components/TopNavigation'
-import { BottomNavigation } from '../../components/BottomNavigation'
 import { ClientCard } from '../../components/Cards/ClientCard'
 import { TextFormSearch } from '../../components/Forms/components/TextFormSearch'
 import { useRouter } from 'next/router'
@@ -54,10 +51,10 @@ const BuscarClientes = () => {
               return (
                 <ClientCard
                   key={client.id}
-                  title={client.nome}
+                  nome={client.nome}
                   id={client.id}
-                  phone_number={client.telefone}
-                  supervisor={client.responsavel}
+                  telefone={client.telefone}
+                  responsavel={client.responsavel}
                 />
               )
             })}

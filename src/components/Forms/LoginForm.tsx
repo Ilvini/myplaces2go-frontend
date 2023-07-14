@@ -34,7 +34,7 @@ export function LoginForm() {
       Cookies.set('token', response.data.results.token)
 
       if (Cookies.get('token')) {
-        router.push('/dashboard/pastas')
+        router.push('/dashboard')
       }
       reset({ email: '', password: '' })
     } catch (error: any) {
@@ -45,7 +45,7 @@ export function LoginForm() {
   useEffect(() => {
     const token = Cookies.get('token')
     if (token) {
-      router.push('/dashboard/pastas')
+      router.push('/dashboard')
     }
   }, [])
 

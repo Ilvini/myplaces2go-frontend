@@ -73,7 +73,7 @@ export const useCartStore = create<State & Actions>((set, get) => ({
     if (cartItem) {
       const updatedCart = cart.map((item) =>
         item.id === product.id
-          ? { ...item, quantidade: (item.quantidade as number) + 1 }
+          ? { ...item, quantidade: product.quantidade as number }
           : item
       )
       set((state) => ({
@@ -82,7 +82,10 @@ export const useCartStore = create<State & Actions>((set, get) => ({
         totalPrice: state.totalPrice + product?.valor,
       }))
     } else {
-      const updatedCart = [...cart, { ...product, quantidade: 1 }]
+      const updatedCart = [
+        ...cart,
+        { ...product, quantidade: product.quantidade },
+      ]
 
       set((state) => ({
         cart: updatedCart,

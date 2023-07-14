@@ -1,23 +1,25 @@
 import React, { useEffect } from 'react'
-import { TopNavigation } from '../../components/TopNavigation'
 import Container from '../../components/Partials/Container'
-import { BottomNavigation } from '../../components/BottomNavigation'
-import { TextAreaForm } from '../../components/Forms/components/TextAreaForm'
-import { useForm } from 'react-hook-form'
-import { useRouter } from 'next/router'
 import { errorHandler } from '../../services/errorHandler'
-import { TextForm } from '../../components/Forms/components/TextForm'
-import ButtonPrimary from '../../components/Buttons/ButtonPrimary'
 import { CartCard } from '../../components/Cards/CartCard'
 import { TextFormSearch } from '../../components/Forms/components/TextFormSearch'
-import { cart } from '../../contracts/cart'
 import { api_contract } from '../../services/axios'
-import { get } from 'http'
 import { LayoutWIthElementFloat } from '../../components/Layout/LayoutWIthElementFloat'
+import useClientStore from '../../stores/useClientStore'
+
+interface ICategorie {
+  id: string
+  nome: string
+}
 
 const Produtos = () => {
   const [products, setProducts] = React.useState([])
-  const [productsCategories, setProductsCategories] = React.useState([])
+  const [productsCategories, setProductsCategories] = React.useState<
+    ICategorie[]
+  >([])
+
+  const client_name = useClientStore.getState().cliente
+
   async function getProducts() {
     try {
       const response = await api_contract.get('/produtos')
@@ -44,7 +46,7 @@ const Produtos = () => {
       <LayoutWIthElementFloat hasBackpage={true}>
         <Container>
           <div className="w-full flex justify-center mt-8 mb-10 flex-col">
-            <p className="text-center text-xl">Supermercado Barato</p>
+            <p className="text-center text-xl">{client_name?.nome}</p>
             <strong className="text-brand-blue-800 font-bold text-center text-3xl mt-0 mb-4">
               Escolha os produtos
             </strong>
@@ -52,7 +54,7 @@ const Produtos = () => {
             <select className="bg-brand-blue-800 font-bold text-base text-white mt-2 rounded-full px-6 py-5">
               {productsCategories?.map((categorie) => {
                 return (
-                  <option key={categoria.id} value={categorie.id}>
+                  <option key={categorie.id} value={categorie.id}>
                     {categorie.nome}
                   </option>
                 )

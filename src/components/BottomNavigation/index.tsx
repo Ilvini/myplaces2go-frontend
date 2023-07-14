@@ -1,11 +1,11 @@
 import Link from 'next/link'
 import React from 'react'
+import { useCartStore } from '../../stores/cartStore'
+import useFromStore from '../../hooks/useFromStore'
 
-interface IBottomNavigation {
-  totalItems: number
-}
+export const BottomNavigation = () => {
+  const totalItems = useFromStore(useCartStore, (state) => state.totalItems)
 
-export const BottomNavigation = ({ totalItems }: IBottomNavigation) => {
   return (
     <div className="">
       <img
@@ -19,7 +19,7 @@ export const BottomNavigation = ({ totalItems }: IBottomNavigation) => {
             <img src="/svg/cart.svg" alt="icone carrinho" />
             <strong className="text-xl ml-4">{totalItems} items</strong>
           </div>
-          <div className="h-full my-4 flex items-center  min-h-[1em] w-px self-stretch bg-gradient-to-tr from-transparent bg-brand-red-200  to-transparent opacity-20 dark:opacity-100"></div>
+          <div className="h-full  flex items-center  min-h-[1em] w-px self-stretch bg-gradient-to-tr from-transparent bg-brand-red-200  to-transparent opacity-20 dark:opacity-100"></div>
           <div className="w-1/2 flex justify-center items-center">
             <Link href="/dashboard/carrinho">Ver Carrinho</Link>
           </div>

@@ -55,7 +55,6 @@ export const CartCard = ({
             type="number"
             className="select-none w-10 pointer-events-none text-center text-brand-gray-600 h-8 rounded-full "
             value={qtd}
-            min={1}
             max={99}
             readOnly
           />
@@ -93,7 +92,11 @@ export const CartCard = ({
           {hasAddButton && (
             <button
               className="flex items-center"
-              onClick={() => addToCart({ ...product, quantidade: qtd })}
+              onClick={() => {
+                addToCart({ ...product, quantidade: qtd }),
+                  console.log(qtd),
+                  console.log(useCartStore.getState().cart)
+              }}
             >
               <div className="bg-brand-blue-800 font-bold border-brand-blue-800 border p-2 rounded-full text-sm">
                 <Icon

@@ -1,15 +1,12 @@
-import Link from 'next/link'
 import React from 'react'
 import Container from '../../components/Partials/Container'
 import { ButtonDecorate } from '../../components/Buttons/ButtonDecorate'
-import { TopNavigation } from '../../components/TopNavigation'
-import { BottomNavigation } from '../../components/BottomNavigation'
 import { LayoutWIthElementFloat } from '../../components/Layout/LayoutWIthElementFloat'
 
 const Dashboard = () => {
   return (
     <>
-      <LayoutWIthElementFloat>
+      <LayoutWIthElementFloat hasBackpage={false}>
         <Container>
           <div className="w-full flex justify-center my-10">
             <p className="text-brand-gray-600 text-xl">
