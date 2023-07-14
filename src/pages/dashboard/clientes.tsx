@@ -9,6 +9,7 @@ import { useRouter } from 'next/router'
 import { errorHandler } from '../../services/errorHandler'
 import { api_contract } from '../../services/axios'
 import { Requestify } from '../../types/protocols'
+import { LayoutWIthElementFloat } from '../../components/Layout/LayoutWIthElementFloat'
 
 interface IClient {
   id: string
@@ -37,8 +38,7 @@ const BuscarClientes = () => {
 
   return (
     <>
-      <TopNavigation />
-      <main className="w-full justify-center  flex mt-28">
+      <LayoutWIthElementFloat hasBackpage={true}>
         <Container>
           <div className="w-full flex justify-center mt-10 mb-5">
             <strong className="text-brand-blue-800 font-bold text-center text-2xl">
@@ -61,9 +61,7 @@ const BuscarClientes = () => {
             })}
           </div>
         </Container>
-      </main>
-
-      <BottomNavigation />
+      </LayoutWIthElementFloat>
     </>
   )
 }

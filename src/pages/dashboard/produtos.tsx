@@ -13,6 +13,7 @@ import { TextFormSearch } from '../../components/Forms/components/TextFormSearch
 import { cart } from '../../contracts/cart'
 import { api_contract } from '../../services/axios'
 import { get } from 'http'
+import { LayoutWIthElementFloat } from '../../components/Layout/LayoutWIthElementFloat'
 
 const Produtos = () => {
   const [products, setProducts] = React.useState([])
@@ -40,8 +41,7 @@ const Produtos = () => {
   }, [])
   return (
     <>
-      <TopNavigation />
-      <main className="w-full min-h-[500px] justify-center  flex">
+      <LayoutWIthElementFloat hasBackpage={true}>
         <Container>
           <div className="w-full flex justify-center mt-8 mb-10 flex-col">
             <p className="text-center text-xl">Supermercado Barato</p>
@@ -54,10 +54,11 @@ const Produtos = () => {
                 return <option value={categorie.id}>{categorie.nome}</option>
               })}
             </select>
-            <div className="mt-2 space-y-2 md:overflow-auto md:grid md:grid-cols-4 md:gap-4 md:flex-wrap  overflow-scroll max-h-[500px]">
+            <div className="mt-2 space-y-2 md:overflow-auto md:grid md:grid-cols-4 md:gap-4 md:flex-wrap  overflow-scroll max-h-[340px]">
               {products?.map((product) => {
                 return (
                   <CartCard
+                    product={product}
                     key={product.id}
                     image_url={product.imagem_url}
                     id={product.id}
@@ -69,14 +70,12 @@ const Produtos = () => {
                 )
               })}
             </div>
-            <div className=" max-w-[300px] mx-auto w-full">
+            {/*   <div className=" max-w-[300px] mx-auto w-full mt-2">
               <ButtonPrimary>Finalizar Pedido</ButtonPrimary>
-            </div>
+            </div> */}
           </div>
         </Container>
-      </main>
-
-      <BottomNavigation />
+      </LayoutWIthElementFloat>
     </>
   )
 }

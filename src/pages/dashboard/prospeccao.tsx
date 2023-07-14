@@ -8,6 +8,7 @@ import { useRouter } from 'next/router'
 import { errorHandler } from '../../services/errorHandler'
 import { TextForm } from '../../components/Forms/components/TextForm'
 import ButtonPrimary from '../../components/Buttons/ButtonPrimary'
+import { LayoutWIthElementFloat } from '../../components/Layout/LayoutWIthElementFloat'
 
 interface FormProps {
   company_name: string
@@ -43,8 +44,7 @@ const Prospeccao = () => {
   }
   return (
     <>
-      <TopNavigation />
-      <main className="w-full min-h-[500px] justify-center  flex">
+      <LayoutWIthElementFloat>
         <Container>
           <div className="w-full flex justify-center my-10">
             <strong className="text-brand-blue-800 font-bold text-center text-3xl mt-10">
@@ -90,9 +90,7 @@ const Prospeccao = () => {
           </form>
           <div className="flex flex-col items-center w-full space-y-6"></div>
         </Container>
-      </main>
-
-      <BottomNavigation />
+      </LayoutWIthElementFloat>
     </>
   )
 }

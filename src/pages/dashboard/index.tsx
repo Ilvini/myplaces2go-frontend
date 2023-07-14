@@ -4,12 +4,12 @@ import Container from '../../components/Partials/Container'
 import { ButtonDecorate } from '../../components/Buttons/ButtonDecorate'
 import { TopNavigation } from '../../components/TopNavigation'
 import { BottomNavigation } from '../../components/BottomNavigation'
+import { LayoutWIthElementFloat } from '../../components/Layout/LayoutWIthElementFloat'
 
 const Dashboard = () => {
   return (
     <>
-      <TopNavigation />
-      <main className="w-full min-h-[500px] justify-center  flex mt-28">
+      <LayoutWIthElementFloat>
         <Container>
           <div className="w-full flex justify-center my-10">
             <p className="text-brand-gray-600 text-xl">
@@ -21,7 +21,7 @@ const Dashboard = () => {
           </div>
           <div className="flex flex-col items-center w-full space-y-6">
             <ButtonDecorate
-              href="/dashboard/buscar-clientes"
+              href="/dashboard/clientes"
               text="Novo Pedido"
               iconUrl="/img/novo_pedido.png"
             />
@@ -37,9 +37,7 @@ const Dashboard = () => {
             />
           </div>
         </Container>
-      </main>
-
-      <BottomNavigation />
+      </LayoutWIthElementFloat>
     </>
   )
 }

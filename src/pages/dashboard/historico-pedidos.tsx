@@ -10,6 +10,7 @@ import { RequestCard } from '../../components/Cards/RequestCard'
 import { errorHandler } from '../../services/errorHandler'
 import { Requestify } from '../../types/protocols'
 import { api_contract } from '../../services/axios'
+import { LayoutWIthElementFloat } from '../../components/Layout/LayoutWIthElementFloat'
 
 interface IRequestHistory {
   id: string
@@ -47,8 +48,7 @@ const HistoricoPedidos = () => {
 
   return (
     <>
-      <TopNavigation />
-      <main className="w-full min-h-[500px] justify-center  flex">
+      <LayoutWIthElementFloat hasBackpage={true}>
         <Container>
           <div className="w-full flex justify-center mt-10 mb-5">
             <strong className="text-brand-blue-800 font-bold text-center text-2xl">
@@ -58,7 +58,7 @@ const HistoricoPedidos = () => {
           <div className="flex justify-center mb-5">
             <TextFormSearch name="search" placeholder="Buscar" />
           </div>
-          <div className="flex md:flex-row md:justify-center justify-start gap-0  md:flex-wrap md:gap-5 flex-col items-center w-full md:space-y-0 space-y-6 md:overflow-auto overflow-scroll md:max-h-full max-h-[591px]">
+          <div className="flex md:flex-row md:justify-center justify-start gap-0  md:flex-wrap md:gap-5 flex-col items-center w-full md:space-y-0 space-y-6 md:overflow-auto overflow-scroll md:max-h-full max-h-[421px]">
             {request?.map((request) => {
               return (
                 <RequestCard
@@ -100,9 +100,7 @@ const HistoricoPedidos = () => {
             /> */}
           </div>
         </Container>
-      </main>
-
-      <BottomNavigation />
+      </LayoutWIthElementFloat>
     </>
   )
 }

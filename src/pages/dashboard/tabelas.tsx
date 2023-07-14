@@ -5,12 +5,15 @@ import { ButtonDecorate } from '../../components/Buttons/ButtonDecorate'
 import { TopNavigation } from '../../components/TopNavigation'
 import { BottomNavigation } from '../../components/BottomNavigation'
 import { ButtonDecorateTable } from '../../components/Buttons/ButtonDecorateTable'
+import { LayoutWIthElementFloat } from '../../components/Layout/LayoutWIthElementFloat'
+import useTabelaStore from '../../stores/useTabela'
 
 const Dashboard = () => {
+  console.log(useTabelaStore.getState().tabela)
+
   return (
     <>
-      <TopNavigation />
-      <main className="w-full min-h-[500px] justify-center  flex">
+      <LayoutWIthElementFloat>
         <Container>
           <div className="w-full flex justify-center mb-4 mt-8 flex-col">
             <p className="text-brand-gray-600 text-xl text-center">
@@ -22,30 +25,32 @@ const Dashboard = () => {
           </div>
           <div className="flex flex-col items-center w-full space-y-4 mx-auto max-w-[300px]">
             <ButtonDecorateTable
-              href="/dashboard/buscar-clientes"
+              onClick={() => useTabelaStore.setState({ tabela: 1 })}
+              href="/dashboard/produtos"
               text="Á vista"
               iconUrl="/img/moedas.png"
             />
             <ButtonDecorateTable
-              href="/dashboard/historico-pedidos"
+              onClick={() => useTabelaStore.setState({ tabela: 2 })}
+              href="/dashboard/produtos"
               text="7 Dias"
               iconUrl="/img/7.png"
             />
             <ButtonDecorateTable
-              href="/dashboard/prospeccao"
+              onClick={() => useTabelaStore.setState({ tabela: 3 })}
+              href="/dashboard/produtos"
               text="14 Dias"
               iconUrl="/img/14.png"
             />
             <ButtonDecorateTable
-              href="/dashboard/prospeccao"
+              onClick={() => useTabelaStore.setState({ tabela: 4 })}
+              href="/dashboard/produtos"
               text="21 Dias"
               iconUrl="/img/21.png"
             />
           </div>
         </Container>
-      </main>
-
-      <BottomNavigation />
+      </LayoutWIthElementFloat>
     </>
   )
 }

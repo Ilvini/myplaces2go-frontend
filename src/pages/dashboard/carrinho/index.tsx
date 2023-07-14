@@ -10,15 +10,15 @@ import { TextForm } from '../../../components/Forms/components/TextForm'
 import ButtonPrimary from '../../../components/Buttons/ButtonPrimary'
 import { CartCard } from '../../../components/Cards/CartCard'
 import { useCartStore } from '../../../stores/cartStore'
+import { LayoutWIthElementFloat } from '../../../components/Layout/LayoutWIthElementFloat'
 const Carrinho = () => {
   const router = useRouter()
 
   const cart = useCartStore((state) => state.cart)
-
+  console.log(cart)
   return (
     <>
-      <TopNavigation hasBackPage={true} />
-      <main className="w-full min-h-[500px] justify-center  flex mt-28">
+      <LayoutWIthElementFloat>
         <Container>
           <div className="w-full flex justify-center items-center mt-8 mb-10 flex-col">
             {cart && cart.length > 0 && (
@@ -93,9 +93,7 @@ const Carrinho = () => {
             )}
           </div>
         </Container>
-      </main>
-
-      <BottomNavigation />
+      </LayoutWIthElementFloat>
     </>
   )
 }
