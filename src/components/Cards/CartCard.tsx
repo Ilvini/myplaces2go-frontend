@@ -1,7 +1,8 @@
 import { Icon } from '@iconify/react'
 import React, { useState } from 'react'
 import useFromStore from '../../hooks/useFromStore'
-import { useCartStore } from '../../stores/cartStore'
+import { useCartStore } from '../../stores/cartStoreStore'
+import { toast } from 'react-hot-toast'
 interface ICartCard {
   id: string
   title: string
@@ -9,7 +10,13 @@ interface ICartCard {
   price: number
   description?: string
   hasAddButton?: boolean
-  product?: any
+  quantity?: number
+  product: any
+  isCartPage?: boolean
+
+  /* 
+  isCartPage= > informa que o componente será usado na página de carrinho
+  */
 }
 
 export const CartCard = ({
@@ -20,10 +27,18 @@ export const CartCard = ({
   description = '',
   hasAddButton = false,
   product,
+  quantity,
+  isCartPage = false,
 }: ICartCard) => {
   const [qtd, setQtd] = useState(1)
   const [showDescription, setShowDescription] = useState(false)
   const addToCart = useCartStore((state) => state.addToCart)
+  const increment = useCartStore((state) => state.increment)
+  const decrement = useCartStore((state) => state.decrement)
+  function handleAddToCart() {
+    addToCart({ ...product, quantidade: qtd })
+    toast.success(`Produto adicionado ao carrinho!`)
+  }
 
   return (
     <div
@@ -47,21 +62,21 @@ export const CartCard = ({
         <div className="flex space-x-2">
           <button
             className="w-8 h-8 rounded-full bg-brand-gray-100 flex justify-center items-center bg-brand-blue-800 text-white"
-            onClick={() => setQtd(qtd + 1)}
+            onClick={() => (isCartPage ? increment(id) : setQtd(qtd + 1))}
           >
             <Icon icon="typcn:plus" />
           </button>
           <input
             type="number"
             className="select-none w-10 pointer-events-none text-center text-brand-gray-600 h-8 rounded-full "
-            value={qtd}
+            value={isCartPage ? quantity : qtd}
             max={99}
             readOnly
           />
           <button
             className="w-8 h-8 rounded-full bg-brand-gray-100 flex justify-center items-center bg-brand-blue-800 text-white"
-            onClick={() => setQtd(qtd - 1)}
-            disabled={qtd === 1}
+            onClick={() => (isCartPage ? decrement(id) : setQtd(qtd - 1))}
+            disabled={isCartPage ? quantity === 0 : qtd === 1}
           >
             <Icon icon="typcn:minus" />
           </button>
@@ -93,7 +108,7 @@ export const CartCard = ({
             <button
               className="flex items-center"
               onClick={() => {
-                addToCart({ ...product, quantidade: qtd }),
+                handleAddToCart(product),
                   console.log(qtd),
                   console.log(useCartStore.getState().cart)
               }}

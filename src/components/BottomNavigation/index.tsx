@@ -1,10 +1,10 @@
 import Link from 'next/link'
 import React from 'react'
-import { useCartStore } from '../../stores/cartStore'
+import { useCartStore } from '../../stores/cartStoreStore'
 import useFromStore from '../../hooks/useFromStore'
 
 export const BottomNavigation = () => {
-  const totalItems = useFromStore(useCartStore, (state) => state.totalItems)
+  const totalItems = useCartStore((state) => state.totalProductsOnCart())
 
   return (
     <div className="">

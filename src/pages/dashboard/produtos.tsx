@@ -72,6 +72,7 @@ const Produtos = () => {
                     title={product.nome}
                     description={product.descricao}
                     hasAddButton={true}
+                    isCartPage={false}
                   />
                 )
               })}

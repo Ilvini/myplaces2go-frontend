@@ -20,6 +20,7 @@ export default function MyApp({ Component, pageProps }: any) {
           appId: 'de5d43eb-29a9-46b4-951a-222e3fe700a5',
           safari_web_id:
             'web.onesignal.auto.6401d2fc-b951-4213-a02c-03159c046b78',
+          allowLocalhostAsSecureOrigin: true,
         })
       })
     }
