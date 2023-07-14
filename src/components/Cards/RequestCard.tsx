@@ -3,7 +3,7 @@ import React from 'react'
 interface IRequestCard {
   name: string
   date: string
-  id: number
+  id: string
   total_amount: number
   tablet: string
 }

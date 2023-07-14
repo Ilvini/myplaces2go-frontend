@@ -19,12 +19,13 @@ interface IClient {
 }
 
 const BuscarClientes = () => {
-  const [clients, setClients] = React.useState([])
+  const [clients, setClients] = React.useState<IClient[]>([])
   const router = useRouter()
 
   async function GetClients() {
     try {
-      const response = await api_contract.get('/cliente')
+      const response: Requestify<IClient[]> = await api_contract.get('/cliente')
+      console.log(response)
       setClients(response.data.results)
       console.log(clients)
     } catch (error: any) {
@@ -52,6 +53,7 @@ const BuscarClientes = () => {
             {clients?.map((client) => {
               return (
                 <ClientCard
+                  key={client.id}
                   title={client.nome}
                   id={client.id}
                   phone_number={client.telefone}

@@ -22,7 +22,7 @@ interface IRequestHistory {
 
 const HistoricoPedidos = () => {
   const router = useRouter()
-  const [request, setRequest] = React.useState([])
+  const [request, setRequest] = React.useState<IRequestHistory[]>([])
   /*  const {
     register,
     handleSubmit,
@@ -62,6 +62,7 @@ const HistoricoPedidos = () => {
             {request?.map((request) => {
               return (
                 <RequestCard
+                  key={request.id}
                   tablet={request.tabela}
                   name={request.nome}
                   date={request.data}

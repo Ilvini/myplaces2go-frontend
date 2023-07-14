@@ -35,6 +35,7 @@ const Carrinho = () => {
                 cart?.map((product) => {
                   return (
                     <CartCard
+                      key={product.id}
                       image_url={product.imagem_url}
                       id={product.id}
                       price={product.valor}

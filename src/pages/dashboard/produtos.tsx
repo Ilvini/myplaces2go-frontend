@@ -51,7 +51,11 @@ const Produtos = () => {
             <TextFormSearch name="search" placeholder="Buscar" />
             <select className="bg-brand-blue-800 font-bold text-base text-white mt-2 rounded-full px-6 py-5">
               {productsCategories?.map((categorie) => {
-                return <option value={categorie.id}>{categorie.nome}</option>
+                return (
+                  <option key={categoria.id} value={categorie.id}>
+                    {categorie.nome}
+                  </option>
+                )
               })}
             </select>
             <div className="mt-2 space-y-2 md:overflow-auto md:grid md:grid-cols-4 md:gap-4 md:flex-wrap  overflow-scroll max-h-[340px]">

@@ -3,7 +3,7 @@ import React from 'react'
 
 interface IClientCard {
   title: string
-  id: number
+  id: string
   supervisor: string
   phone_number: string
 }

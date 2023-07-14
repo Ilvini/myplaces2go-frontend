@@ -72,8 +72,10 @@ export type MemberProps = {
 }
 
 export type Requestify<T> = {
-  error: boolean
-  message: string
-  results: T
+  data: {
+    error: boolean
+    message: string
+    results: T
+  }
 }
 
