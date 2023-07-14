@@ -13,7 +13,7 @@ const Dashboard = () => {
 
   return (
     <>
-      <LayoutWIthElementFloat>
+      <LayoutWIthElementFloat hasBackpage={true}>
         <Container>
           <div className="w-full flex justify-center mb-4 mt-8 flex-col">
             <p className="text-brand-gray-600 text-xl text-center">

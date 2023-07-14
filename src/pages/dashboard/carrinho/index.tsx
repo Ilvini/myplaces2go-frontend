@@ -11,6 +11,7 @@ import ButtonPrimary from '../../../components/Buttons/ButtonPrimary'
 import { CartCard } from '../../../components/Cards/CartCard'
 import { useCartStore } from '../../../stores/cartStore'
 import { LayoutWIthElementFloat } from '../../../components/Layout/LayoutWIthElementFloat'
+import Link from 'next/link'
 const Carrinho = () => {
   const router = useRouter()
 
@@ -18,7 +19,7 @@ const Carrinho = () => {
   console.log(cart)
   return (
     <>
-      <LayoutWIthElementFloat>
+      <LayoutWIthElementFloat hasBackpage={true}>
         <Container>
           <div className="w-full flex justify-center items-center mt-8 mb-10 flex-col">
             {cart && cart.length > 0 && (
@@ -42,45 +43,13 @@ const Carrinho = () => {
                     />
                   )
                 })}
-              {/* <CartCard
-                image_url="/img/produto.png"
-                id="12312312"
-                price={10}
-                title="Saco de lixo 100 lts katalixo c/05 und"
-                hasAddButton={false}
-              />
-              <CartCard
-                image_url="/img/produto.png"
-                id="12312312"
-                price={10}
-                title="Saco de lixo 100 lts katalixo c/05 und"
-                hasAddButton={false}
-              />
-              <CartCard
-                image_url="/img/produto.png"
-                id="12312312"
-                price={10}
-                title="Saco de lixo 100 lts katalixo c/05 und"
-                hasAddButton={false}
-              />
-              <CartCard
-                image_url="/img/produto.png"
-                id="12312312"
-                price={10}
-                title="Saco de lixo 100 lts katalixo c/05 und"
-                hasAddButton={false}
-              />
-              <CartCard
-                image_url="/img/produto.png"
-                id="12312312"
-                price={10}
-                title="Saco de lixo 100 lts katalixo c/05 und"
-                hasAddButton={false}
-              /> */}
             </div>
             {cart && cart.length > 0 && (
               <div className=" max-w-[300px] mx-auto w-full">
-                <ButtonPrimary>Finalizar Pedido</ButtonPrimary>
+                <Link href="/dashboard/pedido-finalizado">
+                  {' '}
+                  <ButtonPrimary>Finalizar Pedido</ButtonPrimary>
+                </Link>
               </div>
             )}
             {cart && cart.length === 0 && (
