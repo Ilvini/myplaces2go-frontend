@@ -40,6 +40,8 @@ export const CartCard = ({
     toast.success(`Produto adicionado ao carrinho!`)
   }
 
+  const removeFromCart = useCartStore((state) => state.removeFromCart)
+
   return (
     <div
       key={id}
@@ -91,6 +93,21 @@ export const CartCard = ({
           </strong>
         </div>
       </div>
+      {isCartPage && (
+        <div className="flex justify-between items-center">
+          {' '}
+          <div></div>
+          <div
+            className="mt-3 flex justify-between flex-row"
+            onClick={() => removeFromCart(product)}
+          >
+            <button className="px-4 py-2 border-brand-red-500 border rounded-3xl font-semibold text-brand-red-500">
+              {' '}
+              Remover do carrinho
+            </button>
+          </div>
+        </div>
+      )}
       {!showDescription ? (
         <div className="mt-3 flex justify-between flex-row">
           {description !== '' ? (
