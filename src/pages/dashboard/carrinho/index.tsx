@@ -75,7 +75,7 @@ const Carrinho = () => {
               </div>
             )}
             {cart && cart.length === 0 && (
-              <div className="flex items-center flex-col">
+              <div className="flex items-center flex-col mt-28">
                 <img src="/img/carrinho_vazio.png" alt="" className="w-52" />
                 <p className="text-2xl text-brand-gray-600 max-w-[200px] text-center mt-4">
                   Sem Produtos adicionados

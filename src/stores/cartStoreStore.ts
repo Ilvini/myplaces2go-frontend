@@ -27,6 +27,7 @@ interface Actions {
   increment: (id: string) => void
   decrement: (id: string) => void
   getTotalItems: () => number
+  cleanCart: () => void
 }
 
 // Initialize a default state
@@ -43,6 +44,10 @@ export const useCartStore = create<State & Actions>((set, get) => ({
   cart: INITIAL_STATE.cart,
   totalItems: INITIAL_STATE.totalItems,
   totalPrice: INITIAL_STATE.totalPrice,
+
+  cleanCart: () => {
+    set(INITIAL_STATE)
+  },
 
   getTotalPrice: () => {
     const cart = get().cart
@@ -71,6 +76,9 @@ export const useCartStore = create<State & Actions>((set, get) => ({
     const cart = get().cart
     const cartItem = cart.find((item) => item.id === id)
     if (cartItem) {
+      /*  if (cartItem.quantidade === 0) {
+        return get().removeFromCart(cartItem)
+      } */
       const updatedCart = cart.map((item) =>
         item.id === id ? { ...item, quantidade: item.quantidade - 1 } : item
       )

@@ -1,48 +1,13 @@
 import React from 'react'
-import { TopNavigation } from '../../components/TopNavigation'
 import Container from '../../components/Partials/Container'
-import { BottomNavigation } from '../../components/BottomNavigation'
-import { TextAreaForm } from '../../components/Forms/components/TextAreaForm'
-import { useForm } from 'react-hook-form'
-import { useRouter } from 'next/router'
-import { errorHandler } from '../../services/errorHandler'
-import { TextForm } from '../../components/Forms/components/TextForm'
 import ButtonPrimary from '../../components/Buttons/ButtonPrimary'
 import Link from 'next/link'
-import { LayoutWIthElementFloat } from '../../components/Layout/LayoutWIthElementFloat'
 
-interface FormProps {
-  company_name: string
-  lead_name: string
-  phone_number: string
-}
+import { useCartStore } from '../../stores/cartStoreStore'
 
 const PedidoFinalizado = () => {
-  const router = useRouter()
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-    reset,
-  } = useForm<FormProps>()
+  const cleanCart = useCartStore((state) => state.cleanCart)
 
-  async function handleSendForm({
-    company_name,
-    lead_name,
-    phone_number,
-  }: FormProps) {
-    try {
-      /*   const response = await api.post('/login', {
-        company_name,
-        lead_name,
-        phone_number,
-      })
- */
-      reset({ company_name: '', lead_name: '', phone_number: '' })
-    } catch (error: any) {
-      errorHandler(error)
-    }
-  }
   return (
     <>
       <Container>
@@ -63,10 +28,13 @@ const PedidoFinalizado = () => {
             </div>
           </div>
 
-          <div className="mt-5 items-end max-w-[300px] mx-auto w-full">
+          <div
+            className="mt-5 items-end max-w-[300px] mx-auto w-full"
+            onClick={() => cleanCart()}
+          >
             <Link href="/dashboard/historico-pedidos">
-              <ButtonPrimary type="submit" disabled={isSubmitting}>
-                {isSubmitting ? 'Enviando...' : 'Ver Histórico de Pedidos'}
+              <ButtonPrimary type="submit">
+                Ver Histórico de Pedidos
               </ButtonPrimary>
             </Link>
           </div>
