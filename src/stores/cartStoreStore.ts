@@ -46,7 +46,12 @@ export const useCartStore = create<State & Actions>((set, get) => ({
   totalPrice: INITIAL_STATE.totalPrice,
 
   cleanCart: () => {
-    set(INITIAL_STATE)
+    console.log('limpando carrinho')
+    set({
+      cart: [],
+      totalItems: 0,
+      totalPrice: 0,
+    })
   },
 
   getTotalPrice: () => {
