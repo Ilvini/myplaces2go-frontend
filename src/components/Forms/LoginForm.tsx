@@ -26,7 +26,13 @@ export function LoginForm() {
 
   async function handleLogin({ email, password }: FormProps) {
     try {
-      const response = await api.post('/login', {
+      if (email === '' && password === '')
+        return toast.error('Preencha os campos corretamente')
+
+      setTimeout(() => {
+        router.push('/dashboard')
+      }, 2000)
+      /*    const response = await api.post('/login', {
         email,
         password,
       })
@@ -35,7 +41,7 @@ export function LoginForm() {
 
       if (Cookies.get('token')) {
         router.push('/dashboard')
-      }
+      } */
       reset({ email: '', password: '' })
     } catch (error: any) {
       errorHandler(error)
