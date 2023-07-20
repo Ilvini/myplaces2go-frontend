@@ -16,7 +16,7 @@ export function TextFormMask({
   register: any
   errors: any
   name: string
-  label: string
+  label?: string
   required?: boolean
   mask: string
   disabled?: boolean
@@ -24,7 +24,7 @@ export function TextFormMask({
 }) {
   return (
     <div>
-      <Label label={label} name={name} />
+      {/*  <Label label={label} name={name} /> */}
       <InputMask
         mask={mask}
         type="text"
@@ -55,3 +55,4 @@ export function TextFormMask({
   required
 /> */
 }
+

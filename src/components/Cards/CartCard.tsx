@@ -45,7 +45,7 @@ export const CartCard = ({
   return (
     <div
       key={id}
-      className="flex flex-col mx-auto max-w-[300px] pb-3 last:border-0 border-b"
+      className="flex flex-col  max-w-[300px] pb-3 last:border-0 border-b mx-4"
     >
       <div className="flex gap-3">
         <div className="w-1/3 aspect-square h-[76px] ">
