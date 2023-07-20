@@ -6,7 +6,7 @@ import { ProspectionForm } from '../../components/Forms/ProspectionForm'
 const Prospeccao = () => {
   return (
     <>
-      <LayoutWIthElementFloat hasBackpage={true}>
+      <LayoutWIthElementFloat navigationUrl="/dashboard" hasBackpage={true}>
         <Container>
           <div className="w-full flex justify-center my-10">
             <strong className="text-brand-blue-800 font-bold text-center text-3xl mt-10">

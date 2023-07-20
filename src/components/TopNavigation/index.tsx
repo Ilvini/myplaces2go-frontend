@@ -4,9 +4,13 @@ import React from 'react'
 
 interface ITopNavigation {
   hasBackPage?: boolean
+  navigationUrl?: string
 }
 
-export const TopNavigation = ({ hasBackPage }: ITopNavigation) => {
+export const TopNavigation = ({
+  navigationUrl,
+  hasBackPage,
+}: ITopNavigation) => {
   return (
     <header className="bg-brand-blue-800 fixed top-0  w-full flex items-center border-b-2 border-b-brand-red-500 min-h-[100px]">
       <nav className="flex px-8 justify-between w-full items-center">
@@ -19,7 +23,7 @@ export const TopNavigation = ({ hasBackPage }: ITopNavigation) => {
               />
             </Link>
           ) : (
-            <Link href="/dashboard">
+            <Link href={navigationUrl ? navigationUrl : '/dashboard'}>
               <Icon
                 icon="majesticons:arrow-left-line"
                 color="white"

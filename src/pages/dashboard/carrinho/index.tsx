@@ -15,7 +15,10 @@ const Carrinho = () => {
   console.log(cart)
   return (
     <>
-      <LayoutWIthElementFloat hasBackpage={true}>
+      <LayoutWIthElementFloat
+        navigationUrl="/dashboard/produtos"
+        hasBackpage={true}
+      >
         <Container>
           <div className="w-full flex justify-center items-center mt-8 mb-10 flex-col">
             {cart && cart.length > 0 && (

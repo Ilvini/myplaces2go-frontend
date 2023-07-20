@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form'
 import { errorHandler } from '../../services/errorHandler'
 import { TextForm } from './components/TextForm'
 import ButtonPrimary from '../Buttons/ButtonPrimary'
+import { TextFormMask } from './components/TextFormMask'
 
 export const ProspectionForm = () => {
   interface FormProps {
@@ -26,12 +27,16 @@ export const ProspectionForm = () => {
     phone_number,
   }: FormProps) {
     try {
+      console.log(company_name, lead_name, phone_number)
       /*   const response = await api.post('/login', {
               company_name,
               lead_name,
               phone_number,
             })
        */
+      setTimeout(() => {
+        router.push('/dashboard/prospeccao-finalizada')
+      }, 2000)
       reset({ company_name: '', lead_name: '', phone_number: '' })
     } catch (error: any) {
       errorHandler(error)
@@ -55,15 +60,16 @@ export const ProspectionForm = () => {
         <TextForm
           placeholder="Nome do contato"
           errors={errors}
-          name={'company_name'}
+          name={'lead_name'}
           register={register}
           disabled={isSubmitting}
           required={true}
         />
-        <TextForm
+        <TextFormMask
+          mask="(99) 99999-9999"
           placeholder="Telefone"
           errors={errors}
-          name={'company_name'}
+          name={'phone_number'}
           register={register}
           disabled={isSubmitting}
           required={true}

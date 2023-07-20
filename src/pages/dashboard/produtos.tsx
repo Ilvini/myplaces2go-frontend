@@ -43,7 +43,10 @@ const Produtos = () => {
   }, [])
   return (
     <>
-      <LayoutWIthElementFloat hasBackpage={true}>
+      <LayoutWIthElementFloat
+        navigationUrl={'/dashboard/tabelas'}
+        hasBackpage={true}
+      >
         <Container>
           <div className="w-full flex justify-center mt-8 mb-10 flex-col">
             <p className="text-center text-xl">{client_name?.nome}</p>
@@ -60,7 +63,7 @@ const Produtos = () => {
                 )
               })}
             </select>
-            <div className="mt-2 space-y-2 md:overflow-auto md:grid md:grid-cols-4 md:gap-4 md:flex-wrap  overflow-scroll max-h-[340px]">
+            <div className="mt-2  space-y-2 md:overflow-auto md:grid md:grid-cols-4 md:gap-4 md:flex-wrap  overflow-scroll max-h-[340px]">
               {products?.map((product) => {
                 return (
                   <CartCard
