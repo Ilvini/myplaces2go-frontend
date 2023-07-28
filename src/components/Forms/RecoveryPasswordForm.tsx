@@ -25,7 +25,7 @@ export function RecoveryPasswordForm() {
 
   async function handleRecoveryPassword({ email }: FormProps) {
     try {
-      const response = await api.post('/recuperar-senha', {
+      await api.post('/recuperar-senha', {
         email,
       })
 
@@ -51,7 +51,6 @@ export function RecoveryPasswordForm() {
     >
       <TextForm
         name={'email'}
-        label={'E-mail'}
         placeholder="E-mail"
         register={register}
         errors={errors}

@@ -5,6 +5,8 @@ import { errorHandler } from '../../services/errorHandler'
 import { TextForm } from './components/TextForm'
 import ButtonPrimary from '../Buttons/ButtonPrimary'
 import { TextFormMask } from './components/TextFormMask'
+import { api } from '../../services/axios'
+import { toast } from 'react-hot-toast'
 
 export const ProspectionForm = () => {
   interface FormProps {
@@ -27,6 +29,12 @@ export const ProspectionForm = () => {
     phone_number,
   }: FormProps) {
     try {
+      const response = await api.post('/prospeccao', {
+        nome_empresa: company_name,
+        nome_contato: lead_name,
+        telefone: phone_number,
+      })
+      toast.success(response.data.message)
       console.log(company_name, lead_name, phone_number)
       /*   const response = await api.post('/login', {
               company_name,

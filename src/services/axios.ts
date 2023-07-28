@@ -2,7 +2,7 @@ import axios from 'axios'
 import Cookies from 'js-cookie'
 
 export const api = axios.create({
-  baseURL: 'https://tver-api.sitebeta.com.br/api/',
+  baseURL: 'https://comercialdosplasticos2.sitebeta.com.br/api/app',
   headers: {
     'Content-Type': 'application/json',
     Accept: 'application/json',

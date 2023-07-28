@@ -6,13 +6,46 @@ import { CartCard } from '../../../components/Cards/CartCard'
 import { useCartStore } from '../../../stores/cartStoreStore'
 import { LayoutWIthElementFloat } from '../../../components/Layout/LayoutWIthElementFloat'
 import Link from 'next/link'
+import { toast } from 'react-hot-toast'
+import Cookies from 'js-cookie'
+import { api } from '../../../services/axios'
+import useClientStore from '../../../stores/useClientStore'
+import { errorHandler } from '../../../services/errorHandler'
 const Carrinho = () => {
   const router = useRouter()
-
+  const [loading, setLoading] = React.useState(false)
   const cart = useCartStore((state) => state.cart)
   /*   const totalPrice = useCartStore((state) => state.totalPrice) */
   const getTotalPrice = useCartStore((state) => state.getTotalPrice())
-  console.log(cart)
+  const client = useClientStore((state) => state.cliente)
+  async function handleFinishRequet() {
+    try {
+      setLoading(true)
+
+      const products = cart.map((product) => {
+        return {
+          id: product.id,
+          quantidade: product.quantidade,
+        }
+      })
+
+      const payload = {
+        tabela: Cookies.get('tabela') || 0,
+        loja_id: Number(Cookies.get('cliente_id')) || 0,
+        produtos: products,
+      }
+
+      await api.post('/finalizar-pedidos', payload)
+
+      setLoading(false)
+      toast.success('Requisição enviada com sucesso')
+      router.push('/dashboard/pedido-finalizado')
+    } catch (err) {
+      setLoading(false)
+      errorHandler(err)
+    }
+  }
+
   return (
     <>
       <LayoutWIthElementFloat
@@ -71,10 +104,10 @@ const Carrinho = () => {
             )}
             {cart && cart.length > 0 && (
               <div className=" max-w-[300px] mx-auto w-full">
-                <Link href="/dashboard/pedido-finalizado">
-                  {' '}
-                  <ButtonPrimary>Finalizar Pedido</ButtonPrimary>
-                </Link>
+                {' '}
+                <ButtonPrimary disabled={loading} onClick={handleFinishRequet}>
+                  Finalizar Pedido
+                </ButtonPrimary>
               </div>
             )}
             {cart && cart.length === 0 && (
