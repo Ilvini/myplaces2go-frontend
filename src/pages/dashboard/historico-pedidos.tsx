@@ -9,7 +9,7 @@ import { useRouter } from 'next/router'
 import { RequestCard } from '../../components/Cards/RequestCard'
 import { errorHandler } from '../../services/errorHandler'
 import { Requestify } from '../../types/protocols'
-import { api_contract } from '../../services/axios'
+import { api, api_contract } from '../../services/axios'
 import { LayoutWIthElementFloat } from '../../components/Layout/LayoutWIthElementFloat'
 
 interface IRequestHistory {
@@ -32,9 +32,7 @@ const HistoricoPedidos = () => {
 
   async function GetClients() {
     try {
-      const response = await api_contract.get<Requestify<IRequestHistory[]>>(
-        '/pedidos'
-      )
+      const response = await api.get<Requestify<IRequestHistory[]>>('/pedidos')
       setRequest(response.data.results)
       console.log(request)
     } catch (error: any) {
@@ -55,50 +53,26 @@ const HistoricoPedidos = () => {
               Histórico de Pedidos
             </strong>
           </div>
-          <div className="flex justify-center mb-5">
+          {/*  <div className="flex justify-center mb-5">
             <TextFormSearch name="search" placeholder="Buscar" />
-          </div>
+          </div> */}
           <div className="flex md:flex-row md:justify-center justify-start gap-0  md:flex-wrap md:gap-5 flex-col items-center w-full md:space-y-0 space-y-6 md:overflow-auto overflow-scroll md:max-h-full max-h-[421px]">
-            {request?.map((request) => {
-              return (
-                <RequestCard
-                  key={request.id}
-                  tablet={request.tabela}
-                  name={request.nome}
-                  date={request.data}
-                  id={request.id}
-                  total_amount={request.valor}
-                />
-              )
-            })}
-            {/* <RequestCard
-              tablet="Á vista"
-              name="Supermercado Barato"
-              date="12/12/2021"
-              id={3212312}
-              total_amount={123}
-            />
-            <RequestCard
-              tablet="Á vista"
-              name="Supermercado Barato"
-              date="12/12/2021"
-              id={3212312}
-              total_amount={123}
-            />
-            <RequestCard
-              tablet="Á vista"
-              name="Supermercado Barato"
-              date="12/12/2021"
-              id={3212312}
-              total_amount={123}
-            />
-            <RequestCard
-              tablet="Á vista"
-              name="Supermercado Barato"
-              date="12/12/2021"
-              id={3212312}
-              total_amount={123}
-            /> */}
+            {request.length !== 0 ? (
+              request?.map((request) => {
+                return (
+                  <RequestCard
+                    key={request.id}
+                    tablet={request.tabela}
+                    name={request.nome}
+                    date={request.data}
+                    id={request.id}
+                    total_amount={request.valor}
+                  />
+                )
+              })
+            ) : (
+              <p>Você ainda não fez pedido.</p>
+            )}
           </div>
         </Container>
       </LayoutWIthElementFloat>

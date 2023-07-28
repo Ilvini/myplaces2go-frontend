@@ -26,28 +26,25 @@ export function LoginForm() {
 
   async function handleLogin({ email, password }: FormProps) {
     try {
-      if (email === '' && password === '')
-        return toast.error('Preencha os campos corretamente')
-
-      setTimeout(() => {
-        router.push('/dashboard')
-      }, 2000)
-      /*    const response = await api.post('/login', {
-        email,
-        password,
-      })
-
+      const response = await api.post(
+        'https://comercialdosplasticos2.sitebeta.com.br/api/app/login',
+        {
+          email,
+          password,
+        }
+      )
+      console.log(response)
       Cookies.set('token', response.data.results.token)
 
       if (Cookies.get('token')) {
         router.push('/dashboard')
-      } */
+      }
       reset({ email: '', password: '' })
     } catch (error: any) {
+      console.log(error)
       errorHandler(error)
     }
   }
-
   useEffect(() => {
     const token = Cookies.get('token')
     if (token) {

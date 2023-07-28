@@ -50,7 +50,7 @@ export const CartCard = ({
       <div className="flex gap-3">
         <div className="w-1/3 aspect-square h-[76px] ">
           <img
-            src={image_url}
+            src={image_url ? image_url : '/img/comercial-no-image.png'}
             alt=""
             className="object-contain w-full h-full"
           />
@@ -147,7 +147,10 @@ export const CartCard = ({
         <div className="mt-2">
           <p
             className="text-brand-gray-500"
-            dangerouslySetInnerHTML={{ __html: description }}
+            dangerouslySetInnerHTML={{
+              __html:
+                description || `<p className="lowercase">${product.nome}</p>`,
+            }}
           ></p>
           <button
             onClick={() => setShowDescription(false)}
