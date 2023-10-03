@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import Container from './Container'
 import { VersionName } from './VersionName'
+import { Icon } from '@iconify/react'
 
 export default function BottomNavigation() {
   const [online, setOnline] = useState(false)
@@ -10,21 +11,40 @@ export default function BottomNavigation() {
   }, [])
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-slate-900 border-t border-gray-200 py-4 md:py-1">
-      <Container>
-        <div className="flex justify-between items-center py-1">
-          <VersionName />
-          <small className="text-white text-sm">
-            Versão de desenvolvimento
-          </small>
-          <p className="text-white ml-2 text-sm">
-            <span>Status: </span>
-            <span className={online ? 'text-green-500' : 'text-red-500'}>
-              {online ? 'Online' : 'Offline'}{' '}
-            </span>
-          </p>
-        </div>
-      </Container>
+    <div className="flex flex-col fixed bottom-0 left-0 right-0">
+      <div className="w-full bg-brand-blue-100">
+        <Container>
+          <ul className="w-full flex justify-between">
+            <li className="p-4 flex justify-center flex-col items-center">
+              <Icon
+                icon="bx:bxs-home"
+                fontSize={24}
+                className="text-brand-yellow-300"
+              />
+              <p className="text-white"> Início</p>
+            </li>
+            <li className="p-4 flex justify-center flex-col items-center">
+              <Icon
+                icon="bx:bxs-heart"
+                fontSize={24}
+                className="text-brand-yellow-300"
+              />
+
+              <p className="text-white"> Favoritos</p>
+            </li>
+            <li className="p-4 flex justify-center flex-col items-center">
+              <Icon
+                icon="bx:bxs-user"
+                fontSize={24}
+                className="text-brand-yellow-300"
+              />
+
+              <p className="text-white"> Perfil</p>
+            </li>
+          </ul>
+        </Container>
+      </div>
     </div>
   )
 }
+

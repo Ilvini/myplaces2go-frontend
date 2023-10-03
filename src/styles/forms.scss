@@ -1,10 +1,10 @@
 input[type='text'],
 input[type='number'] {
-  @apply border border-gray-300 text-gray-900 text-base rounded-full py-0;
+  @apply border  text-gray-900  rounded-lg py-0;
 }
 
 .input-style {
-  @apply bg-gray-50 border border-gray-300 text-gray-500 px-10 text-base rounded-full focus:ring-blue-500 focus:border-blue-500 block w-full;
+  @apply bg-gray-50 border border-gray-300 text-gray-500 px-10   focus:ring-blue-500 focus:border-blue-500 block w-full;
 }
 
 .input-text {
