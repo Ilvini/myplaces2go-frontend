@@ -19,7 +19,7 @@ export const TopNavigation = ({
             <Link href="/dashboard">
               <img
                 src="/svg/logo-white.svg"
-                alt="logo branca comercial dos plásticos"
+                alt="logo branca My Place 2 GO - Seu Guia de viagens"
               />
             </Link>
           ) : (
