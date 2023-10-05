@@ -33,13 +33,13 @@ const PlaceDetails: NextPage = () => {
   return (
     <main className="relative pb-20">
       <header className="py-4  shadow-md">
-        <nav className="flex justify-center w-full">
+        <nav className="flex justify-center w-full items-center">
           <Link href={'/dashboard'}>
-            <button className="w-1/3">
+            <button className="w-1/3 mr-14">
               <Icon
                 icon="icon-park-outline:back-one"
                 color="#528fa7"
-                fontSize={44}
+                fontSize={32}
               />
             </button>
           </Link>
@@ -122,7 +122,7 @@ const PlaceDetails: NextPage = () => {
           >
             Comentários
           </li>
-          <li
+          {/* <li
             onClick={() => setCurrentTab('mais_fotos')}
             className={`py-2 text-brand-gray-600 ${
               currentTab === 'mais_fotos' &&
@@ -130,7 +130,7 @@ const PlaceDetails: NextPage = () => {
             } px-3`}
           >
             Mais Fotos
-          </li>
+          </li> */}
         </ul>
         <div>{Tab[currentTab]}</div>
       </section>

@@ -1,5 +1,6 @@
 import React from 'react'
 import { UserComments } from '../Partials/UserComments'
+import { Icon } from '@iconify/react'
 
 export const PlaceDetailsComments = () => {
   return (
@@ -28,6 +29,10 @@ export const PlaceDetailsComments = () => {
         date="há 1 dia"
         comment="A comida é cara, levem algo pra comer na mochila, de resto vale a pena."
       />
+      <button className="bg-brand-yellow-300 rounded-lg p-3 mt-3 w-full text-center  flex">
+        <Icon icon="ep:place" className="text-brand-blue-100 text-2xl" />
+        <p className="w-full text-center">Eu visitei o ponto turístico</p>
+      </button>
       <form
         action="
      "

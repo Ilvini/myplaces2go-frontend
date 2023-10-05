@@ -44,7 +44,7 @@ const GoogleMaps = () => {
 
   useEffect(() => {
     if (navigator.geolocation) {
-      const currentPosition = navigator.geolocation.watchPosition(
+      const currentPosition = navigator.geolocation.getCurrentPosition(
         (position: GeolocationPosition) => {
           setCurrentPosition({
             latitude: position.coords.latitude,
@@ -57,11 +57,6 @@ const GoogleMaps = () => {
           toast.error(locationError(error) as string, {
             duration: 5000,
           })
-        },
-        {
-          enableHighAccuracy: true,
-          timeout: 5000,
-          maximumAge: 0,
         }
       )
     }
