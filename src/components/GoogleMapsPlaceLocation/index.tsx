@@ -47,7 +47,7 @@ export const GoogleMapsPlaceLocation = ({
   }
 
   return (
-    <div className="aspect-square rounded-lg" style={{ width: '100%' }}>
+    <div className="aspect-square rounded-lg my-2" style={{ width: '100%' }}>
       <GoogleMapReact
         bootstrapURLKeys={{ key: 'AIzaSyAXVy2ejGB5cOb_FPd0J2mhxaMjJ4It6JA' }}
         yesIWantToUseGoogleMapApiInternals
