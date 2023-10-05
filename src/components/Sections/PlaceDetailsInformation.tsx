@@ -1,5 +1,6 @@
 import React from 'react'
 import GoogleMaps from '../GoogleMaps'
+import { GoogleMapsPlaceLocation } from '../GoogleMapsPlaceLocation'
 
 export const PlaceDetailsInformation = () => {
   return (
@@ -53,7 +54,10 @@ export const PlaceDetailsInformation = () => {
         </tr>
       </table>
       <h4 className="text-2xl mt-2 text-brand-gray-600">Localização</h4>
-      <GoogleMaps />
+      <GoogleMapsPlaceLocation
+        lat={'-22.95187646136804'}
+        long={'-43.21050866244865'}
+      />
       <button className="bg-brand-yellow-300 rounded-lg p-3 mt-3 w-full text-center ">
         {' '}
         Traçar Rota
