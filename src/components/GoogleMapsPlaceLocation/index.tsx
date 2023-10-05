@@ -4,8 +4,8 @@ import { Icon } from '@iconify/react'
 import toast from 'react-hot-toast'
 import styleGoogleMaps from '../../styles/googleMapsStyle/main'
 interface PropsGoogleMapsPlaceLocation {
-  lat: string
-  long: string
+  lat: number
+  long: number
 }
 
 export const GoogleMapsPlaceLocation = ({
@@ -47,18 +47,20 @@ export const GoogleMapsPlaceLocation = ({
   }
 
   return (
-    <GoogleMapReact
-      bootstrapURLKeys={{ key: 'AIzaSyAXVy2ejGB5cOb_FPd0J2mhxaMjJ4It6JA' }}
-      yesIWantToUseGoogleMapApiInternals
-      onGoogleApiLoaded={({ map, maps }) => handleApiLoaded(map, maps)}
-      defaultCenter={defaultProps.center}
-      defaultZoom={defaultProps.zoom}
-      options={{
-        styles: defaultProps.styles,
-      }}
-    >
-      <CurrentLocationMarker lat={lat} lng={long} />
-    </GoogleMapReact>
+    <div className="aspect-square rounded-lg my-2" style={{ width: '100%' }}>
+      <GoogleMapReact
+        bootstrapURLKeys={{ key: 'AIzaSyAXVy2ejGB5cOb_FPd0J2mhxaMjJ4It6JA' }}
+        yesIWantToUseGoogleMapApiInternals
+        onGoogleApiLoaded={({ map, maps }) => handleApiLoaded(map, maps)}
+        defaultCenter={defaultProps.center}
+        defaultZoom={defaultProps.zoom}
+        options={{
+          styles: defaultProps.styles,
+        }}
+      >
+        <CurrentLocationMarker lat={lat} lng={long} />
+      </GoogleMapReact>
+    </div>
   )
 }
 
