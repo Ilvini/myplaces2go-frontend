@@ -125,8 +125,10 @@ const Home: NextPage = () => {
           </div>
         </div>
       </section>
-      <section className="mx-4 my-4"></section>
-      <GoogleMaps />
+      <section className=" mb-[73px]">
+        <GoogleMaps />
+      </section>
+
       <BottomNavigation />
     </main>
   )
