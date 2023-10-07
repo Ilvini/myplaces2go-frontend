@@ -16,13 +16,26 @@ import Link from 'next/link'
 import React from 'react'
 import { PlaceDetailsComments } from '../../../components/Sections/PlaceDetailsComments'
 import { PlaceDetailsInformation } from '../../../components/Sections/PlaceDetailsInformation'
+import { useFetch } from '../../../services/useFetch'
+
+interface IComments {
+  results: {
+    id: number
+    estrelas: number
+    comentario: string
+  }[]
+}
 
 const PlaceDetails: NextPage = () => {
-  const router = useRouter()
+  const { id } = useRouter().query
 
   const [currentTab, setCurrentTab] = React.useState<
     'informacoes' | 'avaliacoes' | 'mais_fotos'
   >('informacoes')
+
+  const { data: comments } = useFetch<IComments>(
+    `/pontos-turisticos/${id}/avaliacoes`
+  )
 
   const Tab = {
     informacoes: <PlaceDetailsInformation />,
@@ -34,7 +47,7 @@ const PlaceDetails: NextPage = () => {
     <main className="relative pb-20">
       <header className="py-4  shadow-md">
         <nav className="flex justify-center w-full items-center">
-          <Link href={'/dashboard'}>
+          <Link href={'/'}>
             <button className="w-1/3 mr-14">
               <Icon
                 icon="icon-park-outline:back-one"
