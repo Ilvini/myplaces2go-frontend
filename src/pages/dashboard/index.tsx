@@ -68,7 +68,7 @@ const Home: NextPage = () => {
         `/pontos-turisticos?lat=${currentPosition.latitude}&lon=${currentPosition.longitude}&raio=14.28&categorias=10000,13000,14000,16000,18000,19000`
       )
       setPlaces(response.data)
-      console.log(response)
+      console.log(response.data)
     } catch (erro: any) {
       errorHandler(erro)
     }
@@ -91,8 +91,13 @@ const Home: NextPage = () => {
           })
         }
       )
+      getPlaces()
+    } else {
+      toast.error('Seu dispositivo não suporta geolocalização', {
+        duration: 5000,
+      })
     }
-    getPlaces()
+
     console.log(places)
   }, [])
 
