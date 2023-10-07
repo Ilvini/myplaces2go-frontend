@@ -6,8 +6,11 @@ import { DefaultSeo } from 'next-seo'
 import { useEffect } from 'react'
 import { api } from '../services/axios'
 import Modals from '../components/Modals'
+import { useWindowDimensions } from '../hooks/useWindowsDImension'
+import { Icon } from '@iconify/react'
 
 export default function MyApp({ Component, pageProps }: any) {
+  const { currentWidth } = useWindowDimensions()
   useEffect(() => {
     if (typeof window !== undefined) {
       // @ts-ignore
@@ -29,6 +32,23 @@ export default function MyApp({ Component, pageProps }: any) {
       window.OneSignal = undefined
     }
   }, [])
+
+  if (currentWidth && currentWidth > 520) {
+    return (
+      <main className="w-full min-h-screen flex justify-center items-center ">
+        <div className="flex flex-col items-center">
+          <Icon
+            icon="ic:baseline-warning"
+            fontSize={33}
+            className="text-yellow-400"
+          />
+          <p className="text-xl font-light">
+            Por favor acesse o aplicativo no seu celular e recarregue a página
+          </p>
+        </div>
+      </main>
+    )
+  }
 
   return (
     <GlobalContextProvider>

@@ -2,7 +2,7 @@ import axios from 'axios'
 import Cookies from 'js-cookie'
 
 export const api = axios.create({
-  baseURL: 'https://comercialdosplasticos2.sitebeta.com.br/api/app',
+  baseURL: 'https://myplaces2go.pwasolutions.tech/api',
   headers: {
     'Content-Type': 'application/json',
     Accept: 'application/json',
@@ -18,7 +18,7 @@ export const api_develop = axios.create({
 })
 
 export const api_contract = axios.create({
-  baseURL: '/api',
+  baseURL: 'https://myplaces2go.pwasolutions.tech/api',
   headers: {
     'Content-Type': 'application/json',
     Accept: 'application/json',

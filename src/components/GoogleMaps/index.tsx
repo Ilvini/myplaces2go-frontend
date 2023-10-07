@@ -3,7 +3,14 @@ import GoogleMapReact, { Position } from 'google-map-react'
 import { Icon } from '@iconify/react'
 import toast from 'react-hot-toast'
 import styleGoogleMaps from '../../styles/googleMapsStyle/main'
-const GoogleMaps = () => {
+
+interface PropsGoogleMaps {
+  lat: number
+  lon: number
+}
+
+const GoogleMaps = ({ lat, lon }: PropsGoogleMaps) => {
+  console.log(lat, lon)
   const CurrentLocationMarker = ({ text }: { text: string }) => (
     <Icon
       icon="ic:round-emoji-people"
@@ -18,8 +25,8 @@ const GoogleMaps = () => {
       disableDefaultUI: true,
       zoomControl: true,
       center: {
-        lat: currentPosition.latitude,
-        lng: currentPosition.longitude,
+        lat: lon,
+        lng: lat,
       },
       zoom: 11,
     })
@@ -28,51 +35,14 @@ const GoogleMaps = () => {
       console.log(e.latLng.lng())
     })
   }
-  const [currentPosition, setCurrentPosition] = React.useState({
-    latitude: 0,
-    longitude: 0,
-  })
 
   const defaultProps = {
     center: {
-      lat: -22.9436732,
-      lng: -43.3777179,
+      lat: lat,
+      lng: lon,
     },
     zoom: 11,
     styles: styleGoogleMaps,
-  }
-
-  useEffect(() => {
-    if (navigator.geolocation) {
-      const currentPosition = navigator.geolocation.getCurrentPosition(
-        (position: GeolocationPosition) => {
-          setCurrentPosition({
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude,
-          })
-          console.log(position)
-        },
-        (error: GeolocationPositionError) => {
-          console.log(locationError(error))
-          toast.error(locationError(error) as string, {
-            duration: 5000,
-          })
-        }
-      )
-    }
-  }, [])
-
-  function locationError(error: any) {
-    switch (error.code) {
-      case error.PERMISSION_DENIED:
-        return 'Usuário negou a solicitação de geolocalização.'
-      case error.POSITION_UNAVAILABLE:
-        return ' Local informado indisponível.'
-      case error.TIMEOUT:
-        return 'O pedido de localização do usuário expirou.'
-      case error.UNKNOWN_ERROR:
-        return 'Erro Desconhecido.'
-    }
   }
 
   return (
@@ -87,10 +57,7 @@ const GoogleMaps = () => {
           styles: defaultProps.styles,
         }}
       >
-        <CurrentLocationMarker
-          lat={currentPosition.latitude}
-          lng={currentPosition.longitude}
-        />
+        <CurrentLocationMarker lat={lat} lng={lon} />
       </GoogleMapReact>
     </div>
   )
