@@ -33,6 +33,7 @@ const Home: NextPage = () => {
     latitude: 0,
     longitude: 0,
   })
+  const [openInfoWindow, setOpenInfoWindow] = React.useState<boolean>(false)
   const [places, setPlaces] = React.useState<IPlaces>()
   const router = useRouter()
 
@@ -62,13 +63,12 @@ const Home: NextPage = () => {
     }
   }
 
-  async function getPlaces() {
+  async function getPlaces(lat: number, lon: number) {
     try {
       const response = await api.get(
-        `/pontos-turisticos?lat=${currentPosition.latitude}&lon=${currentPosition.longitude}&raio=14.28&categorias=10000,13000,14000,16000,18000,19000`
+        `/pontos-turisticos?lat=${lat}&lon=${lon}&raio=16&categorias=10000,13000,14000,16000,18000,19000`
       )
       setPlaces(response.data)
-      console.log(response.data)
     } catch (erro: any) {
       errorHandler(erro)
     }
@@ -82,7 +82,7 @@ const Home: NextPage = () => {
             latitude: position.coords.latitude,
             longitude: position.coords.longitude,
           })
-          console.log(position)
+          getPlaces(position.coords.latitude, position.coords.longitude)
         },
         (error: GeolocationPositionError) => {
           console.log(locationError(error))
@@ -91,7 +91,7 @@ const Home: NextPage = () => {
           })
         }
       )
-      getPlaces()
+      console.log(currentPosition)
     } else {
       toast.error('Seu dispositivo não suporta geolocalização', {
         duration: 5000,
@@ -131,7 +131,7 @@ const Home: NextPage = () => {
       lat: currentPosition.latitude,
       lng: currentPosition.longitude,
     },
-    zoom: 11,
+    zoom: 16,
     styles: styleGoogleMaps,
   }
 
@@ -153,7 +153,7 @@ const Home: NextPage = () => {
         <h1 className="text-2xl font-bold text-brand-gray-900">
           Seja Bem vindo
         </h1>
-        <p className="text-brand-gray-500 text-2xl mt-1">Lugares por perto</p>
+        <p className="text-brand-gray-500 text-xl mt-1">Lugares por perto</p>
 
         <div className="mt-3">
           <Swiper slidesPerView={3} spaceBetween={12} className="">
@@ -162,9 +162,9 @@ const Home: NextPage = () => {
                 <SwiperSlide key={place.uuid} className="flex flex-col">
                   <Link href={`/dashboard/place/${place.uuid}`}>
                     <img
-                      src={place.icone}
+                      src={'/img/no-image.png'}
                       alt=""
-                      className="aspect-square rounded-3xl drop-shadow-lg bg-brand-green-300 w-full"
+                      className="aspect-square rounded-3xl drop-shadow-lg  w-full"
                     />
                     <div className="flex  flex-col mt-1">
                       {/* <div className="flex">
@@ -211,14 +211,22 @@ const Home: NextPage = () => {
                     key={place.uuid}
                     lat={place.lat}
                     lng={place.lon}
-                    className="flex flex-col justify-center items-center"
+                    className="flex flex-col justify-center items-center relative"
                   >
                     <img
                       src={place.icone}
                       alt=""
                       className="aspect-square rounded-lg bg-brand-green-300 w-10"
+                      onClick={() => setOpenInfoWindow(true)}
                     />
-                    <p className="text-xs text-white">{place.nome}</p>
+                    <div className="absolute -top-10">
+                      <img
+                        src="/img/pointer.png"
+                        alt=""
+                        className="aspect-square w-10"
+                      />
+                    </div>
+                    {/*   <p className="text-xs text-white">{place.nome}</p> */}
                   </div>
                 )
               })}
