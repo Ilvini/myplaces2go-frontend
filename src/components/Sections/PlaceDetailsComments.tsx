@@ -1,6 +1,7 @@
 import React from 'react'
 import { UserComments } from '../Partials/UserComments'
 import { Icon } from '@iconify/react'
+import { useFetch } from '../../services/useFetch'
 
 export const PlaceDetailsComments = () => {
   return (
