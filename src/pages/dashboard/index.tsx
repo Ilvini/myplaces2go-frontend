@@ -18,6 +18,8 @@ import { errorHandler } from '../../services/errorHandler'
 
 import { api } from '../../services/axios'
 import { set } from 'react-hook-form'
+import { Zoom } from 'swiper'
+import { CardsPlaceSkeleton } from '../../components/Partials/Skeleton/CardsPlaceSkeleton'
 interface IPlaces {
   results: {
     uuid: string
@@ -33,7 +35,9 @@ const Home: NextPage = () => {
     latitude: 0,
     longitude: 0,
   })
-  const [openInfoWindow, setOpenInfoWindow] = React.useState<boolean>(false)
+  const [selectedElement, setSelectedElement] = React.useState(null)
+  const [activeMarker, setActiveMarker] = React.useState(null)
+  const [showInfoWindow, setInfoWindowFlag] = React.useState(true)
   const [places, setPlaces] = React.useState<IPlaces>()
   const router = useRouter()
 
@@ -66,17 +70,25 @@ const Home: NextPage = () => {
   async function getPlaces(lat: number, lon: number) {
     try {
       const response = await api.get(
-        `/pontos-turisticos?lat=${lat}&lon=${lon}&raio=16&categorias=10000,13000,14000,16000,18000,19000`
+        `/pontos-turisticos?lat=${lat}&lon=${lon}&raio=14.28&categorias=10000,13000,14000,16000,18000,19000`
       )
       setPlaces(response.data)
     } catch (erro: any) {
       errorHandler(erro)
     }
   }
+  const defaultProps = {
+    center: {
+      lat: currentPosition.latitude,
+      lng: currentPosition.longitude,
+    },
+    zoom: 14.28,
+    styles: styleGoogleMaps,
+  }
 
   useEffect(() => {
     if (navigator.geolocation) {
-      const currentPosition = navigator.geolocation.getCurrentPosition(
+      navigator.geolocation.getCurrentPosition(
         (position: GeolocationPosition) => {
           setCurrentPosition({
             latitude: position.coords.latitude,
@@ -91,20 +103,17 @@ const Home: NextPage = () => {
           })
         }
       )
-      console.log(currentPosition)
     } else {
       toast.error('Seu dispositivo não suporta geolocalização', {
         duration: 5000,
       })
     }
-
-    console.log(places)
   }, [])
 
   const CurrentLocationMarker = ({ text }: { text: string }) => (
     <Icon
       icon="ic:round-emoji-people"
-      className="-translate-x-2 -translate-y-2"
+      className="-translate-x-2 -translate-y-2 z-50 bg-white rounded-full p-1 shadow-md"
       fontSize={32}
       color="red"
     />
@@ -118,21 +127,12 @@ const Home: NextPage = () => {
         lat: currentPosition.latitude,
         lng: currentPosition.longitude,
       },
-      zoom: 11,
+      zoom: defaultProps.zoom,
     })
-    maps.event.addListener(map, 'click', function (e: any) {
+    /*  maps.event.addListener(map, 'click', function (e: any) {
       console.log(e.latLng.lat())
       console.log(e.latLng.lng())
-    })
-  }
-
-  const defaultProps = {
-    center: {
-      lat: currentPosition.latitude,
-      lng: currentPosition.longitude,
-    },
-    zoom: 16,
-    styles: styleGoogleMaps,
+    }) */
   }
 
   return (
@@ -156,34 +156,42 @@ const Home: NextPage = () => {
         <p className="text-brand-gray-500 text-xl mt-1">Lugares por perto</p>
 
         <div className="mt-3">
-          <Swiper slidesPerView={3} spaceBetween={12} className="">
-            {places?.results?.map((place) => {
-              return (
-                <SwiperSlide key={place.uuid} className="flex flex-col">
-                  <Link href={`/dashboard/place/${place.uuid}`}>
-                    <img
-                      src={'/img/no-image.png'}
-                      alt=""
-                      className="aspect-square rounded-3xl drop-shadow-lg  w-full"
-                    />
-                    <div className="flex  flex-col mt-1">
-                      {/* <div className="flex">
+          {places?.results.length ? (
+            <Swiper slidesPerView={3} spaceBetween={12} className="">
+              {places?.results?.map((place) => {
+                return (
+                  <SwiperSlide key={place.uuid} className="flex flex-col">
+                    <Link href={`/dashboard/place/${place.uuid}`}>
+                      <img
+                        src={'/img/no-image.png'}
+                        alt=""
+                        className="aspect-square rounded-3xl drop-shadow-lg  w-full"
+                      />
+                      <div className="flex  flex-col mt-1">
+                        {/* <div className="flex">
                           <Ratting />
                         </div> */}
-                      <h3 className="text-base">
-                        {limitarCaracteres(place.nome, 20)}
-                      </h3>
-                      <div className=" flex items-center">
-                        <span className="text-sm text-brand-gray-500">
-                          {place.categoria}
-                        </span>
+                        <h3 className="text-base">
+                          {limitarCaracteres(place.nome, 20)}
+                        </h3>
+                        <div className=" flex items-center">
+                          <span className="text-sm text-brand-gray-500">
+                            {place.categoria}
+                          </span>
+                        </div>
                       </div>
-                    </div>
-                  </Link>
-                </SwiperSlide>
-              )
-            })}
-          </Swiper>
+                    </Link>
+                  </SwiperSlide>
+                )
+              })}
+            </Swiper>
+          ) : (
+            <div className="grid grid-cols-3 gap-4 w-full">
+              <CardsPlaceSkeleton />
+              <CardsPlaceSkeleton />
+              <CardsPlaceSkeleton />
+            </div>
+          )}
         </div>
       </section>
       <section className="mb-[72px]">
@@ -217,16 +225,7 @@ const Home: NextPage = () => {
                       src={place.icone}
                       alt=""
                       className="aspect-square rounded-lg bg-brand-green-300 w-10"
-                      onClick={() => setOpenInfoWindow(true)}
                     />
-                    <div className="absolute -top-10">
-                      <img
-                        src="/img/pointer.png"
-                        alt=""
-                        className="aspect-square w-10"
-                      />
-                    </div>
-                    {/*   <p className="text-xs text-white">{place.nome}</p> */}
                   </div>
                 )
               })}
