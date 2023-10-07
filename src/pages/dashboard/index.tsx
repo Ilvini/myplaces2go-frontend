@@ -15,10 +15,7 @@ import { useFetch } from '../../services/useFetch'
 import React, { useEffect } from 'react'
 import styleGoogleMaps from '../../styles/googleMapsStyle/main'
 import { errorHandler } from '../../services/errorHandler'
-
 import { api } from '../../services/axios'
-import { set } from 'react-hook-form'
-import { Zoom } from 'swiper'
 import { CardsPlaceSkeleton } from '../../components/Partials/Skeleton/CardsPlaceSkeleton'
 interface IPlaces {
   results: {
@@ -35,9 +32,7 @@ const Home: NextPage = () => {
     latitude: 0,
     longitude: 0,
   })
-  const [selectedElement, setSelectedElement] = React.useState(null)
-  const [activeMarker, setActiveMarker] = React.useState(null)
-  const [showInfoWindow, setInfoWindowFlag] = React.useState(true)
+
   const [places, setPlaces] = React.useState<IPlaces>()
   const router = useRouter()
 
@@ -77,14 +72,6 @@ const Home: NextPage = () => {
       errorHandler(erro)
     }
   }
-  const defaultProps = {
-    center: {
-      lat: currentPosition.latitude,
-      lng: currentPosition.longitude,
-    },
-    zoom: 14.28,
-    styles: styleGoogleMaps,
-  }
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -110,6 +97,15 @@ const Home: NextPage = () => {
     }
   }, [])
 
+  const defaultProps = {
+    center: {
+      lat: currentPosition.latitude,
+      lng: currentPosition.longitude,
+    },
+    zoom: 14.28,
+    styles: styleGoogleMaps,
+  }
+
   const CurrentLocationMarker = ({ text }: { text: string }) => (
     <Icon
       icon="ic:round-emoji-people"
@@ -129,10 +125,11 @@ const Home: NextPage = () => {
       },
       zoom: defaultProps.zoom,
     })
-    /*  maps.event.addListener(map, 'click', function (e: any) {
+
+    maps.event.addListener(map, 'click', function (e: any) {
       console.log(e.latLng.lat())
       console.log(e.latLng.lng())
-    }) */
+    })
   }
 
   return (
@@ -197,39 +194,48 @@ const Home: NextPage = () => {
       <section className="mb-[72px]">
         {typeof navigator !== 'undefined' && navigator?.geolocation ? (
           <div className="aspect-square rounded-lg" style={{ width: '100%' }}>
-            <GoogleMapReact
-              bootstrapURLKeys={{
-                key: 'AIzaSyAXVy2ejGB5cOb_FPd0J2mhxaMjJ4It6JA',
-              }}
-              yesIWantToUseGoogleMapApiInternals
-              onGoogleApiLoaded={({ map, maps }) => handleApiLoaded(map, maps)}
-              defaultCenter={defaultProps.center}
-              defaultZoom={defaultProps.zoom}
-              options={{
-                styles: defaultProps.styles,
-              }}
-            >
-              <CurrentLocationMarker
-                lat={currentPosition.latitude}
-                lng={currentPosition.longitude}
-              />
-              {places?.results?.map((place) => {
-                return (
-                  <div
-                    key={place.uuid}
-                    lat={place.lat}
-                    lng={place.lon}
-                    className="flex flex-col justify-center items-center relative"
-                  >
-                    <img
-                      src={place.icone}
-                      alt=""
-                      className="aspect-square rounded-lg bg-brand-green-300 w-10"
-                    />
-                  </div>
-                )
-              })}
-            </GoogleMapReact>
+            {places?.results.length ? (
+              <GoogleMapReact
+                bootstrapURLKeys={{
+                  key: 'AIzaSyAXVy2ejGB5cOb_FPd0J2mhxaMjJ4It6JA',
+                }}
+                yesIWantToUseGoogleMapApiInternals
+                onGoogleApiLoaded={({ map, maps }) =>
+                  handleApiLoaded(map, maps)
+                }
+                defaultCenter={defaultProps.center}
+                defaultZoom={defaultProps.zoom}
+                options={{
+                  styles: defaultProps.styles,
+                }}
+              >
+                <CurrentLocationMarker
+                  lat={currentPosition.latitude}
+                  lng={currentPosition.longitude}
+                />
+                {places?.results?.map((place) => {
+                  return (
+                    <div
+                      key={place.uuid}
+                      lat={place.lat}
+                      lng={place.lon}
+                      className="flex flex-col justify-center items-center relative"
+                    >
+                      <img
+                        src={place.icone}
+                        alt=""
+                        className="aspect-square rounded-lg bg-brand-green-300 w-10"
+                      />
+                    </div>
+                  )
+                })}
+              </GoogleMapReact>
+            ) : (
+              <div
+                className="aspect-square rounded-lg bg-zinc-300 animate-pulse"
+                style={{ width: '100%' }}
+              ></div>
+            )}
           </div>
         ) : (
           <div className="aspect-square bg-brand-blue-100 flex justify-center items-center">

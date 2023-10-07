@@ -1,8 +1,21 @@
 import React from 'react'
 import { UserComments } from '../Partials/UserComments'
 import { Icon } from '@iconify/react'
+import { useFetch } from '../../services/useFetch'
 
-export const PlaceDetailsComments = () => {
+interface IComments {
+  results: {
+    id: number
+    estrelas: number
+    comentario: string
+  }[]
+}
+
+export const PlaceDetailsComments = ({ placeId }: { placeId: string }) => {
+  const { data: comments } = useFetch<IComments>(
+    `/pontos-turisticos/${placeId}/avaliacoes`
+  )
+  console.log(comments)
   return (
     <section className="mt-3 ">
       <UserComments

@@ -21,12 +21,12 @@ const PlaceDetails: NextPage = () => {
   const router = useRouter()
 
   const [currentTab, setCurrentTab] = React.useState<
-    'informacoes' | 'comentarios' | 'mais_fotos'
+    'informacoes' | 'avaliacoes' | 'mais_fotos'
   >('informacoes')
 
   const Tab = {
     informacoes: <PlaceDetailsInformation />,
-    comentarios: <PlaceDetailsComments />,
+    avaliacoes: <PlaceDetailsComments />,
     mais_fotos: <div>Mais Fotos</div>,
   }
 
@@ -114,13 +114,13 @@ const PlaceDetails: NextPage = () => {
             Informações
           </li>
           <li
-            onClick={() => setCurrentTab('comentarios')}
+            onClick={() => setCurrentTab('avaliacoes')}
             className={`py-2  text-brand-gray-600 ${
-              currentTab === 'comentarios' &&
+              currentTab === 'avaliacoes' &&
               'bg-gray-200  text-brand-gray-900 rounded-2xl'
             }  px-3`}
           >
-            Comentários
+            Avaliações
           </li>
           {/* <li
             onClick={() => setCurrentTab('mais_fotos')}
