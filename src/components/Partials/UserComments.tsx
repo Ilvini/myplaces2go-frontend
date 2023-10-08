@@ -10,11 +10,11 @@ interface Props {
 export const UserComments = ({ image, name, comment, date }: Props) => {
   return (
     <div className="flex items-start py-3 border-b border-gray-200">
-      <img
+      {/*  <img
         src={image}
         alt=""
         className="rounded-full mr-2 aspect-square w-12 h-12"
-      />
+      /> */}
 
       <div>
         <div className="">

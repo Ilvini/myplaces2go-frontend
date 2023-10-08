@@ -33,13 +33,20 @@ const PlaceDetails: NextPage = () => {
     'informacoes' | 'avaliacoes' | 'mais_fotos'
   >('informacoes')
 
+  const { data: place } = useFetch<IComments>(`/pontos-turisticos/${id}`)
+
+  console.log(place)
   const { data: comments } = useFetch<IComments>(
     `/pontos-turisticos/${id}/avaliacoes`
   )
 
+  const { data: MoreInfo } = useFetch(
+    `/pontos-turisticos/${id}/informacoes-adicionais`
+  )
+
   const Tab = {
     informacoes: <PlaceDetailsInformation />,
-    avaliacoes: <PlaceDetailsComments />,
+    avaliacoes: <PlaceDetailsComments data={place} />,
     mais_fotos: <div>Mais Fotos</div>,
   }
 
@@ -74,34 +81,34 @@ const PlaceDetails: NextPage = () => {
               }}
               modules={[Pagination]}
             >
-              <SwiperSlide className="flex flex-col">
+              <SwiperSlide className="flex flex-col rounded-3xl overflow-hidden">
                 <img
-                  src="/img/turismo1.png"
+                  src="/img/no-image.png"
+                  alt=""
+                  className="aspect-square w-full  scale-105"
+                />
+              </SwiperSlide>
+              {/*   <SwiperSlide className="flex flex-col">
+                <img
+                  src="/img/no-image.png"
                   alt=""
                   className="aspect-square w-full rounded-3xl drop-shadow-lg"
                 />
-              </SwiperSlide>
-              <SwiperSlide className="flex flex-col">
-                <img
-                  src="/img/turismo1.png"
-                  alt=""
-                  className="aspect-square w-full rounded-3xl drop-shadow-lg"
-                />
-              </SwiperSlide>
+              </SwiperSlide> */}
             </Swiper>
             <div className="flex justify-between items-center">
               <div className="flex  flex-col mt-1">
                 <div className="flex">
                   <Ratting size={24} />
                 </div>
-                <h3 className="text-2xl ">Cristo Redentor</h3>
+                <h3 className="text-2xl ">{place?.results.nome}</h3>
                 <div className=" flex items-center">
-                  <span className="text-sm text-brand-gray-600">
-                    Rio de Janeiro, RJ
+                  <span className="text-base text-brand-gray-600 max-w-xs">
+                    {place?.results.endereco}
                   </span>
                 </div>
               </div>
-              <div className="flex items-center justify-center flex-col px-3">
+              {/*  <div className="flex items-center justify-center flex-col px-3">
                 <Icon
                   icon="gg:check-o"
                   fontSize={20}
@@ -110,7 +117,7 @@ const PlaceDetails: NextPage = () => {
                 <p className="text-brand-green-400 font-normal mt-1">
                   Já Avaliado
                 </p>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
@@ -119,18 +126,18 @@ const PlaceDetails: NextPage = () => {
         <ul className="flex w-full">
           <li
             onClick={() => setCurrentTab('informacoes')}
-            className={`py-2 px-3 text-brand-gray-600 ${
+            className={`py-2 px-3 text-brand-gray-600 cursor-pointer ${
               currentTab === 'informacoes' &&
-              'bg-gray-200  text-brand-gray-900 rounded-2xl'
+              'bg-gray-200  text-brand-gray-900 rounded-2xl '
             } `}
           >
             Informações
           </li>
           <li
             onClick={() => setCurrentTab('avaliacoes')}
-            className={`py-2  text-brand-gray-600 ${
+            className={`py-2  text-brand-gray-600 cursor-pointer ${
               currentTab === 'avaliacoes' &&
-              'bg-gray-200  text-brand-gray-900 rounded-2xl'
+              'bg-gray-200  text-brand-gray-900 rounded-2xl '
             }  px-3`}
           >
             Avaliações

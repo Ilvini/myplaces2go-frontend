@@ -9,7 +9,7 @@ export default function ButtonPrimary(
   return (
     <button
       {...props}
-      className="bg-brand-blue-800 font-bold text-white w-full px-5 py-5 text-base rounded-full"
+      className="bg-brand-yellow-300 rounded-lg p-3 mt-3 w-full text-center"
     />
   )
 }

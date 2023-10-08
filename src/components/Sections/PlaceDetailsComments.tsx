@@ -2,8 +2,11 @@ import React from 'react'
 import { UserComments } from '../Partials/UserComments'
 import { Icon } from '@iconify/react'
 import { useFetch } from '../../services/useFetch'
+import rattingModalStore from '../../stores/modals/RattingModalStore'
+export const PlaceDetailsComments = ({ data }) => {
+  const { modalState, setModalState, setModalData, modalData } =
+    rattingModalStore()
 
-export const PlaceDetailsComments = () => {
   return (
     <section className="mt-3 ">
       <UserComments
@@ -30,11 +33,16 @@ export const PlaceDetailsComments = () => {
         date="há 1 dia"
         comment="A comida é cara, levem algo pra comer na mochila, de resto vale a pena."
       />
-      <button className="bg-brand-yellow-300 rounded-lg p-3 mt-3 w-full text-center  flex">
+      <button
+        className="bg-brand-yellow-300 rounded-lg p-3 mt-3 w-full text-center  flex"
+        onClick={() => {
+          setModalState(true), setModalData(data)
+        }}
+      >
         <Icon icon="ep:place" className="text-brand-blue-100 text-2xl" />
         <p className="w-full text-center">Eu visitei o ponto turístico</p>
       </button>
-      <form
+      {/*  <form
         action="
      "
       >
@@ -48,7 +56,7 @@ export const PlaceDetailsComments = () => {
         <button className="bg-brand-yellow-300 rounded-lg p-3 mt-3 w-full text-center ">
           Enviar
         </button>
-      </form>
+      </form> */}
     </section>
   )
 }

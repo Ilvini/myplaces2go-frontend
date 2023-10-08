@@ -2,13 +2,19 @@ import React from 'react'
 import GoogleMaps from '../GoogleMaps'
 import { GoogleMapsPlaceLocation } from '../GoogleMapsPlaceLocation'
 
-export const PlaceDetailsInformation = () => {
+export const PlaceDetailsInformation = ({
+  lat,
+  long,
+}: {
+  lat: number
+  long: number
+}) => {
   return (
     <section>
-      <h4 className="text-2xl mt-2 text-brand-gray-600">
+      {/*   <h4 className="text-2xl mt-2 text-brand-gray-600">
         Horário de Funcionamento
-      </h4>
-      <table className="w-full">
+      </h4> */}
+      {/* <table className="w-full">
         <tr className="even:bg-gray-50 odd:white ">
           <td className="text-brand-red-200">Domingo</td>
           <td className="float-right text-brand-red-200">Fechado</td>
@@ -52,12 +58,13 @@ export const PlaceDetailsInformation = () => {
           <td className="text-brand-gray-500">Cuía Turístico</td>
           <td className="text-brand-gray-500 float-right">R$ 90,00</td>
         </tr>
-      </table>
-      <h4 className="text-2xl mt-2 text-brand-gray-600">Localização</h4>
-      <GoogleMapsPlaceLocation
-        lat={-22.95187646136804}
-        long={-43.21050866244865}
-      />
+      </table> */}
+      {lat && long && (
+        <>
+          <h4 className="text-2xl mt-2 text-brand-gray-600">Localização</h4>
+          <GoogleMapsPlaceLocation lat={lat} long={long} />
+        </>
+      )}
       <button className="bg-brand-yellow-300 rounded-lg p-3 mt-3 w-full text-center ">
         {' '}
         Traçar Rota

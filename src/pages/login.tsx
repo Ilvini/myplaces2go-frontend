@@ -8,12 +8,14 @@ import { LabelError } from '../components/Forms/components/LabelError'
 import { errorHandler } from '../services/errorHandler'
 import toast from 'react-hot-toast'
 import { Icon } from '@iconify/react'
+import { api } from '../services/axios'
+import Cookies from 'js-cookie'
 interface FormProps {
   email: string
   password: string
 }
 
-const Home: NextPage = () => {
+const Login: NextPage = () => {
   const router = useRouter()
   const {
     register,
@@ -27,10 +29,13 @@ const Home: NextPage = () => {
       if (data.email === '' || data.password === '')
         return toast.error('Preencha todos os campos')
 
-      setTimeout(() => {
-        router.push('/dashboard')
-      }, 3000)
-
+      const response = await api.post('/auth/login', {
+        email: data.email,
+        password: data.password,
+      })
+      console.log(response)
+      Cookies.set('token', response.data.results.token)
+      router.push('/')
       reset({
         email: '',
         password: '',
@@ -65,7 +70,7 @@ const Home: NextPage = () => {
                 {...register('email', {
                   required: { message: 'Campo obrigatório', value: true },
                 })}
-                className="w-full py-5 h-20 px-6 text-2xl "
+                className="w-full py-5 h-20 px-6 text-2xl placeholder:text-brand-gray-500 "
                 disabled={isSubmitting}
               />
               <LabelError
@@ -83,7 +88,7 @@ const Home: NextPage = () => {
                 {...register('password', {
                   required: { message: 'Campo obrigatório', value: true },
                 })}
-                className="w-full py-5 h-20 px-6 text-2xl "
+                className="w-full py-5 h-20 px-6 text-2xl placeholder:text-brand-gray-500 "
                 disabled={isSubmitting}
               />
               <LabelError
@@ -104,7 +109,7 @@ const Home: NextPage = () => {
                 <Icon icon="mingcute:loading-3-fill" />
               )}
             </button>
-            <button className="underline text-white text-2xl text-center my-5 font-normal">
+            <button className="underline drop-shadow-lg backdrop-blur-md text-white text-2xl text-center mt-2 py-5 font-normal">
               Criar uma conta
             </button>
           </div>
@@ -114,3 +119,5 @@ const Home: NextPage = () => {
     </main>
   )
 }
+export default Login
+
