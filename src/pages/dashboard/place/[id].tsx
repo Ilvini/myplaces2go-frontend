@@ -44,6 +44,25 @@ const PlaceDetails: NextPage = () => {
     `/pontos-turisticos/${id}/informacoes-adicionais`
   )
 
+  function handleAddOnFavorites(place: any) {
+    console.log(place.results)
+    if (!place.results) return toast.error('Erro ao adicionar aos favoritos')
+    //adicionar no localstorage
+    const favorites = localStorage.getItem('@myplace2go/favorites')
+    const favoritesArray = favorites ? JSON.parse(favorites) : []
+    const hasPlace = favoritesArray.some(
+      (favorite: any) => favorite.uuid === place.results.uuid
+    )
+    if (hasPlace) return toast.error('Já está nos favoritos')
+    favoritesArray.push(place.results)
+    localStorage.setItem(
+      '@myplace2go/favorites',
+      JSON.stringify(favoritesArray)
+    )
+
+    return toast.success('Adicionado aos favoritos')
+  }
+
   const Tab = {
     informacoes: <PlaceDetailsInformation />,
     avaliacoes: <PlaceDetailsComments data={place} />,
@@ -108,16 +127,19 @@ const PlaceDetails: NextPage = () => {
                   </span>
                 </div>
               </div>
-              {/*  <div className="flex items-center justify-center flex-col px-3">
+              <button
+                className="flex items-center justify-center flex-col p-3 border mt-4 rounded-md"
+                onClick={() => handleAddOnFavorites(place)}
+              >
                 <Icon
-                  icon="gg:check-o"
-                  fontSize={20}
-                  className="text-brand-green-400"
+                  icon="iconamoon:heart-fill"
+                  fontSize={32}
+                  className="text-brand-yellow-300"
                 />
-                <p className="text-brand-green-400 font-normal mt-1">
-                  Já Avaliado
+                <p className="text-brand-gray-900 font-normal mt-1 text-center">
+                  Adicionar aos Favoritos
                 </p>
-              </div> */}
+              </button>
             </div>
           </div>
         </div>

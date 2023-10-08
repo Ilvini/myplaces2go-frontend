@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import Container from './Container'
 import { VersionName } from './VersionName'
 import { Icon } from '@iconify/react'
+import Link from 'next/link'
 
 export default function BottomNavigation() {
   const [online, setOnline] = useState(false)
@@ -23,15 +24,17 @@ export default function BottomNavigation() {
               />
               <p className="text-white"> Início</p>
             </li>
-            <li className="p-4 flex justify-center flex-col items-center">
-              <Icon
-                icon="bx:bxs-heart"
-                fontSize={24}
-                className="text-brand-yellow-300"
-              />
+            <Link href={'/dashboard/favorite'}>
+              <li className="p-4 flex justify-center flex-col items-center">
+                <Icon
+                  icon="bx:bxs-heart"
+                  fontSize={24}
+                  className="text-brand-yellow-300"
+                />
 
-              <p className="text-white"> Favoritos</p>
-            </li>
+                <p className="text-white"> Favoritos</p>
+              </li>
+            </Link>
             <li className="p-4 flex justify-center flex-col items-center">
               <Icon
                 icon="bx:bxs-user"
