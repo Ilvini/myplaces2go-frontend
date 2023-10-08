@@ -8,10 +8,24 @@ import 'swiper/css/pagination'
 import { Ratting } from '../../components/Ratting'
 import BottomNavigation from '../../components/Partials/BottomNavigation'
 import Link from 'next/link'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useFetch } from '../../services/useFetch'
 
 const Favorite: NextPage = () => {
+  const [favorites, setFavorites] = React.useState<any[]>([])
+
+  useEffect(() => {
+    if (!window?.localStorage.getItem('@myplace2go/favorites')) {
+      window?.localStorage.setItem('@myplace2go/favorites', JSON.stringify([]))
+    } else {
+      setFavorites(
+        JSON.parse(
+          window?.localStorage.getItem('@myplace2go/favorites') || '[]'
+        )
+      )
+    }
+  }, [])
+
   return (
     <main className="relative pb-20">
       <header className="py-4  shadow-md">
@@ -33,10 +47,8 @@ const Favorite: NextPage = () => {
       </header>
       <section className="mx-4 my-4">
         <h3 className="text-brand-gray-600 text-3xl">Meus Favoritos</h3>
-        {window.localStorage.getItem('@myplace2go/favorites')
-          ? JSON.parse(
-              window.localStorage?.getItem('@myplace2go/favorites')
-            ).map((place) => {
+        {favorites
+          ? favorites.map((place) => {
               return (
                 <div key={place.uuid} className="flex mt-5">
                   <div className="w-1/4 aspect-square rounded-lg overflow-hidden drop-shadow-lg">
