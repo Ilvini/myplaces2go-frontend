@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
 import GoogleMaps from '../GoogleMaps'
 import { GoogleMapsPlaceLocation } from '../GoogleMapsPlaceLocation'
+import { Icon } from '@iconify/react'
 
 export const PlaceDetailsInformation = ({
   lat,
@@ -9,6 +10,45 @@ export const PlaceDetailsInformation = ({
   lat: number
   long: number
 }) => {
+  const [hasSpeech, setHasSpeech] = useState(false)
+  const [speechActive, setSpeechActive] = useState(false)
+
+  /*  function hasSpeechSynthesis() {
+    if ('speechSynthesis' in window) {
+      setHasSpeech(true)
+    } else {
+      setHasSpeech(false)
+    }
+  } */
+
+  async function TextTooSpeech() {
+    const synth = window?.speechSynthesis
+    if (!window.speechSynthesis) {
+      alert('Your device does not support the SpeechSynthesis API')
+    }
+
+    window.speechSynthesis.cancel()
+
+    /*  let voices = synth.getVoices() */
+
+    let text =
+      'A estátua do Cristo Redentor foi idealizada em meados do século 19, quando o padre francês Pierre Marie Boss exercia suas atividades em uma igreja com vista para o Morro do Corcovado. A ideia de erguer um monumento religioso foi resgatada em 1888 pela princesa Isabel.'
+    let utterThis = new SpeechSynthesisUtterance(text)
+    utterThis.onend = function (event) {
+      console.log('SpeechSynthesisUtterance.onend')
+    }
+    utterThis.onerror = function (event) {
+      console.error('SpeechSynthesisUtterance.onerror')
+    }
+    /*   utterThis.voice = voices[0] */
+    utterThis.pitch = 1
+    utterThis.rate = 1
+    utterThis.lang = 'pt-BR'
+    synth.speak(utterThis)
+
+    setSpeechActive((state) => !state)
+  }
+
   return (
     <section>
       {/*   <h4 className="text-2xl mt-2 text-brand-gray-600">
@@ -65,11 +105,31 @@ export const PlaceDetailsInformation = ({
           <GoogleMapsPlaceLocation lat={lat} long={long} />
         </>
       )}
-      <button className="bg-brand-yellow-300 rounded-lg p-3 mt-3 w-full text-center ">
-        {' '}
-        Traçar Rota
-      </button>
-      <h4 className="text-2xl  text-brand-gray-600 my-2">Curiosidades</h4>
+      <a
+        target="_blank"
+        rel="noreferrer"
+        href="https://www.google.com/maps/dir/47.61742662466556,+-122.35135224108917/47.61161171741843,+-122.3417821197974/@47.6146062,-122.3564563,15z/data=!3m1!4b1!4m9!4m8!1m3!2m2!1d-122.3513522!2d47.6174266!1m3!2m2!1d-122.3417821!2d47.6116117?entry=ttu"
+      >
+        <button className="bg-brand-yellow-300 rounded-lg p-3 mt-3 w-full text-center ">
+          Traçar Rota
+        </button>
+      </a>
+      <span className="">
+        <h4 className="text-2xl  text-brand-gray-600 my-2 inline">
+          Curiosidades
+        </h4>
+        <button
+          className="ml-3 border border-brand-gray-900 px-4 py-1 "
+          onClick={() => TextTooSpeech()}
+        >
+          <Icon
+            icon="lucide:speech"
+            fontSize={28}
+            className="inline text-brand-gray-900 mr-3"
+          />
+          Escutar
+        </button>
+      </span>
       <p className="text-justify text-brand-gray-500">
         A estátua do Cristo Redentor foi idealizada em meados do século 19,
         quando o padre francês Pierre Marie Boss exercia suas atividades em uma
@@ -77,15 +137,9 @@ export const PlaceDetailsInformation = ({
         monumento religioso foi resgatada em 1888 pela princesa Isabel.
       </p>
       <button className="bg-brand-yellow-300 rounded-lg p-3 mt-3 w-full text-center ">
-        {' '}
         Encontrar Guia Turístico
       </button>
       <button className="border-brand-yellow-300 border-2 bg-white rounded-lg p-3 mt-3 w-full text-center ">
-        {' '}
-        Traçar Rota
-      </button>
-      <button className="border-brand-yellow-300 border-2 bg-white rounded-lg p-3 mt-3 w-full text-center ">
-        {' '}
         Adicionar uma Curiosidade
       </button>
     </section>

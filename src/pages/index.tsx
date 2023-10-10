@@ -133,7 +133,7 @@ const Home: NextPage = () => {
   }
 
   return (
-    <main className="relative ">
+    <main className="relative">
       <header className="py-4  shadow-md">
         <nav className="flex justify-center w-full">
           {/* <button>
