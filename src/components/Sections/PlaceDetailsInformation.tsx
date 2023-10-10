@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import GoogleMaps from '../GoogleMaps'
 import { GoogleMapsPlaceLocation } from '../GoogleMapsPlaceLocation'
 import { Icon } from '@iconify/react'
+import Link from 'next/link'
 
 export const PlaceDetailsInformation = ({
   lat,
@@ -109,6 +110,7 @@ export const PlaceDetailsInformation = ({
         target="_blank"
         rel="noreferrer"
         href="https://www.google.com/maps/dir/47.61742662466556,+-122.35135224108917/47.61161171741843,+-122.3417821197974/@47.6146062,-122.3564563,15z/data=!3m1!4b1!4m9!4m8!1m3!2m2!1d-122.3513522!2d47.6174266!1m3!2m2!1d-122.3417821!2d47.6116117?entry=ttu"
+        className=""
       >
         <button className="bg-brand-yellow-300 rounded-lg p-3 mt-3 w-full text-center ">
           Traçar Rota
@@ -139,9 +141,11 @@ export const PlaceDetailsInformation = ({
       <button className="bg-brand-yellow-300 rounded-lg p-3 mt-3 w-full text-center ">
         Encontrar Guia Turístico
       </button>
-      <button className="border-brand-yellow-300 border-2 bg-white rounded-lg p-3 mt-3 w-full text-center ">
-        Adicionar uma Curiosidade
-      </button>
+      <Link href="/dashboard/add-curiosity">
+        <button className="border-brand-yellow-300 border-2 bg-white rounded-lg p-3 mt-3 w-full text-center ">
+          Adicionar uma Curiosidade
+        </button>
+      </Link>
     </section>
   )
 }

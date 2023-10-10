@@ -118,7 +118,7 @@ const PlaceDetails: NextPage = () => {
             <div className="flex justify-between items-center">
               <div className="flex  flex-col mt-1">
                 <div className="flex">
-                  <Ratting size={24} />
+                  <Ratting size={24} count={place?.results?.avaliacao_media} />
                 </div>
                 <h3 className="text-2xl ">{place?.results.nome}</h3>
                 <div className=" flex items-center">
