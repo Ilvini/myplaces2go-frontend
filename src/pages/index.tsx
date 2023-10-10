@@ -133,7 +133,7 @@ const Home: NextPage = () => {
   }
 
   return (
-    <main className="relative ">
+    <main className="relative">
       <header className="py-4  shadow-md">
         <nav className="flex justify-center w-full">
           {/* <button>
@@ -147,9 +147,9 @@ const Home: NextPage = () => {
         </nav>
       </header>
       <section className="mx-4 my-4">
-        <h1 className="text-2xl font-bold text-brand-gray-900">
+        {/*   <h1 className="text-2xl font-bold text-brand-gray-900">
           Seja Bem vindo
-        </h1>
+        </h1> */}
         <p className="text-brand-gray-500 text-xl mt-1">Lugares por perto</p>
 
         <div className="mt-3">

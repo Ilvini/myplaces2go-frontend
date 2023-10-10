@@ -10,6 +10,7 @@ import toast from 'react-hot-toast'
 import { Icon } from '@iconify/react'
 import { api } from '../services/axios'
 import Cookies from 'js-cookie'
+import Link from 'next/link'
 interface FormProps {
   email: string
   password: string
@@ -109,9 +110,11 @@ const Login: NextPage = () => {
                 <Icon icon="mingcute:loading-3-fill" />
               )}
             </button>
-            <button className="underline drop-shadow-lg backdrop-blur-md text-white text-2xl text-center mt-2 py-5 font-normal">
-              Criar uma conta
-            </button>
+            <Link href="/register">
+              <button className="underline drop-shadow-lg backdrop-blur-md text-white text-2xl text-center mt-2 py-5 font-normal">
+                Criar uma conta
+              </button>
+            </Link>
           </div>
         </form>
       </span>

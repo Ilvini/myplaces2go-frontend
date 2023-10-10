@@ -47,33 +47,31 @@ const Favorite: NextPage = () => {
       </header>
       <section className="mx-4 my-4">
         <h3 className="text-brand-gray-600 text-3xl">Meus Favoritos</h3>
-        {favorites ? (
-          favorites.map((place) => {
-            return (
-              <Link key={place.uuid} href={`/dashboard/place/${place.uuid}`}>
-                <div className="flex mt-5">
-                  <div className="w-1/4 aspect-square rounded-lg overflow-hidden drop-shadow-lg">
-                    <img
-                      src="/img/no-image.png"
-                      alt=""
-                      className="w-full h-full"
-                    />
+        {favorites
+          ? favorites.map((place) => {
+              return (
+                <Link key={place.uuid} href={`/dashboard/place/${place.uuid}`}>
+                  <div className="flex mt-5">
+                    <div className="w-1/4 aspect-square rounded-lg overflow-hidden drop-shadow-lg">
+                      <img
+                        src="/img/no-image.png"
+                        alt=""
+                        className="w-full h-full"
+                      />
+                    </div>
+                    <div className="ml-4 w-3/4">
+                      <h4 className="text-2xl text-brand-gray-600">
+                        {place.nome}
+                      </h4>
+                      <p className="text-base text-brand-gray-600">
+                        {place.endereco}
+                      </p>
+                    </div>
                   </div>
-                  <div className="ml-4 w-3/4">
-                    <h4 className="text-2xl text-brand-gray-600">
-                      {place.nome}
-                    </h4>
-                    <p className="text-base text-brand-gray-600">
-                      {place.endereco}
-                    </p>
-                  </div>
-                </div>
-              </Link>
-            )
-          })
-        ) : (
-          <h2>Nenhum favorito encontrado</h2>
-        )}
+                </Link>
+              )
+            })
+          : 'Nenhum favorito encontrado'}
       </section>
 
       <BottomNavigation />
