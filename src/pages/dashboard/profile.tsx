@@ -50,8 +50,8 @@ const Favorite: NextPage = () => {
         {favorites
           ? favorites.map((place) => {
               return (
-                <Link href={`/dashboard/place/${place.uuid}`}>
-                  <div key={place.uuid} className="flex mt-5">
+                <Link key={place.uuid} href={`/dashboard/place/${place.uuid}`}>
+                  <div className="flex mt-5">
                     <div className="w-1/4 aspect-square rounded-lg overflow-hidden drop-shadow-lg">
                       <img
                         src="/img/no-image.png"

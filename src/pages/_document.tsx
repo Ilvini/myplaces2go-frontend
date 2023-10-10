@@ -1,4 +1,5 @@
 import Document, { Html, Head, Main, NextScript } from 'next/document'
+import Script from 'next/script'
 
 class MyDocument extends Document {
   render() {
@@ -40,10 +41,10 @@ class MyDocument extends Document {
           />
           <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" defer />
         </Head>
-        <script
+        <Script
           src="https://cdn.userway.org/widget.js"
           data-account="jf8z26q629"
-        ></script>
+        />
         <body>
           <Main />
           <NextScript />

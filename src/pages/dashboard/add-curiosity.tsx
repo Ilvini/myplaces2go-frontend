@@ -18,7 +18,11 @@ interface FormProps {
   titulo: string
   descricao: string
 }
-
+interface ITypes {
+  error: boolean
+  results: string[]
+  message: string
+}
 const Favorite: NextPage = () => {
   const {
     register,
@@ -27,7 +31,7 @@ const Favorite: NextPage = () => {
     reset,
   } = useForm<FormProps>()
 
-  const { data: types } = useFetch('/tipos-informacoes-adicionais')
+  const { data: types } = useFetch<ITypes>('/tipos-informacoes-adicionais')
   console.log(types)
   async function handleAddCuriosity(data: FormProps) {
     try {
@@ -91,8 +95,12 @@ const Favorite: NextPage = () => {
                 disabled={isSubmitting}
               >
                 <option defaultValue="Escolha o tipo"></option>
-                {types?.map((type) => {
-                  return <option value={type.uuid}>{type.nome}</option>
+                {types?.results.map((type) => {
+                  return (
+                    <option key={type} value={type}>
+                      {type}
+                    </option>
+                  )
                 })}
               </select>
               <LabelError

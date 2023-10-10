@@ -21,6 +21,7 @@ export const Ratting = ({
           )
         return (
           <Icon
+            key={item}
             className="text-brand-gray-500"
             fontSize={size}
             icon="ic:round-star"
