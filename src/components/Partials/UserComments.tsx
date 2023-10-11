@@ -2,7 +2,7 @@ import React from 'react'
 
 interface Props {
   image: string
-  name: string
+  name?: string
   comment: string
   date: string
 }

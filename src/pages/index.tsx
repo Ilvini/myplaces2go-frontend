@@ -73,6 +73,8 @@ const Home: NextPage = () => {
     }
   }
 
+  console.log(places)
+
   useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -150,7 +152,7 @@ const Home: NextPage = () => {
         {/*   <h1 className="text-2xl font-bold text-brand-gray-900">
           Seja Bem vindo
         </h1> */}
-        <p className="text-brand-gray-500 text-xl mt-1">Lugares por perto</p>
+        {/*   <p className="text-brand-gray-500 text-xl mt-1">Lugares por perto</p> */}
 
         <div className="mt-3">
           {places?.results.length ? (
@@ -160,9 +162,13 @@ const Home: NextPage = () => {
                   <SwiperSlide key={place.uuid} className="flex flex-col">
                     <Link href={`/dashboard/place/${place.uuid}`}>
                       <img
-                        src={'/img/no-image.png'}
+                        src={place.imagem}
                         alt=""
-                        className="aspect-square rounded-3xl drop-shadow-lg  w-full"
+                        className="aspect-square rounded-3xl drop-shadow-lg  w-full bg-zinc-200"
+                        onError={(e) => {
+                          e.currentTarget.src = '/img/no-image.png'
+                          e.currentTarget.onError = null
+                        }}
                       />
                       <div className="flex  flex-col mt-1">
                         {/* <div className="flex">

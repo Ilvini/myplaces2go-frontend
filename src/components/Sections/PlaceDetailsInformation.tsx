@@ -4,13 +4,7 @@ import { GoogleMapsPlaceLocation } from '../GoogleMapsPlaceLocation'
 import { Icon } from '@iconify/react'
 import Link from 'next/link'
 
-export const PlaceDetailsInformation = ({
-  lat,
-  long,
-}: {
-  lat: number
-  long: number
-}) => {
+export const PlaceDetailsInformation = ({ data }) => {
   const [hasSpeech, setHasSpeech] = useState(false)
   const [speechActive, setSpeechActive] = useState(false)
 
@@ -21,7 +15,7 @@ export const PlaceDetailsInformation = ({
       setHasSpeech(false)
     }
   } */
-
+  console.log(data)
   async function TextTooSpeech() {
     const synth = window?.speechSynthesis
     if (!window.speechSynthesis) {
@@ -33,7 +27,7 @@ export const PlaceDetailsInformation = ({
     /*  let voices = synth.getVoices() */
 
     let text =
-      'A estátua do Cristo Redentor foi idealizada em meados do século 19, quando o padre francês Pierre Marie Boss exercia suas atividades em uma igreja com vista para o Morro do Corcovado. A ideia de erguer um monumento religioso foi resgatada em 1888 pela princesa Isabel.'
+      ' Precisamos cadastrar uma curiosidade para que se torne dinâmico. porém a api de cadastro não está aceitando o verbo POST'
     let utterThis = new SpeechSynthesisUtterance(text)
     utterThis.onend = function (event) {
       console.log('SpeechSynthesisUtterance.onend')
@@ -50,42 +44,35 @@ export const PlaceDetailsInformation = ({
     setSpeechActive((state) => !state)
   }
 
+  console.log(typeof data?.results.lat === 'number')
+
   return (
     <section>
-      {/*   <h4 className="text-2xl mt-2 text-brand-gray-600">
-        Horário de Funcionamento
-      </h4> */}
-      {/* <table className="w-full">
-        <tr className="even:bg-gray-50 odd:white ">
-          <td className="text-brand-red-200">Domingo</td>
-          <td className="float-right text-brand-red-200">Fechado</td>
-        </tr>
-        <tr className=" w-full even:bg-gray-50 odd:white ">
-          <td className="text-brand-gray-500">Segunda</td>
-          <td className="text-brand-gray-500 float-right">08:00 - 18:00</td>
-        </tr>
-        <tr className=" w-full even:bg-gray-50 odd:white ">
-          <td className="text-brand-gray-500">Terça</td>
-          <td className="text-brand-gray-500 float-right">08:00 - 18:00</td>
-        </tr>
-        <tr className=" w-full even:bg-gray-50 odd:white ">
-          <td className="text-brand-gray-500">Quarta</td>
-          <td className="text-brand-gray-500 float-right">08:00 - 18:00</td>
-        </tr>
-        <tr className=" w-full even:bg-gray-50 odd:white ">
-          <td className="text-brand-gray-500">Quinta</td>
-          <td className="text-brand-gray-500 float-right">08:00 - 18:00</td>
-        </tr>
-        <tr className=" w-full even:bg-gray-50 odd:white ">
-          <td className="text-brand-gray-500">Sexta</td>
-          <td className="text-brand-gray-500 float-right">08:00 - 18:00</td>
-        </tr>
-        <tr className=" w-full even:bg-gray-50 odd:white ">
-          <td className="text-brand-gray-500">Sábado</td>
-          <td className="text-brand-gray-500 float-right">08:00 - 18:00</td>
-        </tr>
+      {data?.results.horario_funcionamento.length !== 0 && (
+        <>
+          <h4 className="text-2xl mt-2 text-brand-gray-600 inline">
+            Horário de Funcionamento
+          </h4>{' '}
+          {data?.results?.aberto && (
+            <span className="bg-brand-green-400 text-white text-sm font-bold px-3 py-1 rounded-md mb-1">
+              ABERTO
+            </span>
+          )}
+        </>
+      )}
+      <table className="w-full">
+        {data?.results.horario_funcionamento.map((item, index) => {
+          return (
+            <tr className={`w-full ${'even:bg-gray-50 odd:white'}`}>
+              <td className="text-brand-gray-500">{item.nome}</td>
+              <td className="text-brand-gray-500 float-right">
+                {item.horario}
+              </td>
+            </tr>
+          )
+        })}
       </table>
-      <h4 className="text-2xl mt-2 text-brand-gray-600">Custos</h4>
+      {/*   <h4 className="text-2xl mt-2 text-brand-gray-600">Custos</h4>
       <table className="w-full">
         <tr className="even:bg-gray-50 odd:white ">
           <td className="text-brand-gray-500">Estacionamento</td>
@@ -100,12 +87,16 @@ export const PlaceDetailsInformation = ({
           <td className="text-brand-gray-500 float-right">R$ 90,00</td>
         </tr>
       </table> */}
-      {lat && long && (
-        <>
-          <h4 className="text-2xl mt-2 text-brand-gray-600">Localização</h4>
-          <GoogleMapsPlaceLocation lat={lat} long={long} />
-        </>
-      )}
+      {typeof data?.results.lat === 'number' &&
+        typeof data?.results.lon === 'number' && (
+          <div className="aspect-square w-full h-full">
+            <h4 className="text-2xl mt-2 text-brand-gray-600">Localização</h4>
+            <GoogleMapsPlaceLocation
+              lat={data.results.lat}
+              lon={data.results.lon}
+            />
+          </div>
+        )}
       <a
         target="_blank"
         rel="noreferrer"
@@ -133,15 +124,13 @@ export const PlaceDetailsInformation = ({
         </button>
       </span>
       <p className="text-justify text-brand-gray-500">
-        A estátua do Cristo Redentor foi idealizada em meados do século 19,
-        quando o padre francês Pierre Marie Boss exercia suas atividades em uma
-        igreja com vista para o Morro do Corcovado. A ideia de erguer um
-        monumento religioso foi resgatada em 1888 pela princesa Isabel.
+        Precisamos cadastrar uma curiosidade para que se torne dinâmico. porém a
+        api de cadastro não está aceitando o verbo POST
       </p>
       <button className="bg-brand-yellow-300 rounded-lg p-3 mt-3 w-full text-center ">
         Encontrar Guia Turístico
       </button>
-      <Link href="/dashboard/add-curiosity">
+      <Link href={`/dashboard/place/${data?.results.uuid}/add-curiosity`}>
         <button className="border-brand-yellow-300 border-2 bg-white rounded-lg p-3 mt-3 w-full text-center ">
           Adicionar uma Curiosidade
         </button>

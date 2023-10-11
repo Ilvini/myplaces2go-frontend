@@ -32,6 +32,16 @@ export default function MyApp({ Component, pageProps }: any) {
       window.OneSignal = undefined
     }
   }, [])
+  useEffect(() => {
+    const script = document.createElement('script')
+    script.src = 'https://cdn.userway.org/widget.js'
+    script.setAttribute('data-account', 'jf8z26q629')
+    script.async = true
+    document.body.appendChild(script)
+    return () => {
+      document.body.removeChild(script)
+    }
+  }, [])
 
   if (currentWidth && currentWidth > 520) {
     return (

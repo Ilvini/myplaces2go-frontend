@@ -5,12 +5,12 @@ import toast from 'react-hot-toast'
 import styleGoogleMaps from '../../styles/googleMapsStyle/main'
 interface PropsGoogleMapsPlaceLocation {
   lat: number
-  long: number
+  lon: number
 }
 
 export const GoogleMapsPlaceLocation = ({
   lat,
-  long,
+  lon,
 }: PropsGoogleMapsPlaceLocation) => {
   const CurrentLocationMarker = ({ text }: { text: string }) => (
     <Icon
@@ -27,7 +27,7 @@ export const GoogleMapsPlaceLocation = ({
       zoomControl: true,
       center: {
         lat: lat,
-        lng: long,
+        lng: lon,
       },
       zoom: 11,
     })
@@ -40,7 +40,7 @@ export const GoogleMapsPlaceLocation = ({
   const defaultProps = {
     center: {
       lat: Number(lat),
-      lng: Number(long),
+      lng: Number(lon),
     },
     zoom: 11,
     styles: styleGoogleMaps,
@@ -58,7 +58,7 @@ export const GoogleMapsPlaceLocation = ({
           styles: defaultProps.styles,
         }}
       >
-        <CurrentLocationMarker lat={lat} lng={long} />
+        <CurrentLocationMarker lat={lat} lng={lon} />
       </GoogleMapReact>
     </div>
   )
