@@ -4,13 +4,7 @@ import { GoogleMapsPlaceLocation } from '../GoogleMapsPlaceLocation'
 import { Icon } from '@iconify/react'
 import Link from 'next/link'
 
-export const PlaceDetailsInformation = ({
-  lat,
-  long,
-}: {
-  lat: number
-  long: number
-}) => {
+export const PlaceDetailsInformation = ({ data }) => {
   const [hasSpeech, setHasSpeech] = useState(false)
   const [speechActive, setSpeechActive] = useState(false)
 
@@ -21,7 +15,7 @@ export const PlaceDetailsInformation = ({
       setHasSpeech(false)
     }
   } */
-
+  console.log(data)
   async function TextTooSpeech() {
     const synth = window?.speechSynthesis
     if (!window.speechSynthesis) {
@@ -52,40 +46,24 @@ export const PlaceDetailsInformation = ({
 
   return (
     <section>
-      {/*   <h4 className="text-2xl mt-2 text-brand-gray-600">
-        Horário de Funcionamento
-      </h4> */}
-      {/* <table className="w-full">
-        <tr className="even:bg-gray-50 odd:white ">
-          <td className="text-brand-red-200">Domingo</td>
-          <td className="float-right text-brand-red-200">Fechado</td>
-        </tr>
-        <tr className=" w-full even:bg-gray-50 odd:white ">
-          <td className="text-brand-gray-500">Segunda</td>
-          <td className="text-brand-gray-500 float-right">08:00 - 18:00</td>
-        </tr>
-        <tr className=" w-full even:bg-gray-50 odd:white ">
-          <td className="text-brand-gray-500">Terça</td>
-          <td className="text-brand-gray-500 float-right">08:00 - 18:00</td>
-        </tr>
-        <tr className=" w-full even:bg-gray-50 odd:white ">
-          <td className="text-brand-gray-500">Quarta</td>
-          <td className="text-brand-gray-500 float-right">08:00 - 18:00</td>
-        </tr>
-        <tr className=" w-full even:bg-gray-50 odd:white ">
-          <td className="text-brand-gray-500">Quinta</td>
-          <td className="text-brand-gray-500 float-right">08:00 - 18:00</td>
-        </tr>
-        <tr className=" w-full even:bg-gray-50 odd:white ">
-          <td className="text-brand-gray-500">Sexta</td>
-          <td className="text-brand-gray-500 float-right">08:00 - 18:00</td>
-        </tr>
-        <tr className=" w-full even:bg-gray-50 odd:white ">
-          <td className="text-brand-gray-500">Sábado</td>
-          <td className="text-brand-gray-500 float-right">08:00 - 18:00</td>
-        </tr>
+      {data?.results.horario_funcionamento.length !== 0 && (
+        <h4 className="text-2xl mt-2 text-brand-gray-600">
+          Horário de Funcionamento
+        </h4>
+      )}
+      <table className="w-full">
+        {data?.results.horario_funcionamento.map((item, index) => {
+          return (
+            <tr className={`w-full ${'even:bg-gray-50 odd:white'}`}>
+              <td className="text-brand-gray-500">{item.nome}</td>
+              <td className="text-brand-gray-500 float-right">
+                {item.horario}
+              </td>
+            </tr>
+          )
+        })}
       </table>
-      <h4 className="text-2xl mt-2 text-brand-gray-600">Custos</h4>
+      {/*   <h4 className="text-2xl mt-2 text-brand-gray-600">Custos</h4>
       <table className="w-full">
         <tr className="even:bg-gray-50 odd:white ">
           <td className="text-brand-gray-500">Estacionamento</td>
@@ -100,10 +78,13 @@ export const PlaceDetailsInformation = ({
           <td className="text-brand-gray-500 float-right">R$ 90,00</td>
         </tr>
       </table> */}
-      {lat && long && (
+      {typeof data?.results.lat && data?.results.long && (
         <>
           <h4 className="text-2xl mt-2 text-brand-gray-600">Localização</h4>
-          <GoogleMapsPlaceLocation lat={lat} long={long} />
+          <GoogleMapsPlaceLocation
+            lat={data.results.lat}
+            long={data.ressults.long}
+          />
         </>
       )}
       <a
@@ -141,7 +122,7 @@ export const PlaceDetailsInformation = ({
       <button className="bg-brand-yellow-300 rounded-lg p-3 mt-3 w-full text-center ">
         Encontrar Guia Turístico
       </button>
-      <Link href="/dashboard/add-curiosity">
+      <Link href={`/dashboard/place/${data?.results.uuid}/add-curiosity`}>
         <button className="border-brand-yellow-300 border-2 bg-white rounded-lg p-3 mt-3 w-full text-center ">
           Adicionar uma Curiosidade
         </button>

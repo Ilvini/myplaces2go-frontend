@@ -5,14 +5,16 @@ import { Icon } from '@iconify/react'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/css'
 import 'swiper/css/pagination'
-import { Ratting } from '../../components/Ratting'
-import BottomNavigation from '../../components/Partials/BottomNavigation'
+import { Ratting } from '../../../../components/Ratting'
+import BottomNavigation from '../../../../components/Partials/BottomNavigation'
 import Link from 'next/link'
 import React, { useEffect } from 'react'
-import { useFetch } from '../../services/useFetch'
+import { useFetch } from '../../../../services/useFetch'
 import { useForm } from 'react-hook-form'
-import { errorHandler } from '../../services/errorHandler'
-import { LabelError } from '../../components/Forms/components/LabelError'
+import { errorHandler } from '../../../../services/errorHandler'
+import { LabelError } from '../../../../components/Forms/components/LabelError'
+import { api } from '../../../../services/axios'
+import Cookies from 'js-cookie'
 interface FormProps {
   tipo: string
   titulo: string
@@ -24,6 +26,7 @@ interface ITypes {
   message: string
 }
 const Favorite: NextPage = () => {
+  const { id } = useRouter().query
   const {
     register,
     handleSubmit,
@@ -35,6 +38,30 @@ const Favorite: NextPage = () => {
   console.log(types)
   async function handleAddCuriosity(data: FormProps) {
     try {
+      const response = await api.post(
+        `/pontos-turisticos/${id}/informacoes-adicionais`,
+        {
+          tipo: data.tipo,
+          titulo: data.titulo,
+          descricao: data.descricao,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${Cookies.get('token')}`,
+          },
+        }
+      )
+      console.log(response)
+      reset(
+        {
+          tipo: '',
+          titulo: '',
+          descricao: '',
+        },
+        {
+          keepValues: false,
+        }
+      )
     } catch (error) {
       console.log(error)
       errorHandler(error)
@@ -75,7 +102,7 @@ const Favorite: NextPage = () => {
                 {...register('titulo', {
                   required: { message: 'Campo obrigatório', value: true },
                 })}
-                className="w-full py-5 h-20 px-6 text-2xl placeholder:text-brand-gray-500 "
+                className="w-full py-5 h-20 px-6 text-base placeholder:text-brand-gray-500 "
                 disabled={isSubmitting}
               />
               <LabelError
@@ -91,7 +118,7 @@ const Favorite: NextPage = () => {
                 {...register('tipo', {
                   required: { message: 'Campo obrigatório', value: true },
                 })}
-                className="w-full py-5 h-20 px-6 text-2xl placeholder:text-brand-gray-500 "
+                className="w-full py-5 h-20 bg-transparent border rounded-lg px-6 text-2xl placeholder:text-brand-gray-500 "
                 disabled={isSubmitting}
               >
                 <option defaultValue="Escolha o tipo"></option>
@@ -110,10 +137,10 @@ const Favorite: NextPage = () => {
             </div>
 
             <div className="mb-5">
-              <textarea
+              {/* <textarea
                 placeholder="Descricao"
                 id="descricao"
-                rows={10}
+                cols={10}
                 style={errors.descricao && { border: '1px solid red' }}
                 {...register('descricao', {
                   required: { message: 'Campo obrigatório', value: true },
@@ -121,6 +148,22 @@ const Favorite: NextPage = () => {
                 className="w-full py-5 h-20 px-6 text-2xl placeholder:text-brand-gray-500 "
                 disabled={isSubmitting}
               />
+              <LabelError
+                msg={errors.descricao?.message as string}
+                hasError={errors.descricao as any}
+              /> */}
+              <textarea
+                placeholder="Descricao"
+                id="descricao"
+                placeholder="Deixe seu comentário..."
+                rows={5}
+                className="w-full border p-3 rounded-lg mt-5"
+                style={errors.descricao && { border: '1px solid red' }}
+                {...register('descricao', {
+                  required: { message: 'Campo obrigatório', value: true },
+                })}
+                disabled={isSubmitting}
+              ></textarea>
               <LabelError
                 msg={errors.descricao?.message as string}
                 hasError={errors.descricao as any}

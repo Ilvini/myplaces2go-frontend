@@ -8,15 +8,15 @@ import toast from 'react-hot-toast'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/css'
 import 'swiper/css/pagination'
-import { Ratting } from '../../../components/Ratting'
-import BottomNavigation from '../../../components/Partials/BottomNavigation'
-import GoogleMaps from '../../../components/GoogleMaps'
+import { Ratting } from '../../../../components/Ratting'
+import BottomNavigation from '../../../../components/Partials/BottomNavigation'
+import GoogleMaps from '../../../../components/GoogleMaps'
 import { Pagination } from 'swiper'
 import Link from 'next/link'
 import React, { useState } from 'react'
-import { PlaceDetailsComments } from '../../../components/Sections/PlaceDetailsComments'
-import { PlaceDetailsInformation } from '../../../components/Sections/PlaceDetailsInformation'
-import { useFetch } from '../../../services/useFetch'
+import { PlaceDetailsComments } from '../../../../components/Sections/PlaceDetailsComments'
+import { PlaceDetailsInformation } from '../../../../components/Sections/PlaceDetailsInformation'
+import { useFetch } from '../../../../services/useFetch'
 
 interface IComments {
   results: {
@@ -44,6 +44,9 @@ const PlaceDetails: NextPage = () => {
     `/pontos-turisticos/${id}/informacoes-adicionais`
   )
 
+  const { data: avaliacoes } = useFetch(`/pontos-turisticos/${id}/avaliacoes`)
+  console.log(avaliacoes)
+  console.log(MoreInfo)
   function handleAddOnFavorites(place: any) {
     console.log(place.results)
     if (!place.results) return toast.error('Erro ao adicionar aos favoritos')
@@ -64,8 +67,8 @@ const PlaceDetails: NextPage = () => {
   }
 
   const Tab = {
-    informacoes: <PlaceDetailsInformation />,
-    avaliacoes: <PlaceDetailsComments data={place} />,
+    informacoes: <PlaceDetailsInformation data={place} />,
+    avaliacoes: <PlaceDetailsComments data={avaliacoes} />,
     mais_fotos: <div>Mais Fotos</div>,
   }
 
@@ -100,13 +103,17 @@ const PlaceDetails: NextPage = () => {
               }}
               modules={[Pagination]}
             >
-              <SwiperSlide className="flex flex-col rounded-3xl overflow-hidden">
-                <img
-                  src="/img/no-image.png"
-                  alt=""
-                  className="aspect-square w-full  scale-105"
-                />
-              </SwiperSlide>
+              {place?.results?.imagens.map((imagem) => {
+                return (
+                  <SwiperSlide className="flex flex-col rounded-3xl overflow-hidden aspect-square">
+                    <img
+                      src={imagem}
+                      alt=""
+                      className="h-full w-full  scale-105"
+                    />
+                  </SwiperSlide>
+                )
+              })}
               {/*   <SwiperSlide className="flex flex-col">
                 <img
                   src="/img/no-image.png"

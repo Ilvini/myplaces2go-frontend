@@ -9,7 +9,23 @@ export const PlaceDetailsComments = ({ data }) => {
 
   return (
     <section className="mt-3 ">
-      <UserComments
+      {data?.results && data.results.avaliacoes.length !== 0 ? (
+        data.results.avaliacao.map((avaliacao) => {
+          return (
+            <UserComments
+              key={avaliacao.id}
+              image="/img/avatar1.png"
+              date={avaliacao.data}
+              comment={avaliacao.comentario}
+            />
+          )
+        })
+      ) : (
+        <p className="text-brand-gray-600 my-10 text-center">
+          Não há avaliações no momento
+        </p>
+      )}
+      {/*  <UserComments
         image="/img/avatar1.png"
         name="Felipe dos Santos"
         date="há 1 dia"
@@ -32,7 +48,7 @@ export const PlaceDetailsComments = ({ data }) => {
         name="Felipe dos Santos"
         date="há 1 dia"
         comment="A comida é cara, levem algo pra comer na mochila, de resto vale a pena."
-      />
+      /> */}
       <button
         className="bg-brand-yellow-300 rounded-lg p-3 mt-3 w-full text-center  flex"
         onClick={() => {
