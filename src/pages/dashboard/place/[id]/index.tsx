@@ -103,9 +103,12 @@ const PlaceDetails: NextPage = () => {
               }}
               modules={[Pagination]}
             >
-              {place?.results?.imagens.map((imagem) => {
+              {place?.results?.imagens.map((imagem: string, index: number) => {
                 return (
-                  <SwiperSlide className="flex flex-col rounded-3xl overflow-hidden aspect-square">
+                  <SwiperSlide
+                    key={index + imagem}
+                    className="flex flex-col rounded-3xl overflow-hidden aspect-square"
+                  >
                     <img
                       src={imagem}
                       alt=""
