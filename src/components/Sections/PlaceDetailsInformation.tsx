@@ -63,7 +63,7 @@ export const PlaceDetailsInformation = ({ data }) => {
       <table className="w-full">
         {data?.results.horario_funcionamento.map((item, index) => {
           return (
-            <tr className={`w-full ${'even:bg-gray-50 odd:white'}`}>
+            <tr key={index} className={`w-full ${'even:bg-gray-50 odd:white'}`}>
               <td className="text-brand-gray-500">{item.nome}</td>
               <td className="text-brand-gray-500 float-right">
                 {item.horario}

@@ -153,7 +153,6 @@ const Favorite: NextPage = () => {
                 hasError={errors.descricao as any}
               /> */}
               <textarea
-                placeholder="Descricao"
                 id="descricao"
                 placeholder="Deixe seu comentário..."
                 rows={5}
