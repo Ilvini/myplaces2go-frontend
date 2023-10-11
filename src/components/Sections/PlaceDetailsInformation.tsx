@@ -27,7 +27,7 @@ export const PlaceDetailsInformation = ({ data }) => {
     /*  let voices = synth.getVoices() */
 
     let text =
-      'A estátua do Cristo Redentor foi idealizada em meados do século 19, quando o padre francês Pierre Marie Boss exercia suas atividades em uma igreja com vista para o Morro do Corcovado. A ideia de erguer um monumento religioso foi resgatada em 1888 pela princesa Isabel.'
+      ' Precisamos cadastrar uma curiosidade para que se torne dinâmico. porém a api de cadastro não está aceitando o verbo POST'
     let utterThis = new SpeechSynthesisUtterance(text)
     utterThis.onend = function (event) {
       console.log('SpeechSynthesisUtterance.onend')
@@ -44,12 +44,21 @@ export const PlaceDetailsInformation = ({ data }) => {
     setSpeechActive((state) => !state)
   }
 
+  console.log(typeof data?.results.lat === 'number')
+
   return (
     <section>
       {data?.results.horario_funcionamento.length !== 0 && (
-        <h4 className="text-2xl mt-2 text-brand-gray-600">
-          Horário de Funcionamento
-        </h4>
+        <>
+          <h4 className="text-2xl mt-2 text-brand-gray-600 inline">
+            Horário de Funcionamento
+          </h4>{' '}
+          {data?.results?.aberto && (
+            <span className="bg-brand-green-400 text-white text-sm font-bold px-3 py-1 rounded-md mb-1">
+              ABERTO
+            </span>
+          )}
+        </>
       )}
       <table className="w-full">
         {data?.results.horario_funcionamento.map((item, index) => {
@@ -78,15 +87,16 @@ export const PlaceDetailsInformation = ({ data }) => {
           <td className="text-brand-gray-500 float-right">R$ 90,00</td>
         </tr>
       </table> */}
-      {typeof data?.results.lat && data?.results.long && (
-        <>
-          <h4 className="text-2xl mt-2 text-brand-gray-600">Localização</h4>
-          <GoogleMapsPlaceLocation
-            lat={data.results.lat}
-            long={data.ressults.long}
-          />
-        </>
-      )}
+      {typeof data?.results.lat === 'number' &&
+        typeof data?.results.lon === 'number' && (
+          <div className="aspect-square w-full h-full">
+            <h4 className="text-2xl mt-2 text-brand-gray-600">Localização</h4>
+            <GoogleMapsPlaceLocation
+              lat={data.results.lat}
+              lon={data.results.lon}
+            />
+          </div>
+        )}
       <a
         target="_blank"
         rel="noreferrer"
@@ -114,10 +124,8 @@ export const PlaceDetailsInformation = ({ data }) => {
         </button>
       </span>
       <p className="text-justify text-brand-gray-500">
-        A estátua do Cristo Redentor foi idealizada em meados do século 19,
-        quando o padre francês Pierre Marie Boss exercia suas atividades em uma
-        igreja com vista para o Morro do Corcovado. A ideia de erguer um
-        monumento religioso foi resgatada em 1888 pela princesa Isabel.
+        Precisamos cadastrar uma curiosidade para que se torne dinâmico. porém a
+        api de cadastro não está aceitando o verbo POST
       </p>
       <button className="bg-brand-yellow-300 rounded-lg p-3 mt-3 w-full text-center ">
         Encontrar Guia Turístico
