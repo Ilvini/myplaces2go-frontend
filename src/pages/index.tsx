@@ -17,6 +17,7 @@ import styleGoogleMaps from '../styles/googleMapsStyle/main'
 import { errorHandler } from '../services/errorHandler'
 import { api } from '../services/axios'
 import { CardsPlaceSkeleton } from '../components/Partials/Skeleton/CardsPlaceSkeleton'
+import locationError from '../helpers/handlerErrorGeoLocation'
 interface IPlaces {
   results: {
     uuid: string
@@ -25,6 +26,7 @@ interface IPlaces {
     lon: number
     categoria: string
     icone: string
+    imagem: string
   }[]
 }
 const Home: NextPage = () => {
@@ -40,18 +42,6 @@ const Home: NextPage = () => {
     '/pontos-turisticos?lat=-1.459549&lon=-48.49707&raio=14.28&categorias=10000,13000,14000,16000,18000,19000'
   )
  */
-  function locationError(error: any) {
-    switch (error.code) {
-      case error.PERMISSION_DENIED:
-        return 'Usuário negou a solicitação de geolocalização.'
-      case error.POSITION_UNAVAILABLE:
-        return ' Local informado indisponível.'
-      case error.TIMEOUT:
-        return 'O pedido de localização do usuário expirou.'
-      case error.UNKNOWN_ERROR:
-        return 'Erro Desconhecido.'
-    }
-  }
 
   function limitarCaracteres(texto: string, limite: number) {
     if (texto.length <= limite) {
@@ -167,7 +157,7 @@ const Home: NextPage = () => {
                         className="aspect-square rounded-3xl drop-shadow-lg  w-full bg-zinc-200"
                         onError={(e) => {
                           e.currentTarget.src = '/img/no-image.png'
-                          e.currentTarget.onError = null
+                          e.currentTarget.onerror = null
                         }}
                       />
                       <div className="flex  flex-col mt-1">

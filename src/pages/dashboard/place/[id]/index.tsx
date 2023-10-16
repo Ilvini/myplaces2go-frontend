@@ -17,7 +17,7 @@ import React, { useState } from 'react'
 import { PlaceDetailsComments } from '../../../../components/Sections/PlaceDetailsComments'
 import { PlaceDetailsInformation } from '../../../../components/Sections/PlaceDetailsInformation'
 import { useFetch } from '../../../../services/useFetch'
-
+import { IPlaces } from '../../../../contracts/places'
 interface IComments {
   results: {
     id: number
@@ -33,7 +33,7 @@ const PlaceDetails: NextPage = () => {
     'informacoes' | 'avaliacoes' | 'mais_fotos'
   >('informacoes')
 
-  const { data: place } = useFetch<IComments>(`/pontos-turisticos/${id}`)
+  const { data: place } = useFetch<IPlaces>(`/pontos-turisticos/${id}`)
 
   console.log(place)
   const { data: comments } = useFetch<IComments>(
@@ -45,8 +45,7 @@ const PlaceDetails: NextPage = () => {
   )
 
   const { data: avaliacoes } = useFetch(`/pontos-turisticos/${id}/avaliacoes`)
-  console.log(avaliacoes)
-  console.log(MoreInfo)
+
   function handleAddOnFavorites(place: any) {
     console.log(place.results)
     if (!place.results) return toast.error('Erro ao adicionar aos favoritos')
@@ -94,47 +93,62 @@ const PlaceDetails: NextPage = () => {
       <section className="mx-4 my-4">
         <div>
           <div className="mt-3">
-            <Swiper
-              slidesPerView={1}
-              spaceBetween={12}
-              className="SwiperPlaceDetails"
-              pagination={{
-                clickable: true,
-              }}
-              modules={[Pagination]}
-            >
-              {place?.results?.imagens.map((imagem: string, index: number) => {
-                return (
-                  <SwiperSlide
-                    key={index + imagem}
-                    className="flex flex-col rounded-3xl overflow-hidden aspect-square"
-                  >
-                    <img
-                      src={imagem}
-                      alt=""
-                      className="h-full w-full  scale-105"
-                    />
-                  </SwiperSlide>
-                )
-              })}
-              {/*   <SwiperSlide className="flex flex-col">
+            {place?.results.imagens && place?.results.imagens.length > 0 ? (
+              <Swiper
+                slidesPerView={1}
+                spaceBetween={12}
+                className="SwiperPlaceDetails"
+                pagination={{
+                  clickable: true,
+                }}
+                modules={[Pagination]}
+              >
+                {place?.results?.imagens.map(
+                  (imagem: string, index: number) => {
+                    return (
+                      <SwiperSlide
+                        key={index + imagem}
+                        className="flex flex-col rounded-3xl overflow-hidden aspect-square"
+                      >
+                        <img
+                          src={imagem}
+                          alt=""
+                          className="h-full w-full  scale-105"
+                        />
+                      </SwiperSlide>
+                    )
+                  }
+                )}
+                {/*   <SwiperSlide className="flex flex-col">
                 <img
                   src="/img/no-image.png"
                   alt=""
                   className="aspect-square w-full rounded-3xl drop-shadow-lg"
                 />
               </SwiperSlide> */}
-            </Swiper>
-            <div className="flex justify-between items-center">
-              <div className="flex  flex-col mt-1">
+              </Swiper>
+            ) : (
+              <div className="bg-zinc-300 aspect-square w-full h-full rounded-3xl"></div>
+            )}
+            <div className="flex justify-between items-center gap-4">
+              <div className="flex  flex-col mt-1 w-full">
                 <div className="flex">
-                  <Ratting size={24} count={place?.results?.avaliacao_media} />
+                  <Ratting size={24} count={place?.results?.avaliacao_media} />{' '}
+                  {!place?.results.avaliacao_media && <p>Sem Avaliações</p>}
                 </div>
-                <h3 className="text-2xl ">{place?.results.nome}</h3>
+                {place?.results.nome ? (
+                  <h3 className="text-2xl ">{place?.results.nome}</h3>
+                ) : (
+                  <span className="bg-zinc-300 animate-pulse h-6 w-full rounded-md mt-2"></span>
+                )}
                 <div className=" flex items-center">
-                  <span className="text-base text-brand-gray-600 max-w-xs">
-                    {place?.results.endereco}
-                  </span>
+                  {place?.results.endereco ? (
+                    <span className="text-base text-brand-gray-600 max-w-xs">
+                      {place?.results.endereco}
+                    </span>
+                  ) : (
+                    <span className="bg-zinc-300 animate-pulse h-6 w-full rounded-md mt-2 "></span>
+                  )}
                 </div>
               </div>
               <button

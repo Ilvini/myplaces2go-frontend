@@ -17,6 +17,7 @@ interface FormProps {
 export function RattingModal() {
   const { modalState, setModalState, modalData } = rattingModalStore()
   const [ratingValue, setRatingValue] = useState(0)
+  const [comment, setComment] = useState('')
 
   const handleRating = (rate: number) => {
     setRatingValue(rate)
@@ -28,9 +29,17 @@ export function RattingModal() {
         toast.error('Por favor, avalie o ponto turístico')
         return
       }
-      setModalState(false)
+      console.log(comment)
+      if (comment === '') {
+        return setComment('Sem comentário')
+      }
+
       const response = await api.post(
-        `/pontos-turisticos/${modalData?.results.uuid}/avaliacoes/novo`
+        `/pontos-turisticos/${modalData?.results.uuid}/avaliacoes/novo`,
+        {
+          estrelas: ratingValue,
+          comentario: comment,
+        }
       )
     } catch (error) {
       console.log(error)
@@ -51,7 +60,7 @@ export function RattingModal() {
       <Dialog.Panel className="bg-white p-5 rounded-xl w-full mx-3">
         <Dialog.Title>
           <h3 className="text-brand-gray-900 ">
-            <strong className="text-bold text-brand-gray-900">Avaliando</strong>{' '}
+            <strong className="text-bold text-brand-gray-900">Avaliando</strong>
             {modalData?.results.nome}
           </h3>
         </Dialog.Title>
@@ -74,6 +83,7 @@ export function RattingModal() {
           <textarea
             name="comment"
             id=""
+            onChange={(e) => setComment(e.target.value)}
             placeholder="Deixe seu comentário..."
             rows={5}
             className="w-full border p-3 rounded-lg mt-5"

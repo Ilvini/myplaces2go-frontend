@@ -15,6 +15,8 @@ import { errorHandler } from '../../../../services/errorHandler'
 import { LabelError } from '../../../../components/Forms/components/LabelError'
 import { api } from '../../../../services/axios'
 import Cookies from 'js-cookie'
+import toast from 'react-hot-toast'
+import locationError from '../../../../helpers/handlerErrorGeoLocation'
 interface FormProps {
   tipo: string
   titulo: string
@@ -25,7 +27,11 @@ interface ITypes {
   results: string[]
   message: string
 }
-const Favorite: NextPage = () => {
+const AddInformation: NextPage = () => {
+  const [currentPosition, setCurrentPosition] = React.useState({
+    latitude: 0,
+    longitude: 0,
+  })
   const { id } = useRouter().query
   const {
     register,
@@ -34,12 +40,37 @@ const Favorite: NextPage = () => {
     reset,
   } = useForm<FormProps>()
 
+  const router = useRouter()
+
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position: GeolocationPosition) => {
+          setCurrentPosition({
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+          })
+        },
+        (error: GeolocationPositionError) => {
+          console.log(locationError(error))
+          toast.error(locationError(error) as string, {
+            duration: 5000,
+          })
+        }
+      )
+    } else {
+      toast.error('Seu dispositivo não suporta geolocalização', {
+        duration: 5000,
+      })
+    }
+  }, [])
+
   const { data: types } = useFetch<ITypes>('/tipos-informacoes-adicionais')
   console.log(types)
   async function handleAddCuriosity(data: FormProps) {
     try {
       const response = await api.post(
-        `/pontos-turisticos/${id}/informacoes-adicionais`,
+        `/pontos-turisticos/${id}/informacoes-adicionais/novo`,
         {
           tipo: data.tipo,
           titulo: data.titulo,
@@ -51,7 +82,9 @@ const Favorite: NextPage = () => {
           },
         }
       )
-      console.log(response)
+      toast.success(response.data.message)
+      router.back()
+
       reset(
         {
           tipo: '',
@@ -118,10 +151,12 @@ const Favorite: NextPage = () => {
                 {...register('tipo', {
                   required: { message: 'Campo obrigatório', value: true },
                 })}
-                className="w-full py-5 h-20 bg-transparent border rounded-lg px-6 text-2xl placeholder:text-brand-gray-500 "
+                className="w-full py-5 h-20 bg-transparent border rounded-lg px-6 text-base text-brand-gray-400 placeholder:text-brand-gray-500 "
                 disabled={isSubmitting}
               >
-                <option defaultValue="Escolha o tipo"></option>
+                <option defaultValue="" disabled={true}>
+                  Escolha o Tipo
+                </option>
                 {types?.results.map((type) => {
                   return (
                     <option key={type} value={type}>
@@ -156,7 +191,7 @@ const Favorite: NextPage = () => {
                 id="descricao"
                 placeholder="Deixe seu comentário..."
                 rows={5}
-                className="w-full border p-3 rounded-lg mt-5"
+                className="w-full border p-3 rounded-lg "
                 style={errors.descricao && { border: '1px solid red' }}
                 {...register('descricao', {
                   required: { message: 'Campo obrigatório', value: true },
@@ -170,13 +205,13 @@ const Favorite: NextPage = () => {
             </div>
           </div>
 
-          <div className=" w-full flex justify-center flex-col mt-32">
+          <div className=" w-full flex justify-center flex-col ">
             <button
               type="submit"
-              className="bg-brand-yellow-300 rounded-lg px-3 py-5 mt-3 w-full text-center "
+              className="bg-brand-yellow-300 rounded-lg py-5  w-full text-center "
             >
               {!isSubmitting ? (
-                '  Enviar Curiosidade'
+                '  Enviar Informação'
               ) : (
                 <Icon icon="mingcute:loading-3-fill" />
               )}
@@ -190,5 +225,5 @@ const Favorite: NextPage = () => {
   )
 }
 
-export default Favorite
+export default AddInformation
 
