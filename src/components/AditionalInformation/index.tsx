@@ -44,7 +44,7 @@ export const AditionalInformation = ({ data, title, keyName }) => {
             {data?.informacoes_adicionais[keyName] &&
               data?.informacoes_adicionais[keyName].map((item, index) => {
                 return (
-                  <div className="">
+                  <div key={index} className="">
                     <h4 className="my-2 text-xl">
                       {item.titulo}
                       <button

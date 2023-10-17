@@ -94,15 +94,18 @@ export const PlaceDetailsInformation = ({ data }) => {
         <div className="">
           {
             // pegar as chaves do objecto
-            Object.keys(data?.results?.informacoes_adicionais).map((key) => {
-              return (
-                <AditionalInformation
-                  data={data?.results}
-                  title={key}
-                  keyName={key}
-                />
-              )
-            })
+            Object.keys(data?.results?.informacoes_adicionais).map(
+              (key, index) => {
+                return (
+                  <AditionalInformation
+                    key={key + index}
+                    data={data?.results}
+                    title={key}
+                    keyName={key}
+                  />
+                )
+              }
+            )
           }
           {/*    <AditionalInformation
             data={data?.results}
