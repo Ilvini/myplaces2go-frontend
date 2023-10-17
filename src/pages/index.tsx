@@ -169,7 +169,7 @@ const Home: NextPage = () => {
                         </h3>
                         <div className=" flex items-center">
                           <span className="text-sm text-brand-gray-500">
-                            {place.categoria}
+                            {limitarCaracteres(place.categoria, 20)}
                           </span>
                         </div>
                       </div>
