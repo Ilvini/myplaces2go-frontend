@@ -111,7 +111,7 @@ const Login: NextPage = () => {
               )}
             </button>
             <Link href="/register">
-              <button className="underline drop-shadow-lg backdrop-blur-md text-white text-2xl text-center mt-2 py-5 font-normal">
+              <button className="underline drop-shadow-lg backdrop-blur-md rounded-lg w-full text-white text-2xl text-center mt-2 py-5 font-normal">
                 Criar uma conta
               </button>
             </Link>

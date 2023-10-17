@@ -28,10 +28,6 @@ interface ITypes {
   message: string
 }
 const AddInformation: NextPage = () => {
-  const [currentPosition, setCurrentPosition] = React.useState({
-    latitude: 0,
-    longitude: 0,
-  })
   const { id } = useRouter().query
   const {
     register,
@@ -41,29 +37,6 @@ const AddInformation: NextPage = () => {
   } = useForm<FormProps>()
 
   const router = useRouter()
-
-  useEffect(() => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position: GeolocationPosition) => {
-          setCurrentPosition({
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude,
-          })
-        },
-        (error: GeolocationPositionError) => {
-          console.log(locationError(error))
-          toast.error(locationError(error) as string, {
-            duration: 5000,
-          })
-        }
-      )
-    } else {
-      toast.error('Seu dispositivo não suporta geolocalização', {
-        duration: 5000,
-      })
-    }
-  }, [])
 
   const { data: types } = useFetch<ITypes>('/tipos-informacoes-adicionais')
   console.log(types)

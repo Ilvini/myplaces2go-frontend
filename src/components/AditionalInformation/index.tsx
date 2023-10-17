@@ -38,17 +38,17 @@ export const AditionalInformation = ({ data, title, keyName }) => {
       {data?.informacoes_adicionais &&
         data?.informacoes_adicionais.length !== 0 && (
           <div className="border-b  py-4 ">
-            <h4 className="text-2xl  text-brand-gray-600 my-2 inline font-normal">
+            <h4 className="text-2xl  text-brand-green-300 font-bold my-2 inline font-normal">
               {title}
             </h4>
             {data?.informacoes_adicionais[keyName] &&
               data?.informacoes_adicionais[keyName].map((item, index) => {
                 return (
-                  <>
+                  <div key={index} className="">
                     <h4 className="my-2 text-xl">
                       {item.titulo}
                       <button
-                        className="ml-3 border border-brand-gray-400 px-4 py-1  text-brand-gray-900"
+                        className="ml-3 border border-brand-gray-400 px-2 py-1 text-sm rounded-lg  text-brand-gray-900"
                         onClick={() =>
                           TextTooSpeech(`${item.titulo}. ${item.descricao}`)
                         }
@@ -64,7 +64,7 @@ export const AditionalInformation = ({ data, title, keyName }) => {
                     <p className="text-justify text-brand-gray-500">
                       {item.descricao}
                     </p>
-                  </>
+                  </div>
                 )
               })}
           </div>

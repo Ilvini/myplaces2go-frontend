@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import GoogleMaps from '../GoogleMaps'
 import { GoogleMapsPlaceLocation } from '../GoogleMapsPlaceLocation'
 import { Icon } from '@iconify/react'
 import Link from 'next/link'
 import locationError from '../../helpers/handlerErrorGeoLocation'
 import { AditionalInformation } from '../AditionalInformation'
+import toast from 'react-hot-toast'
 export const PlaceDetailsInformation = ({ data }) => {
   /*  function hasSpeechSynthesis() {
     if ('speechSynthesis' in window) {
@@ -13,6 +14,32 @@ export const PlaceDetailsInformation = ({ data }) => {
       setHasSpeech(false)
     }
   } */
+  const [currentPosition, setCurrentPosition] = React.useState({
+    latitude: 0,
+    longitude: 0,
+  })
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position: GeolocationPosition) => {
+          setCurrentPosition({
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+          })
+        },
+        (error: GeolocationPositionError) => {
+          console.log(locationError(error))
+          toast.error(locationError(error) as string, {
+            duration: 5000,
+          })
+        }
+      )
+    } else {
+      toast.error('Seu dispositivo não suporta geolocalização', {
+        duration: 5000,
+      })
+    }
+  }, [])
   console.log(data)
 
   return (
@@ -56,7 +83,7 @@ export const PlaceDetailsInformation = ({ data }) => {
       <a
         target="_blank"
         rel="noreferrer" //,
-        href="https://www.google.com/maps/dir/-22.93998631675025,+-122.35135224108917/47.61161171741843,+-122.3417821197974/@47.6146062,-122.3564563,15z/data=!3m1!4b1!4m9!4m8!1m3!2m2!1d-122.3513522!2d47.6174266!1m3!2m2!1d-122.3417821!2d47.6116117?entry=ttu"
+        href={`https://www.google.com/maps/dir/?api=1&origin=${currentPosition.latitude},${currentPosition.longitude}&destination=${data?.results.lat},${data?.results.lon}&entry=ttu`}
         className=""
       >
         <button className="bg-brand-yellow-300 rounded-lg p-3 mt-3 w-full text-center ">
@@ -64,13 +91,23 @@ export const PlaceDetailsInformation = ({ data }) => {
         </button>
       </a>
       {data?.results.informacoes_adicionais && (
-        <div className=" py-5">
-          <AditionalInformation
-            data={data?.results}
-            title={'Curiosidades'}
-            keyName="Curiosidade"
-          />
-          <AditionalInformation
+        <div className="">
+          {
+            // pegar as chaves do objecto
+            Object.keys(data?.results?.informacoes_adicionais).map(
+              (key, index) => {
+                return (
+                  <AditionalInformation
+                    key={key + index}
+                    data={data?.results}
+                    title={key}
+                    keyName={key}
+                  />
+                )
+              }
+            )
+          }
+          {/*    <AditionalInformation
             data={data?.results}
             title={'Dicas'}
             keyName="Dica"
@@ -84,7 +121,7 @@ export const PlaceDetailsInformation = ({ data }) => {
             data={data?.results}
             title={'Historias'}
             keyName="Historia"
-          />
+          /> */}
         </div>
       )}
       <button className="bg-brand-yellow-300 rounded-lg p-3 mt-3 w-full text-center ">
