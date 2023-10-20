@@ -244,12 +244,17 @@ const Home: NextPage = () => {
                         key={place.uuid}
                         lat={place.lat}
                         lng={place.lon}
-                        className="flex flex-col justify-center items-center relative"
+                        className="relative -translate-x-2 -translate-y-8"
                       >
+                        <Icon
+                          icon="fontisto:map-marker"
+                          color="red"
+                          fontSize={30}
+                        />
                         <img
                           src={place.icone}
                           alt=""
-                          className="aspect-square rounded-lg bg-brand-green-300 w-10"
+                          className="aspect-square w-5 absolute top-[2px] left-[3px]"
                         />
                       </div>
                     )

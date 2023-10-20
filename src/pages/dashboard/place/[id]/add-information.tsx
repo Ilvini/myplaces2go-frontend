@@ -185,7 +185,7 @@ const AddInformation: NextPage = () => {
               className="bg-brand-yellow-300 rounded-lg py-5  w-full text-center "
             >
               {!isSubmitting ? (
-                '  Enviar Informação'
+                '  Enviar'
               ) : (
                 <Icon icon="mingcute:loading-3-fill" />
               )}

@@ -51,7 +51,7 @@ export const PlaceDetailsInformation = ({ data }) => {
               Horário de Funcionamento
             </h4>
             {data?.results?.aberto && (
-              <span className="bg-brand-green-400 text-white text-sm font-bold px-3 py-1 rounded-md mb-1">
+              <span className="bg-brand-green-400 ml-2 text-white text-sm font-bold px-3 py-1 rounded-md mb-1">
                 ABERTO
               </span>
             )}
