@@ -34,7 +34,7 @@ const Home: NextPage = () => {
     latitude: 0,
     longitude: 0,
   })
-
+  const apiKey = 'AIzaSyAXVy2ejGB5cOb_FPd0J2mhxaMjJ4It6JA'
   const [places, setPlaces] = React.useState<IPlaces>()
   const router = useRouter()
 
@@ -55,7 +55,7 @@ const Home: NextPage = () => {
   async function getPlaces(lat: number, lon: number) {
     try {
       const response = await api.get(
-        `/pontos-turisticos?lat=${lat}&lon=${lon}&raio=14.28&categorias=10000,13000,14000,16000,18000,19000`
+        `/pontos-turisticos?lat=${lat}&lon=${lon}&raio=14.28`
       )
       setPlaces(response.data)
     } catch (erro: any) {
@@ -63,25 +63,45 @@ const Home: NextPage = () => {
     }
   }
 
-  console.log(places)
+  console.log()
 
   useEffect(() => {
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position: GeolocationPosition) => {
-          setCurrentPosition({
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude,
-          })
-          getPlaces(position.coords.latitude, position.coords.longitude)
-        },
-        (error: GeolocationPositionError) => {
-          console.log(locationError(error))
-          toast.error(locationError(error) as string, {
-            duration: 5000,
-          })
+      navigator.permissions.query({ name: 'geolocation' }).then((result) => {
+        if (result.state === 'granted') {
+          navigator.geolocation.getCurrentPosition(
+            (position: GeolocationPosition) => {
+              setCurrentPosition({
+                latitude: position.coords.latitude,
+                longitude: position.coords.longitude,
+              })
+              getPlaces(position.coords.latitude, position.coords.longitude)
+            },
+            (error: GeolocationPositionError) => {
+              console.log(locationError(error))
+              toast.error(locationError(error) as string, {
+                duration: 5000,
+              })
+            }
+          )
+        } else if (result.state === 'prompt') {
+          navigator.geolocation.getCurrentPosition(
+            (position: GeolocationPosition) => {
+              setCurrentPosition({
+                latitude: position.coords.latitude,
+                longitude: position.coords.longitude,
+              })
+              getPlaces(position.coords.latitude, position.coords.longitude)
+            },
+            (error: GeolocationPositionError) => {
+              console.log(locationError(error))
+              toast.error(locationError(error) as string, {
+                duration: 5000,
+              })
+            }
+          )
         }
-      )
+      })
     } else {
       toast.error('Seu dispositivo não suporta geolocalização', {
         duration: 5000,
@@ -189,43 +209,53 @@ const Home: NextPage = () => {
       </section>
       <section className="mb-[72px]">
         {typeof navigator !== 'undefined' && navigator?.geolocation ? (
-          <div className="aspect-square rounded-lg" style={{ width: '100%' }}>
+          <div
+            className="aspect-square rounded-lg relative"
+            style={{ width: '100%' }}
+          >
             {places?.results.length ? (
-              <GoogleMapReact
-                bootstrapURLKeys={{
-                  key: 'AIzaSyAXVy2ejGB5cOb_FPd0J2mhxaMjJ4It6JA',
-                }}
-                yesIWantToUseGoogleMapApiInternals
-                onGoogleApiLoaded={({ map, maps }) =>
-                  handleApiLoaded(map, maps)
-                }
-                defaultCenter={defaultProps.center}
-                defaultZoom={defaultProps.zoom}
-                options={{
-                  styles: defaultProps.styles,
-                }}
-              >
-                <CurrentLocationMarker
-                  lat={currentPosition.latitude}
-                  lng={currentPosition.longitude}
-                />
-                {places?.results?.map((place) => {
-                  return (
-                    <div
-                      key={place.uuid}
-                      lat={place.lat}
-                      lng={place.lon}
-                      className="flex flex-col justify-center items-center relative"
-                    >
-                      <img
-                        src={place.icone}
-                        alt=""
-                        className="aspect-square rounded-lg bg-brand-green-300 w-10"
-                      />
-                    </div>
-                  )
-                })}
-              </GoogleMapReact>
+              <>
+                <Link href="/info-city">
+                  <button className=" drop-shadow-lg bg-white flex items-center px-4 py-2 text-brand-gray-900 font-normal absolute left-3 top-3 z-30 rounded-full">
+                    <Icon icon="mdi:city" className="mr-2" /> Rio de Janeiro
+                  </button>
+                </Link>
+                <GoogleMapReact
+                  bootstrapURLKeys={{
+                    key: 'AIzaSyAXVy2ejGB5cOb_FPd0J2mhxaMjJ4It6JA',
+                  }}
+                  yesIWantToUseGoogleMapApiInternals
+                  onGoogleApiLoaded={({ map, maps }) =>
+                    handleApiLoaded(map, maps)
+                  }
+                  defaultCenter={defaultProps.center}
+                  defaultZoom={defaultProps.zoom}
+                  options={{
+                    styles: defaultProps.styles,
+                  }}
+                >
+                  <CurrentLocationMarker
+                    lat={currentPosition.latitude}
+                    lng={currentPosition.longitude}
+                  />
+                  {places?.results?.map((place) => {
+                    return (
+                      <div
+                        key={place.uuid}
+                        lat={place.lat}
+                        lng={place.lon}
+                        className="flex flex-col justify-center items-center relative"
+                      >
+                        <img
+                          src={place.icone}
+                          alt=""
+                          className="aspect-square rounded-lg bg-brand-green-300 w-10"
+                        />
+                      </div>
+                    )
+                  })}
+                </GoogleMapReact>
+              </>
             ) : (
               <div
                 className="aspect-square rounded-lg bg-zinc-300 animate-pulse"

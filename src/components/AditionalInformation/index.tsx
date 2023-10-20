@@ -38,7 +38,7 @@ export const AditionalInformation = ({ data, title, keyName }) => {
       {data?.informacoes_adicionais &&
         data?.informacoes_adicionais.length !== 0 && (
           <div className="border-b  py-4 ">
-            <h4 className="text-2xl  text-brand-green-300 font-bold my-2 inline font-normal">
+            <h4 className="text-2xl  text-brand-green-300 font-bold my-2 inline ">
               {title}
             </h4>
             {data?.informacoes_adicionais[keyName] &&

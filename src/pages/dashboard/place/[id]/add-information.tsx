@@ -93,9 +93,10 @@ const AddInformation: NextPage = () => {
         </nav>
       </header>
       <section className="mx-4 my-4">
+        <h2 className="text-2xl text-brand-gray-600">Adicionar Informação</h2>
         <form
           action=""
-          className="mt-10 flex justify-between flex-col  "
+          className="mt-4 flex justify-between flex-col  "
           onSubmit={handleSubmit(handleAddCuriosity)}
         >
           <div>

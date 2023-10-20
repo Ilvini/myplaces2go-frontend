@@ -72,7 +72,7 @@ export const PlaceDetailsInformation = ({ data }) => {
 
       {typeof data?.results.lat === 'number' &&
         typeof data?.results.lon === 'number' && (
-          <div className="aspect-square w-full h-full">
+          <div className=" w-full h-full">
             <h4 className="text-2xl mt-2 text-brand-gray-600">Localização</h4>
             <GoogleMapsPlaceLocation
               lat={data.results.lat}
@@ -92,21 +92,18 @@ export const PlaceDetailsInformation = ({ data }) => {
       </a>
       {data?.results.informacoes_adicionais && (
         <div className="">
-          {
-            // pegar as chaves do objecto
-            Object.keys(data?.results?.informacoes_adicionais).map(
-              (key, index) => {
-                return (
-                  <AditionalInformation
-                    key={key + index}
-                    data={data?.results}
-                    title={key}
-                    keyName={key}
-                  />
-                )
-              }
-            )
-          }
+          {Object.keys(data?.results?.informacoes_adicionais).map(
+            (key, index) => {
+              return (
+                <AditionalInformation
+                  key={key + index}
+                  data={data?.results}
+                  title={key}
+                  keyName={key}
+                />
+              )
+            }
+          )}
           {/*    <AditionalInformation
             data={data?.results}
             title={'Dicas'}
@@ -124,7 +121,7 @@ export const PlaceDetailsInformation = ({ data }) => {
           /> */}
         </div>
       )}
-      <button className="bg-brand-yellow-300 rounded-lg p-3 mt-3 w-full text-center ">
+      <button className="border-brand-yellow-300 border-2 bg-white rounded-lg p-3 mt-3 w-full text-center ">
         Encontrar Guia Turístico
       </button>
       <Link href={`/dashboard/place/${data?.results.uuid}/add-information`}>
