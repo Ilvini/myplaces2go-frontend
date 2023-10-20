@@ -134,7 +134,9 @@ const PlaceDetails: NextPage = () => {
               <div className="flex  flex-col mt-1 w-full">
                 <div className="flex">
                   <Ratting size={24} count={place?.results?.avaliacao_media} />{' '}
-                  {!place?.results.avaliacao_media && <p>Sem Avaliações</p>}
+                  {!place?.results.avaliacao_media && (
+                    <p className="text-sm">Sem Avaliações</p>
+                  )}
                 </div>
                 {place?.results.nome ? (
                   <h3 className="text-2xl ">{place?.results.nome}</h3>
