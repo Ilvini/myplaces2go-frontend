@@ -29,7 +29,7 @@ export const GoogleMapsPlaceLocation = ({
         lat: lat,
         lng: lon,
       },
-      zoom: 11,
+      zoom: 16,
     })
     maps.event.addListener(map, 'click', function (e: any) {
       console.log(e.latLng.lat())
@@ -47,7 +47,7 @@ export const GoogleMapsPlaceLocation = ({
   }
 
   return (
-    <div className="aspect-square rounded-lg my-2" style={{ width: '100%' }}>
+    <div className="aspect-[10/5] rounded-lg my-2" style={{ width: '100%' }}>
       <GoogleMapReact
         bootstrapURLKeys={{ key: 'AIzaSyAXVy2ejGB5cOb_FPd0J2mhxaMjJ4It6JA' }}
         yesIWantToUseGoogleMapApiInternals

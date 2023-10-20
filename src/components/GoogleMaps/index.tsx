@@ -46,7 +46,7 @@ const GoogleMaps = ({ lat, lon }: PropsGoogleMaps) => {
   }
 
   return (
-    <div className="aspect-square rounded-lg" style={{ width: '100%' }}>
+    <div className=" rounded-lg" style={{ width: '100%' }}>
       <GoogleMapReact
         bootstrapURLKeys={{ key: 'AIzaSyAXVy2ejGB5cOb_FPd0J2mhxaMjJ4It6JA' }}
         yesIWantToUseGoogleMapApiInternals

@@ -35,7 +35,7 @@ export default function MyApp({ Component, pageProps }: any) {
   useEffect(() => {
     const script = document.createElement('script')
     script.src = 'https://cdn.userway.org/widget.js'
-    script.setAttribute('data-account', 'jf8z26q629')
+    script.setAttribute('data-account', 'HENOC7qOsC')
     script.async = true
     document.body.appendChild(script)
     return () => {

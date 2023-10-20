@@ -178,7 +178,7 @@ const Favorite: NextPage = () => {
               className="bg-brand-yellow-300 rounded-lg px-3 py-5 mt-3 w-full text-center "
             >
               {!isSubmitting ? (
-                '  Enviar Curiosidade'
+                '  cadastra-se'
               ) : (
                 <Icon icon="mingcute:loading-3-fill" />
               )}
