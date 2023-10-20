@@ -16,14 +16,16 @@ export default function BottomNavigation() {
       <div className="w-full bg-brand-blue-100">
         <Container>
           <ul className="w-full flex justify-between">
-            <li className="p-4 flex justify-center flex-col items-center">
-              <Icon
-                icon="bx:bxs-home"
-                fontSize={24}
-                className="text-brand-yellow-300"
-              />
-              <p className="text-white"> Início</p>
-            </li>
+            <Link href="/">
+              <li className="p-4 flex justify-center flex-col items-center">
+                <Icon
+                  icon="bx:bxs-home"
+                  fontSize={24}
+                  className="text-brand-yellow-300"
+                />
+                <p className="text-white"> Início</p>
+              </li>
+            </Link>
             <Link href={'/dashboard/favorite'}>
               <li className="p-4 flex justify-center flex-col items-center">
                 <Icon
@@ -35,15 +37,17 @@ export default function BottomNavigation() {
                 <p className="text-white"> Favoritos</p>
               </li>
             </Link>
-            <li className="p-4 flex justify-center flex-col items-center">
-              <Icon
-                icon="bx:bxs-user"
-                fontSize={24}
-                className="text-brand-yellow-300"
-              />
+            <Link href="/profile">
+              <li className="p-4 flex justify-center flex-col items-center">
+                <Icon
+                  icon="bx:bxs-user"
+                  fontSize={24}
+                  className="text-brand-yellow-300"
+                />
 
-              <p className="text-white"> Perfil</p>
-            </li>
+                <p className="text-white"> Perfil</p>
+              </li>
+            </Link>
           </ul>
         </Container>
       </div>
