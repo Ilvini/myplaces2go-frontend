@@ -13,11 +13,13 @@ import BottomNavigation from '../../../../components/Partials/BottomNavigation'
 import GoogleMaps from '../../../../components/GoogleMaps'
 import { Pagination } from 'swiper'
 import Link from 'next/link'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { PlaceDetailsComments } from '../../../../components/Sections/PlaceDetailsComments'
 import { PlaceDetailsInformation } from '../../../../components/Sections/PlaceDetailsInformation'
 import { useFetch } from '../../../../services/useFetch'
 import { IPlaces } from '../../../../contracts/places'
+import { api } from '../../../../services/axios'
+import Cookies from 'js-cookie'
 interface IComments {
   results: {
     id: number
@@ -28,7 +30,7 @@ interface IComments {
 
 const PlaceDetails: NextPage = () => {
   const { id } = useRouter().query
-
+  const [hasFavorite, setHasFavorite] = useState<boolean>(true)
   const [currentTab, setCurrentTab] = React.useState<
     'informacoes' | 'avaliacoes' | 'mais_fotos'
   >('informacoes')
@@ -45,24 +47,22 @@ const PlaceDetails: NextPage = () => {
   )
 
   const { data: avaliacoes } = useFetch(`/pontos-turisticos/${id}/avaliacoes`)
-
-  function handleAddOnFavorites(place: any) {
+  useEffect(() => {
+    setHasFavorite(place?.results.favorito)
+  }, [])
+  async function handleAddOnFavorites(place: any) {
     console.log(place.results)
     if (!place.results) return toast.error('Erro ao adicionar aos favoritos')
-    //adicionar no localstorage
-    const favorites = localStorage.getItem('@myplace2go/favorites')
-    const favoritesArray = favorites ? JSON.parse(favorites) : []
-    const hasPlace = favoritesArray.some(
-      (favorite: any) => favorite.uuid === place.results.uuid
-    )
-    if (hasPlace) return toast.error('Já está nos favoritos')
-    favoritesArray.push(place.results)
-    localStorage.setItem(
-      '@myplace2go/favorites',
-      JSON.stringify(favoritesArray)
-    )
 
-    return toast.success('Adicionado aos favoritos')
+    const response = await api.patch(
+      `/pontos-turisticos/${place.results.uuid}/favoritar`,
+      {
+        headers: {
+          Authorization: `Bearer ${Cookies.get('token')}`,
+        },
+      }
+    )
+    setHasFavorite((prev) => !prev)
   }
 
   const Tab = {
@@ -153,19 +153,40 @@ const PlaceDetails: NextPage = () => {
                   )}
                 </div>
               </div>
-              <button
-                className="flex items-center justify-center flex-col p-3 border mt-4 rounded-md"
-                onClick={() => handleAddOnFavorites(place)}
-              >
-                <Icon
-                  icon="iconamoon:heart-fill"
-                  fontSize={32}
-                  className="text-brand-yellow-300"
-                />
-                <p className="text-brand-gray-900 font-normal mt-1 text-center">
-                  Adicionar aos Favoritos
-                </p>
-              </button>
+              {hasFavorite ? (
+                <button
+                  className="flex w-44 items-center justify-center flex-col p-3 border mt-4 rounded-md"
+                  onClick={() => handleAddOnFavorites(place)}
+                >
+                  <Icon
+                    icon="gg:check-o"
+                    fontSize={24}
+                    className="text-brand-green-400"
+                  />
+                  <p className="text-brand-gray-900 font-normal mt-1 text-center">
+                    Favorito
+                  </p>
+                </button>
+              ) : (
+                <button
+                  className="flex w-44 items-center justify-center flex-col p-3 border mt-4 rounded-md"
+                  onClick={() => handleAddOnFavorites(place)}
+                >
+                  {/*  <Icon
+                    icon="mdi:remove-bold"
+                    fontSize={24}
+                    className="text-brand-red-200"
+                  /> */}
+                  <Icon
+                    icon="iconamoon:heart-fill"
+                    fontSize={24}
+                    className="text-brand-yellow-300"
+                  />
+                  <p className="text-brand-gray-900 font-normal mt-1 text-center">
+                    Adicionar aos favoritos
+                  </p>
+                </button>
+              )}
             </div>
           </div>
         </div>

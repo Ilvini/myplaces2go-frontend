@@ -10,21 +10,31 @@ import BottomNavigation from '../components/Partials/BottomNavigation'
 import Link from 'next/link'
 import React, { useEffect } from 'react'
 import { useFetch } from '../services/useFetch'
+import Cookies from 'js-cookie'
 
-const Favorite: NextPage = () => {
-  const [favorites, setFavorites] = React.useState<any[]>([])
+const Profile: NextPage = () => {
+  const router = useRouter()
+
+  const { data: me } = useFetch('/cliente/me', Cookies.get('token'))
 
   useEffect(() => {
-    if (!window?.localStorage.getItem('@myplace2go/favorites')) {
-      window?.localStorage.setItem('@myplace2go/favorites', JSON.stringify([]))
-    } else {
-      setFavorites(
-        JSON.parse(
-          window?.localStorage.getItem('@myplace2go/favorites') || '[]'
-        )
-      )
-    }
+    userIsLogged()
   }, [])
+
+  function userIsLogged() {
+    const token = Cookies.get('token')
+    if (!token) return router.push('/login')
+  }
+
+  function mphone(v: string) {
+    v = v.replace(/\D/g, '')
+    v = v.substring(0, 11)
+    v = v.replace(/^(\d{2})(\d)/g, '($1) $2')
+    v = v.replace(/(\d)(\d{4})$/, '$1-$2')
+    return v
+  }
+
+  console.log(me)
 
   return (
     <main className="relative pb-20">
@@ -54,7 +64,7 @@ const Favorite: NextPage = () => {
             className="rounded-full w-16 h-16"
           />
           <div className="flex items-start justify-between flex-col my-1 ml-2">
-            <p className="text-xl font-normal">Arthur Nogueira</p>
+            <p className="text-xl font-normal uppercase">{me?.results.nome}</p>
             <p className="text-brand-green-300">0 Pontos </p>
           </div>
         </div>
@@ -62,13 +72,13 @@ const Favorite: NextPage = () => {
           <tr className={`w-full ${'even:bg-gray-50 odd:white'}`}>
             <td className="text-brand-gray-500">Email</td>
             <td className="text-brand-gray-500 float-right">
-              felipesanto@gmail.com
+              {me?.results.email}
             </td>
           </tr>
           <tr className={`w-full ${'even:bg-gray-50 odd:white'}`}>
-            <td className="text-brand-gray-500">Telefone</td>
+            <td className="text-brand-gray-500">Celular</td>
             <td className="text-brand-gray-500 float-right">
-              (21) 9 8957-8268
+              {me?.results.celular && mphone(me?.results.celular)}
             </td>
           </tr>
         </table>
@@ -91,5 +101,5 @@ const Favorite: NextPage = () => {
   )
 }
 
-export default Favorite
+export default Profile
 
