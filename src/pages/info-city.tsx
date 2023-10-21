@@ -7,10 +7,17 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 import BottomNavigation from '../components/Partials/BottomNavigation'
 import Link from 'next/link'
 import React, { useEffect } from 'react'
+import { useFetch } from '../services/useFetch'
+import Cookies from 'js-cookie'
 
 const Favorite: NextPage = () => {
   const [favorites, setFavorites] = React.useState<any[]>([])
 
+  const { data: infoCity } = useFetch(
+    '/guias?estado=PA&cidade=belém',
+    Cookies.get('token')
+  )
+  console.log(infoCity)
   useEffect(() => {
     if (!window?.localStorage.getItem('@myplace2go/favorites')) {
       window?.localStorage.setItem('@myplace2go/favorites', JSON.stringify([]))

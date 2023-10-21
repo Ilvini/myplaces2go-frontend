@@ -216,8 +216,16 @@ const Home: NextPage = () => {
             {places?.results.length ? (
               <>
                 <Link href="/info-city">
-                  <button className=" drop-shadow-lg bg-white flex items-center px-4 py-2 text-brand-gray-900 font-normal absolute left-3 top-3 z-30 rounded-full">
+                  <button className="text-sm drop-shadow-lg bg-white flex items-center px-4 py-2 text-brand-gray-900 font-normal absolute left-2 top-3 z-30 rounded-full">
                     <Icon icon="mdi:city" className="mr-2" /> Rio de Janeiro
+                  </button>
+                  <button className=" text-sm drop-shadow-lg bg-white flex items-center px-4 py-2 text-brand-gray-900 font-normal absolute left-40 top-3 z-30 rounded-full">
+                    <Icon icon="solar:user-bold" className="mr-2" />
+                    Guias
+                  </button>
+                  <button className=" text-sm drop-shadow-lg bg-white flex items-center px-4 py-2 text-brand-gray-900 font-normal absolute right-12 top-3 z-30 rounded-full">
+                    <Icon icon="solar:user-bold" className="mr-2" />
+                    Eventos
                   </button>
                 </Link>
                 <GoogleMapReact
