@@ -121,9 +121,9 @@ export const PlaceDetailsInformation = ({ data }) => {
           /> */}
         </div>
       )}
-      <button className="border-brand-yellow-300 border-2 bg-white rounded-lg p-3 mt-3 w-full text-center ">
+      {/*   <button className="border-brand-yellow-300 border-2 bg-white rounded-lg p-3 mt-3 w-full text-center ">
         Encontrar Guia Turístico
-      </button>
+      </button> */}
       <Link href={`/dashboard/place/${data?.results.uuid}/add-information`}>
         <button className="border-brand-yellow-300 border-2 bg-white rounded-lg p-3 mt-3 w-full text-center ">
           Adicionar Informações

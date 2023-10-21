@@ -60,10 +60,10 @@ const Favorite: NextPage = () => {
                     />
                   </div>
                   <div className="ml-4 w-3/4">
-                    <h4 className="text-2xl text-brand-gray-600">
+                    <h4 className="text-base text-brand-gray-600 font-bold">
                       {place.nome}
                     </h4>
-                    <p className="text-base text-brand-gray-600">
+                    <p className="text-sm text-brand-gray-600">
                       {place.endereco}
                     </p>
                   </div>
