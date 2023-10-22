@@ -31,18 +31,19 @@ interface IResponse {
 }
 
 const Guides: NextPage = () => {
-  /* useEffect(() => {
-    if (!window) {
-    } else {
-      const city = window.localStorage.getItem('city')
-      const state = window.localStorage.getItem('state')
-    }
-  }, []) */
+  const router = useRouter()
+  useEffect(() => {
+    userIsLogged()
+  }, [])
 
-  /* if (typeof window !== 'undefined') {
-    const city = window.localStorage.getItem('city')
-    const state = window.localStorage.getItem('state') */
-  const { data: guide } = useFetch<IResponse>(`/guias?estado=PA&cidade=Belém`)
+  function userIsLogged() {
+    const token = Cookies.get('token')
+    if (!token) return router.push('/login')
+  }
+  const { data: guide } = useFetch<IResponse>(
+    `/guias?estado=PA&cidade=Belém`,
+    Cookies.get('token')
+  )
 
   /*  } */
 

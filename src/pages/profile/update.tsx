@@ -6,16 +6,16 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/css'
 import 'swiper/css/pagination'
 
-import BottomNavigation from '../components/Partials/BottomNavigation'
+import BottomNavigation from '../../components/Partials/BottomNavigation'
 import Link from 'next/link'
 import React, { useEffect } from 'react'
-import { useFetch } from '../services/useFetch'
+import { useFetch } from '../../services/useFetch'
 import { useForm } from 'react-hook-form'
-import { errorHandler } from '../services/errorHandler'
-import { LabelError } from '../components/Forms/components/LabelError'
-import { api } from '../services/axios'
+import { errorHandler } from '../../services/errorHandler'
+import { LabelError } from '../../components/Forms/components/LabelError'
+import { api } from '../../services/axios'
 import toast from 'react-hot-toast'
-import { HeaderNavigation } from '../components/HeaderNavigation'
+import { HeaderNavigation } from '../../components/HeaderNavigation'
 interface FormProps {
   nome: string
   email: string
@@ -24,7 +24,7 @@ interface FormProps {
   password_confirmation: string
 }
 
-const Register: NextPage = () => {
+const ProfileUpdate: NextPage = () => {
   const router = useRouter()
   const {
     register,
@@ -177,5 +177,5 @@ const Register: NextPage = () => {
   )
 }
 
-export default Register
+export default ProfileUpdate
 
