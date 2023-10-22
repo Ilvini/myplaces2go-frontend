@@ -17,6 +17,8 @@ export interface IPlaces {
     informacoes_adicionais: InformacoesAdicionais
     horario_funcionamento: any[]
     aberto: boolean
+    favorito: boolean
+    avaliado: boolean
   }
 }
 

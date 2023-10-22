@@ -182,12 +182,16 @@ const AddInformation: NextPage = () => {
           <div className=" w-full flex justify-center flex-col ">
             <button
               type="submit"
-              className="bg-brand-yellow-300 rounded-lg py-5  w-full text-center "
+              className="bg-brand-yellow-300 flex items-center justify-center rounded-lg py-5  w-full text-center "
             >
               {!isSubmitting ? (
                 '  Enviar'
               ) : (
-                <Icon icon="mingcute:loading-3-fill" />
+                <Icon
+                  color="white"
+                  fontSize={24}
+                  icon="mingcute:loading-3-fill"
+                />
               )}
             </button>
           </div>

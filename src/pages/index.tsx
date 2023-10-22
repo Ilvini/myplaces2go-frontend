@@ -18,6 +18,7 @@ import { errorHandler } from '../services/errorHandler'
 import { api } from '../services/axios'
 import { CardsPlaceSkeleton } from '../components/Partials/Skeleton/CardsPlaceSkeleton'
 import locationError from '../helpers/handlerErrorGeoLocation'
+import Cookies from 'js-cookie'
 interface IPlaces {
   results: {
     uuid: string
@@ -65,6 +66,32 @@ const Home: NextPage = () => {
 
   console.log()
 
+  async function getInfoAboutLatAndLong() {
+    try {
+      const response = await fetch(
+        `https://nominatim.openstreetmap.org/reverse?lat=${currentPosition.latitude}&lon=${currentPosition.longitude}&format=json`,
+        {
+          headers: {
+            'User-Agent': 'My Place 2 Go',
+          },
+        }
+      )
+      const data = await response.json()
+      localStorage.setItem('city', data.address.city)
+      localStorage.setItem(
+        'state',
+        data.address['ISO3166-2-lvl4'].split('-')[1]
+      )
+      console.log(
+        data.address.city,
+        data.address['ISO3166-2-lvl4'].split('-')[1]
+      )
+      console.log(data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   useEffect(() => {
     if (navigator.geolocation) {
       navigator.permissions.query({ name: 'geolocation' }).then((result) => {
@@ -107,6 +134,7 @@ const Home: NextPage = () => {
         duration: 5000,
       })
     }
+    getInfoAboutLatAndLong()
   }, [])
 
   const defaultProps = {
@@ -219,13 +247,17 @@ const Home: NextPage = () => {
                   <button className="text-sm drop-shadow-lg bg-white flex items-center px-4 py-2 text-brand-gray-900 font-normal absolute left-2 top-3 z-30 rounded-full">
                     <Icon icon="mdi:city" className="mr-2" /> Rio de Janeiro
                   </button>
-                  <button className=" text-sm drop-shadow-lg bg-white flex items-center px-4 py-2 text-brand-gray-900 font-normal absolute left-40 top-3 z-30 rounded-full">
-                    <Icon icon="solar:user-bold" className="mr-2" />
-                    Guias
-                  </button>
+                </Link>
+                <Link href="/events">
                   <button className=" text-sm drop-shadow-lg bg-white flex items-center px-4 py-2 text-brand-gray-900 font-normal absolute right-12 top-3 z-30 rounded-full">
                     <Icon icon="solar:user-bold" className="mr-2" />
                     Eventos
+                  </button>
+                </Link>
+                <Link href="/guide">
+                  <button className=" text-sm drop-shadow-lg bg-white flex items-center px-4 py-2 text-brand-gray-900 font-normal absolute left-40 top-3 z-30 rounded-full">
+                    <Icon icon="solar:user-bold" className="mr-2" />
+                    Guias
                   </button>
                 </Link>
                 <GoogleMapReact

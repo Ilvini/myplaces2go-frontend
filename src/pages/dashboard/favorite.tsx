@@ -48,7 +48,7 @@ const Favorite: NextPage = () => {
       <section className="mx-4 my-4">
         <h3 className="text-brand-gray-600 text-3xl">Meus Favoritos</h3>
         {favorites ? (
-          favorites.map((place) => {
+          /* favorites.map((place) => {
             return (
               <Link key={place.uuid} href={`/dashboard/place/${place.uuid}`}>
                 <div className="flex mt-5">
@@ -63,16 +63,21 @@ const Favorite: NextPage = () => {
                     <h4 className="text-base text-brand-gray-600 font-bold">
                       {place.nome}
                     </h4>
-                    <p className="text-sm text-brand-gray-600">
+                    <p className="text-base text-brand-gray-600">
                       {place.endereco}
                     </p>
                   </div>
                 </div>
               </Link>
             )
-          })
+          }) */
+          <h2 className=" mt-10 text-base text-brand-gray-600">
+            Nenhum lugar encontrado
+          </h2>
         ) : (
-          <h2>Nenhum favorito encontrado</h2>
+          <h2 className=" mt-10 text-base text-brand-gray-600">
+            Nenhum lugar encontrado
+          </h2>
         )}
       </section>
 

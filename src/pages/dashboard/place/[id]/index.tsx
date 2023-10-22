@@ -30,7 +30,7 @@ interface IComments {
 
 const PlaceDetails: NextPage = () => {
   const { id } = useRouter().query
-  const [hasFavorite, setHasFavorite] = useState<boolean>(true)
+  const [hasFavorite, setHasFavorite] = useState<boolean>(false)
   const [currentTab, setCurrentTab] = React.useState<
     'informacoes' | 'avaliacoes' | 'mais_fotos'
   >('informacoes')
@@ -49,7 +49,7 @@ const PlaceDetails: NextPage = () => {
   const { data: avaliacoes } = useFetch(`/pontos-turisticos/${id}/avaliacoes`)
   useEffect(() => {
     setHasFavorite(place?.results.favorito)
-  }, [])
+  }, [hasFavorite])
   async function handleAddOnFavorites(place: any) {
     console.log(place.results)
     if (!place.results) return toast.error('Erro ao adicionar aos favoritos')

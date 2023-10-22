@@ -15,6 +15,7 @@ import { errorHandler } from '../services/errorHandler'
 import { LabelError } from '../components/Forms/components/LabelError'
 import { api } from '../services/axios'
 import toast from 'react-hot-toast'
+import { HeaderNavigation } from '../components/HeaderNavigation'
 interface FormProps {
   nome: string
   email: string
@@ -57,23 +58,7 @@ const Favorite: NextPage = () => {
   }
   return (
     <main className="relative pb-20">
-      <header className="py-4  shadow-md">
-        <nav className="flex justify-center w-full items-center">
-          <Link href={'/login'}>
-            <button className="w-1/3 mr-14">
-              <Icon
-                icon="icon-park-outline:back-one"
-                color="#528fa7"
-                fontSize={32}
-              />
-            </button>
-          </Link>
-          <div className="w-1/3">
-            <img src="/img/logo.png" alt="logo my place 2 go" />
-          </div>
-          <div className="w-1/3"></div>
-        </nav>
-      </header>
+      <HeaderNavigation backRoute="/login" />
       <section className="mx-4 my-4">
         <form
           action=""
@@ -187,7 +172,7 @@ const Favorite: NextPage = () => {
         </form>
       </section>
 
-      <BottomNavigation />
+      {/*   <BottomNavigation /> */}
     </main>
   )
 }
