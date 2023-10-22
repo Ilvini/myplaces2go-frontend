@@ -69,7 +69,7 @@ const Guides: NextPage = () => {
         <h3 className="text-brand-gray-600 text-xl">Encontrando um guia</h3>
         {guide?.results.map((guide) => {
           return (
-            <div className="flex my-3 border-b ">
+            <div key={guide.n_certificado} className="flex my-3 border-b ">
               <div className=" w-full">
                 <h4 className="text-base text-brand-gray-600 font-bold">
                   {guide.nome}
@@ -89,8 +89,12 @@ const Guides: NextPage = () => {
                 <small>Número de certificado: {guide.n_certificado}</small>
                 <p className="flex flex-wrap">
                   Idiomas:
-                  {guide.idiomas.map((idioma) => {
-                    return <small className="mx-2">{idioma}</small>
+                  {guide.idiomas.map((idioma, index) => {
+                    return (
+                      <small key={index} className="mx-2">
+                        {idioma}
+                      </small>
+                    )
                   })}
                 </p>
               </div>
