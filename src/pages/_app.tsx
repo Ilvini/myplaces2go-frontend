@@ -19,9 +19,9 @@ export default function MyApp({ Component, pageProps }: any) {
       OneSignal.push(function () {
         // @ts-ignore
         OneSignal.init({
-          appId: 'de5d43eb-29a9-46b4-951a-222e3fe700a5',
+          appId: 'c6195a77-af20-488e-9747-574f40c318cc',
           safari_web_id:
-            'web.onesignal.auto.6401d2fc-b951-4213-a02c-03159c046b78',
+            'web.onesignal.auto.c6195a77-af20-488e-9747-574f40c318cc',
           allowLocalhostAsSecureOrigin: true,
         })
       })
