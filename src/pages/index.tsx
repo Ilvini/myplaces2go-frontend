@@ -217,7 +217,7 @@ const Home: NextPage = () => {
                         </h3>
                         <div className=" flex items-center">
                           <span className="text-sm text-brand-gray-500">
-                            {limitarCaracteres(place.categoria, 20)}
+                            {limitarCaracteres(place.categoria, 14)}
                           </span>
                         </div>
                       </div>
@@ -243,23 +243,26 @@ const Home: NextPage = () => {
           >
             {places?.results.length ? (
               <>
-                <Link href="/info-city">
-                  <button className="text-sm drop-shadow-lg bg-white flex items-center px-4 py-2 text-brand-gray-900 font-normal absolute left-2 top-3 z-30 rounded-full">
-                    <Icon icon="mdi:city" className="mr-2" /> Rio de Janeiro
-                  </button>
-                </Link>
-                <Link href="/events">
-                  <button className=" text-sm drop-shadow-lg bg-white flex items-center px-4 py-2 text-brand-gray-900 font-normal absolute right-12 top-3 z-30 rounded-full">
-                    <Icon icon="solar:user-bold" className="mr-2" />
-                    Eventos
-                  </button>
-                </Link>
-                <Link href="/guide">
-                  <button className=" text-sm drop-shadow-lg bg-white flex items-center px-4 py-2 text-brand-gray-900 font-normal absolute left-40 top-3 z-30 rounded-full">
-                    <Icon icon="solar:user-bold" className="mr-2" />
-                    Guias
-                  </button>
-                </Link>
+                <div className="absolute left-2 top-3 flex flex-wrap z-30 space-x-2">
+                  <Link href="/info-city">
+                    <button className="text-sm drop-shadow-lg bg-white flex items-center px-4 py-2 text-brand-gray-900 font-normal  rounded-full">
+                      <Icon icon="mdi:city" className="mr-2" /> Rio de Janeiro
+                    </button>
+                  </Link>
+
+                  <Link href="/guide">
+                    <button className=" text-sm drop-shadow-lg bg-white flex items-center px-4 py-2 text-brand-gray-900 font-normal  rounded-full">
+                      <Icon icon="solar:user-bold" className="mr-2" />
+                      Guias
+                    </button>
+                  </Link>
+                  <Link href="/events">
+                    <button className=" text-sm drop-shadow-lg bg-white flex items-center px-4 py-2 text-brand-gray-900 font-normal  rounded-full">
+                      <Icon icon="solar:user-bold" className="mr-2" />
+                      Eventos
+                    </button>
+                  </Link>
+                </div>
                 <GoogleMapReact
                   bootstrapURLKeys={{
                     key: 'AIzaSyAXVy2ejGB5cOb_FPd0J2mhxaMjJ4It6JA',

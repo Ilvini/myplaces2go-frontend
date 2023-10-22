@@ -24,7 +24,7 @@ interface FormProps {
   password_confirmation: string
 }
 
-const Register: NextPage = () => {
+const ProfileUpdate: NextPage = () => {
   const router = useRouter()
   const {
     register,
@@ -177,5 +177,5 @@ const Register: NextPage = () => {
   )
 }
 
-export default Register
+export default ProfileUpdate
 
