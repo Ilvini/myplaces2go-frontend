@@ -99,10 +99,10 @@ const Login: NextPage = () => {
             </div>
           </div>
 
-          <div className=" w-full flex justify-center flex-col mt-32">
+          <div className=" w-full flex justify-center flex-col mt-24">
             <button
               type="submit"
-              className="rounded-xl flex justify-center py-7 drop-shadow-2xl font-light bg-brand-blue-100 w-full text-3xl text-white"
+              className="rounded-xl flex justify-center py-5   drop-shadow-2xl font-light bg-brand-blue-100 w-full text-3xl text-white"
             >
               {!isSubmitting ? (
                 'Fazer Login'
@@ -118,7 +118,11 @@ const Login: NextPage = () => {
           </div>
         </form>
       </span>
-      <img src="/img/bg-myplace2go.png" alt="" className="w-full h-screen" />
+      <img
+        src="/img/bg-myplace2go.png"
+        alt=""
+        className="w-full min-h-screen h-full"
+      />
     </main>
   )
 }

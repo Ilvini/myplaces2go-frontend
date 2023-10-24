@@ -70,7 +70,6 @@ const PlaceDetails: NextPage = () => {
         }
       )
       setHasFavorite(!hasFavorite)
-      console.log(response.data)
     } catch (err) {
       console.log(err)
       errorHandler(err)
@@ -79,7 +78,7 @@ const PlaceDetails: NextPage = () => {
 
   const Tab = {
     informacoes: <PlaceDetailsInformation data={place} />,
-    avaliacoes: <PlaceDetailsComments data={avaliacoes} />,
+    avaliacoes: <PlaceDetailsComments data={place} />,
     mais_fotos: <div>Mais Fotos</div>,
   }
 

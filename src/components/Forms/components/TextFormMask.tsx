@@ -33,7 +33,7 @@ export function TextFormMask({
         {...register(name, {
           required: { message: 'Campo obrigatório', value: required },
         })}
-        className="input-text"
+        className="w-full py-5 h-20 px-6 text-xl placeholder:text-brand-gray-500 "
         disabled={disabled}
       />
       <LabelError

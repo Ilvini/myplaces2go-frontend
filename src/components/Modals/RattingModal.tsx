@@ -16,16 +16,13 @@ interface FormProps {
 
 export function RattingModal() {
   const { modalState, setModalState, modalData } = rattingModalStore()
-  const [ratingValue, setRatingValue] = useState(0)
-  const [comment, setComment] = useState('')
 
-  const handleRating = (rate: number) => {
-    setRatingValue(rate)
-  }
+  const [comment, setComment] = useState('')
+  const [rating, setRating] = useState(0)
 
   async function handleRatting(e: any) {
     try {
-      if (ratingValue === 0) {
+      if (rating === 0) {
         toast.error('Por favor, avalie o ponto turístico')
         return
       }
@@ -37,15 +34,17 @@ export function RattingModal() {
       const response = await api.post(
         `/pontos-turisticos/${modalData?.results.uuid}/avaliacoes/novo`,
         {
-          estrelas: ratingValue,
+          estrelas: rating,
           comentario: comment,
         }
       )
+      setModalState(false)
     } catch (error) {
       console.log(error)
       errorHandler(error)
     }
   }
+  console.log(modalData)
 
   return (
     <Dialog
@@ -59,14 +58,34 @@ export function RattingModal() {
     >
       <Dialog.Panel className="bg-white p-5 rounded-xl w-full mx-3">
         <Dialog.Title>
-          <h3 className="text-brand-gray-900 ">
-            <strong className="text-bold text-brand-gray-900">Avaliando</strong>
+          <h3 className="text-brand-gray-900 text-xl">
+            <strong className=" text-brand-gray-900">Avaliando</strong>{' '}
             {modalData?.results.nome}
           </h3>
         </Dialog.Title>
 
         <div className="flex justify-center">
-          <Rating
+          {[...Array(5)].map((_, i) => {
+            const ratingValue = i + 1
+            return (
+              <label key={i}>
+                <input
+                  type="radio"
+                  name="rating"
+                  className="hidden"
+                  value={ratingValue}
+                  onClick={() => setRating(ratingValue)}
+                />
+                <Icon
+                  icon="bi:star-fill"
+                  color={ratingValue <= rating ? '#f2c05f' : '#e4e5e9'}
+                  fontSize={44}
+                  className="mx-1"
+                />
+              </label>
+            )
+          })}
+          {/*  <Rating
             transition
             allowFraction={false}
             onClick={handleRating}
@@ -77,7 +96,7 @@ export function RattingModal() {
             fillIcon={
               <Icon icon="bi:star-fill" color="#f2c05f" fontSize={50} />
             }
-          />
+          /> */}
         </div>
         <form action="" className="w-full flex flex-col gap-3">
           <textarea
