@@ -56,6 +56,7 @@ const PlaceDetails: NextPage = () => {
 
     const response = await api.patch(
       `/pontos-turisticos/${place.results.uuid}/favoritar`,
+      null,
       {
         headers: {
           Authorization: `Bearer ${Cookies.get('token')}`,

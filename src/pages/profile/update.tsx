@@ -19,7 +19,7 @@ import { HeaderNavigation } from '../../components/HeaderNavigation'
 interface FormProps {
   nome: string
   email: string
-  celular: string
+  celular: string 
   password: string
   password_confirmation: string
 }
