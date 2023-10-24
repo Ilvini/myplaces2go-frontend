@@ -16,10 +16,11 @@ import { LabelError } from '../../components/Forms/components/LabelError'
 import { api } from '../../services/axios'
 import toast from 'react-hot-toast'
 import { HeaderNavigation } from '../../components/HeaderNavigation'
+import { TextFormMask } from '../../components/Forms/components/TextFormMask'
 interface FormProps {
   nome: string
   email: string
-  celular: string 
+  celular: string
   password: string
   password_confirmation: string
 }
@@ -33,16 +34,14 @@ const ProfileUpdate: NextPage = () => {
     reset,
   } = useForm<FormProps>()
 
-  async function handleRegister(data: FormProps) {
+  async function handleUpdateProfile(data: FormProps) {
     try {
-      const response = await api.post('/cliente/novo', {
+      const response = await api.put('/cliente/alterar', {
         nome: data.nome,
         email: data.email,
         celular: data.celular,
-        password: data.password,
-        password_confirmation: data.password_confirmation,
       })
-      toast.success('Cadastro realizado com sucesso')
+      toast.success('Alteração realizada com sucesso')
       reset({
         nome: '',
         email: '',
@@ -50,7 +49,7 @@ const ProfileUpdate: NextPage = () => {
         password: '',
         password_confirmation: '',
       })
-      router.push('/login')
+      router.push('/profile')
     } catch (error) {
       console.log(error)
       errorHandler(error)
@@ -60,10 +59,11 @@ const ProfileUpdate: NextPage = () => {
     <main className="relative pb-20">
       <HeaderNavigation backRoute="/login" />
       <section className="mx-4 my-4">
+        <h3 className="text-2xl text-brand-gray-600">Alterar perfil</h3>
         <form
           action=""
-          className="mt-10 flex justify-between flex-col  "
-          onSubmit={handleSubmit(handleRegister)}
+          className="mt-6 flex justify-between flex-col  "
+          onSubmit={handleSubmit(handleUpdateProfile)}
         >
           <div>
             <div className="mb-5 ">
@@ -102,57 +102,14 @@ const ProfileUpdate: NextPage = () => {
               />
             </div>
             <div className="mb-5">
-              <input
+              <TextFormMask
+                mask="(99) 99999-9999"
                 placeholder="Celular"
-                type="text"
-                id="celular"
-                style={errors.celular && { border: '1px solid red' }}
-                {...register('celular', {
-                  required: { message: 'Campo obrigatório', value: true },
-                })}
-                className="w-full py-5 h-20 px-6 text-2xl placeholder:text-brand-gray-500 "
+                errors={errors}
+                name={'celular'}
+                register={register}
                 disabled={isSubmitting}
-              />
-              <LabelError
-                msg={errors.celular?.message as string}
-                hasError={errors.celular as any}
-              />
-            </div>
-            <div className="mb-5">
-              <input
-                placeholder="Senha"
-                autoComplete="off"
-                type="password"
-                id="password"
-                style={errors.password && { border: '1px solid red' }}
-                {...register('password', {
-                  required: { message: 'Campo obrigatório', value: true },
-                })}
-                className="w-full py-5 h-20 px-6 text-2xl placeholder:text-brand-gray-500 "
-                disabled={isSubmitting}
-              />
-              <LabelError
-                msg={errors.password?.message as string}
-                hasError={errors.password as any}
-              />
-            </div>
-            <div className="mb-5">
-              <input
-                placeholder="Confirmar Senha"
-                type="password"
-                id="password_confirmation"
-                style={
-                  errors.password_confirmation && { border: '1px solid red' }
-                }
-                {...register('password_confirmation', {
-                  required: { message: 'Campo obrigatório', value: true },
-                })}
-                className="w-full py-5 h-20 px-6 text-2xl placeholder:text-brand-gray-500 "
-                disabled={isSubmitting}
-              />
-              <LabelError
-                msg={errors.password_confirmation?.message as string}
-                hasError={errors.password_confirmation as any}
+                required={true}
               />
             </div>
           </div>
@@ -163,7 +120,7 @@ const ProfileUpdate: NextPage = () => {
               className="bg-brand-yellow-300 rounded-lg px-3 py-5 mt-3 w-full text-center "
             >
               {!isSubmitting ? (
-                '  cadastra-se'
+                'Enviar'
               ) : (
                 <Icon icon="mingcute:loading-3-fill" />
               )}

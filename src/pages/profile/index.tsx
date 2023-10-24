@@ -38,10 +38,12 @@ const Profile: NextPage = () => {
   const languages = [
     { label: 'English', value: '/auto/en' },
     { label: `Português`, value: '/auto/pt' },
+    { label: `Espanhol`, value: '/auto/es' },
   ]
 
   const langChange = (e, m, evt) => {
     evt.preventDefault()
+    console.log(decodeURI(e))
     if (Cookies.get('googtrans')) {
       Cookies.set('googtrans', decodeURI(e))
       setSelected(e)
@@ -57,7 +59,7 @@ const Profile: NextPage = () => {
       {
         pageLanguage: 'pt',
         autoDisplay: false,
-        includedLanguages: 'en,pt',
+        includedLanguages: 'en,pt,es',
         layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
       },
       'google_translate_element'
@@ -145,6 +147,11 @@ const Profile: NextPage = () => {
         <Link href="/add-new-place">
           <button className="border-brand-yellow-300 border   rounded-lg p-3 mt-3 w-full text-center ">
             Sugerir Ponto Turístico
+          </button>
+        </Link>
+        <Link href="/login" onClick={() => Cookies.remove('token')}>
+          <button className="border-brand-yellow-300 border   rounded-lg p-3 mt-3 w-full text-center ">
+            Encerrar Sessão
           </button>
         </Link>
       </section>

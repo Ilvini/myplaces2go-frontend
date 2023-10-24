@@ -20,6 +20,7 @@ import { useFetch } from '../../../../services/useFetch'
 import { IPlaces } from '../../../../contracts/places'
 import { api } from '../../../../services/axios'
 import Cookies from 'js-cookie'
+import { errorHandler } from '../../../../services/errorHandler'
 interface IComments {
   results: {
     id: number
@@ -48,27 +49,36 @@ const PlaceDetails: NextPage = () => {
 
   const { data: avaliacoes } = useFetch(`/pontos-turisticos/${id}/avaliacoes`)
   useEffect(() => {
-    setHasFavorite(place?.results.favorito)
-  }, [hasFavorite])
+    if (place?.results?.favorito) {
+      setHasFavorite(true)
+    } else {
+      setHasFavorite(false)
+    }
+  }, [])
   async function handleAddOnFavorites(place: any) {
-    console.log(place.results)
-    if (!place.results) return toast.error('Erro ao adicionar aos favoritos')
+    try {
+      console.log(place.results)
+      if (!place.results) return toast.error('Erro ao adicionar aos favoritos')
 
-    const response = await api.patch(
-      `/pontos-turisticos/${place.results.uuid}/favoritar`,
-      null,
-      {
-        headers: {
-          Authorization: `Bearer ${Cookies.get('token')}`,
-        },
-      }
-    )
-    setHasFavorite((prev) => !prev)
+      const response = await api.patch(
+        `/pontos-turisticos/${place.results.uuid}/favoritar`,
+        null,
+        {
+          headers: {
+            Authorization: `Bearer ${Cookies.get('token')}`,
+          },
+        }
+      )
+      setHasFavorite(!hasFavorite)
+    } catch (err) {
+      console.log(err)
+      errorHandler(err)
+    }
   }
 
   const Tab = {
     informacoes: <PlaceDetailsInformation data={place} />,
-    avaliacoes: <PlaceDetailsComments data={avaliacoes} />,
+    avaliacoes: <PlaceDetailsComments data={place} />,
     mais_fotos: <div>Mais Fotos</div>,
   }
 
@@ -173,11 +183,6 @@ const PlaceDetails: NextPage = () => {
                   className="flex w-44 items-center justify-center flex-col p-3 border mt-4 rounded-md"
                   onClick={() => handleAddOnFavorites(place)}
                 >
-                  {/*  <Icon
-                    icon="mdi:remove-bold"
-                    fontSize={24}
-                    className="text-brand-red-200"
-                  /> */}
                   <Icon
                     icon="iconamoon:heart-fill"
                     fontSize={24}

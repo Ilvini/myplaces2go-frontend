@@ -92,7 +92,10 @@ const Guides: NextPage = () => {
                   Idiomas:
                   {guide.idiomas.map((idioma, index) => {
                     return (
-                      <small key={index} className="mx-2">
+                      <small
+                        key={index}
+                        className="mx-1 p-[2px] text-sm rounded-md text-brand-gray-900 bg-brand-yellow-300"
+                      >
                         {idioma}
                       </small>
                     )

@@ -16,6 +16,8 @@ import { LabelError } from '../components/Forms/components/LabelError'
 import { api } from '../services/axios'
 import toast from 'react-hot-toast'
 import { HeaderNavigation } from '../components/HeaderNavigation'
+import Cookies from 'js-cookie'
+import { TextFormMask } from '../components/Forms/components/TextFormMask'
 interface FormProps {
   nome: string
   email: string
@@ -32,6 +34,21 @@ const Register: NextPage = () => {
     formState: { errors, isSubmitting },
     reset,
   } = useForm<FormProps>()
+
+  async function handleLoginOnRegister(email: string, password: string) {
+    try {
+      const response = await api.post('/auth/login', {
+        email,
+        password,
+      })
+
+      Cookies.set('token', response.data.results.token)
+      router.push('/')
+    } catch (error) {
+      console.log(error)
+      errorHandler(error)
+    }
+  }
 
   async function handleRegister(data: FormProps) {
     try {
@@ -50,7 +67,8 @@ const Register: NextPage = () => {
         password: '',
         password_confirmation: '',
       })
-      router.push('/login')
+
+      handleLoginOnRegister(data.email, data.password)
     } catch (error) {
       console.log(error)
       errorHandler(error)
@@ -75,7 +93,7 @@ const Register: NextPage = () => {
                 {...register('nome', {
                   required: { message: 'Campo obrigatório', value: true },
                 })}
-                className="w-full py-5 h-20 px-6 text-2xl placeholder:text-brand-gray-500 "
+                className="w-full py-5 h-20 px-6 text-xl placeholder:text-brand-gray-500 "
                 disabled={isSubmitting}
               />
               <LabelError
@@ -93,7 +111,7 @@ const Register: NextPage = () => {
                 {...register('email', {
                   required: { message: 'Campo obrigatório', value: true },
                 })}
-                className="w-full py-5 h-20 px-6 text-2xl placeholder:text-brand-gray-500 "
+                className="w-full py-5 h-20 px-6 text-xl placeholder:text-brand-gray-500 "
                 disabled={isSubmitting}
               />
               <LabelError
@@ -102,7 +120,7 @@ const Register: NextPage = () => {
               />
             </div>
             <div className="mb-5">
-              <input
+              {/*  <input
                 placeholder="Celular"
                 type="text"
                 id="celular"
@@ -110,12 +128,21 @@ const Register: NextPage = () => {
                 {...register('celular', {
                   required: { message: 'Campo obrigatório', value: true },
                 })}
-                className="w-full py-5 h-20 px-6 text-2xl placeholder:text-brand-gray-500 "
+                className="w-full py-5 h-20 px-6 text-xl placeholder:text-brand-gray-500 "
                 disabled={isSubmitting}
               />
               <LabelError
                 msg={errors.celular?.message as string}
                 hasError={errors.celular as any}
+              /> */}
+              <TextFormMask
+                mask="(99) 99999-9999"
+                placeholder="Celular"
+                errors={errors}
+                name={'celular'}
+                register={register}
+                disabled={isSubmitting}
+                required={true}
               />
             </div>
             <div className="mb-5">
@@ -128,13 +155,14 @@ const Register: NextPage = () => {
                 {...register('password', {
                   required: { message: 'Campo obrigatório', value: true },
                 })}
-                className="w-full py-5 h-20 px-6 text-2xl placeholder:text-brand-gray-500 "
+                className="w-full py-5 h-20 px-6 text-xl placeholder:text-brand-gray-500 "
                 disabled={isSubmitting}
               />
               <LabelError
                 msg={errors.password?.message as string}
                 hasError={errors.password as any}
               />
+              <p className="text-brand-gray-500">Mínimo 8 caracteres</p>
             </div>
             <div className="mb-5">
               <input
@@ -147,13 +175,14 @@ const Register: NextPage = () => {
                 {...register('password_confirmation', {
                   required: { message: 'Campo obrigatório', value: true },
                 })}
-                className="w-full py-5 h-20 px-6 text-2xl placeholder:text-brand-gray-500 "
+                className="w-full py-5 h-20 px-6 text-xl placeholder:text-brand-gray-500 "
                 disabled={isSubmitting}
               />
               <LabelError
                 msg={errors.password_confirmation?.message as string}
                 hasError={errors.password_confirmation as any}
               />
+              <p className="text-brand-gray-500">Mínimo 8 caracteres</p>
             </div>
           </div>
 

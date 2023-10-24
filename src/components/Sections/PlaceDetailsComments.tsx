@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { UserComments } from '../Partials/UserComments'
 import { Icon } from '@iconify/react'
 import { useFetch } from '../../services/useFetch'
@@ -7,22 +7,28 @@ import { useRouter } from 'next/router'
 import Cookies from 'js-cookie'
 export const PlaceDetailsComments = ({ data }) => {
   const router = useRouter()
+  console.log(data)
   const { modalState, setModalState, setModalData } = rattingModalStore()
-  function handleFavoritePlace() {
+  function saveModalInfo() {
     if (Cookies.get('token') === undefined) {
       return router.push('/login')
     }
-    console.log(data)
+
     setModalState(true)
     setModalData(data)
   }
+
+  useEffect(() => {
+    setModalData(data)
+  }, [])
   return (
     <section className="mt-3 ">
       {data?.results.avaliacoes && data?.results?.avaliacoes.length !== 0 ? (
-        data.results.avaliacao.map((avaliacao) => {
+        data?.results?.avaliacoes?.map((avaliacao) => {
           return (
             <UserComments
               key={avaliacao.id}
+              star={avaliacao.estrelas}
               image="/img/avatar1.png"
               date={avaliacao.data}
               comment={avaliacao.comentario}
@@ -38,7 +44,7 @@ export const PlaceDetailsComments = ({ data }) => {
       <button
         className="bg-brand-yellow-300 rounded-lg p-3 mt-3 w-full text-center  flex"
         onClick={() => {
-          handleFavoritePlace()
+          saveModalInfo(data)
         }}
       >
         <Icon icon="ep:place" className="text-brand-blue-100 text-2xl" />
