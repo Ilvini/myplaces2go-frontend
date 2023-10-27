@@ -12,7 +12,7 @@ import BottomNavigation from '../components/Partials/BottomNavigation'
 import GoogleMaps from '../components/GoogleMaps'
 import Link from 'next/link'
 import { useFetch } from '../services/useFetch'
-import React, { useEffect } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import styleGoogleMaps from '../styles/googleMapsStyle/main'
 import { errorHandler } from '../services/errorHandler'
 import { api } from '../services/axios'
@@ -65,8 +65,6 @@ const Home: NextPage = () => {
       errorHandler(erro)
     }
   }
-
-  console.log()
 
   async function getInfoAboutLatAndLong() {
     try {
@@ -139,6 +137,30 @@ const Home: NextPage = () => {
     getInfoAboutLatAndLong()
   }, [])
 
+  useEffect(() => {
+    // debounce
+    const timer = setTimeout(() => {
+      if (currentPosition.latitude !== 0 && currentPosition.longitude !== 0) {
+        navigator.geolocation.watchPosition(
+          (position: GeolocationPosition) => {
+            setCurrentPosition({
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude,
+            })
+          },
+          (error: GeolocationPositionError) => {
+            console.log(locationError(error))
+            toast.error(locationError(error) as string, {
+              duration: 5000,
+            })
+          }
+        )
+      }
+    }, 1000)
+
+    return () => clearTimeout(timer)
+  }, [currentPosition])
+
   const defaultProps = {
     center: {
       lat: currentPosition.latitude,
@@ -168,15 +190,14 @@ const Home: NextPage = () => {
       zoom: defaultProps.zoom,
     })
 
-    maps.event.addListener(map, 'click', function (e: any) {
+    /*  maps.event.addListener(map, 'click', function (e: any) {
       console.log(e.latLng.lat())
       console.log(e.latLng.lng())
-    })
+    }) */
   }
 
-  const handleUpdateMap = (e: any) => {
-    console.log(e)
-    getPlaces(e.center.lat, e.center.lng, e.zoom)
+  const handleUpdateMap = (lat: number, long: number, e: any) => {
+    getPlaces(lat, long, e.zoom)
   }
 
   return (
@@ -262,7 +283,11 @@ const Home: NextPage = () => {
 
                 <GoogleMapReact
                   onChange={(e) => {
-                    handleUpdateMap(e)
+                    handleUpdateMap(
+                      currentPosition.latitude,
+                      currentPosition.longitude,
+                      e
+                    )
                     console.log(e)
                   }}
                   bootstrapURLKeys={{
@@ -271,9 +296,6 @@ const Home: NextPage = () => {
                   onGoogleApiLoaded={({ map, maps }) =>
                     handleApiLoaded(map, maps)
                   }
-                  onZoomAnimationEnd={(e) => {
-                    console.log(e)
-                  }}
                   onDragEnd={(e) => {}}
                   defaultCenter={defaultProps.center}
                   defaultZoom={defaultProps.zoom}
@@ -288,21 +310,25 @@ const Home: NextPage = () => {
                   {places?.results?.map((place) => {
                     return (
                       <div
-                        key={place.uuid + ' ' + place.nome}
+                        key={place.uuid}
                         lat={place.lat}
                         lng={place.lon}
                         className="relative -translate-x-2 -translate-y-8"
                       >
-                        <Icon
-                          icon="fontisto:map-marker"
-                          color="red"
-                          fontSize={30}
-                        />
-                        <img
-                          src={place.icone}
-                          alt=""
-                          className="aspect-square w-5 absolute top-[2px] left-[3px]"
-                        />
+                        <Link href={`/dashboard/place/${place.uuid}`}>
+                          <>
+                            <Icon
+                              icon="fontisto:map-marker"
+                              color="red"
+                              fontSize={30}
+                            />
+                            <img
+                              src={place.icone}
+                              alt=""
+                              className="aspect-square w-5 absolute top-[2px] left-[3px]"
+                            />
+                          </>
+                        </Link>
                       </div>
                     )
                   })}
