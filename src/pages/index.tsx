@@ -39,6 +39,7 @@ const Home: NextPage = () => {
   })
   const apiKey = 'AIzaSyAXVy2ejGB5cOb_FPd0J2mhxaMjJ4It6JA'
   const [places, setPlaces] = React.useState<IPlaces>()
+  const [loading, setLoading] = React.useState(false)
   const router = useRouter()
 
   /* const { data } = useFetch<IPlaces>(
@@ -57,11 +58,14 @@ const Home: NextPage = () => {
 
   async function getPlaces(lat: number, lon: number, zoom = 14.28) {
     try {
+      setLoading(true)
       const response = await api.get(
         `/pontos-turisticos?lat=${lat}&lon=${lon}&raio=${zoom}`
       )
       setPlaces(response.data)
+      setLoading(false)
     } catch (erro: any) {
+      setLoading(false)
       errorHandler(erro)
     }
   }
@@ -156,7 +160,7 @@ const Home: NextPage = () => {
           }
         )
       }
-    }, 1000)
+    }, 5000)
 
     return () => clearTimeout(timer)
   }, [currentPosition])
