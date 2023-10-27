@@ -11,6 +11,7 @@ import Link from 'next/link'
 import React, { useEffect } from 'react'
 import { useFetch } from '../../services/useFetch'
 import Cookies from 'js-cookie'
+import { HeaderNavigation } from '../../components/HeaderNavigation'
 
 const Favorite: NextPage = () => {
   const router = useRouter()
@@ -43,23 +44,7 @@ const Favorite: NextPage = () => {
   console.log(favorites)
   return (
     <main className="relative pb-20">
-      <header className="py-4  shadow-md">
-        <nav className="flex justify-center w-full items-center">
-          <Link href={'/'}>
-            <button className="w-1/3 mr-14">
-              <Icon
-                icon="icon-park-outline:back-one"
-                color="#528fa7"
-                fontSize={32}
-              />
-            </button>
-          </Link>
-          <div className="w-1/3">
-            <img src="/img/logo.png" alt="logo my place 2 go" />
-          </div>
-          <div className="w-1/3"></div>
-        </nav>
-      </header>
+      <HeaderNavigation backRoute="/" />
       <section className="mx-4 my-4">
         <h3 className="text-brand-gray-600 text-3xl">Meus Favoritos</h3>
         {favorites ? (
