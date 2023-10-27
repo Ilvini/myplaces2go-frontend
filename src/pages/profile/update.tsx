@@ -17,6 +17,7 @@ import { api } from '../../services/axios'
 import toast from 'react-hot-toast'
 import { HeaderNavigation } from '../../components/HeaderNavigation'
 import { TextFormMask } from '../../components/Forms/components/TextFormMask'
+import Cookies from 'js-cookie'
 interface FormProps {
   nome: string
   email: string
@@ -33,6 +34,9 @@ const ProfileUpdate: NextPage = () => {
     formState: { errors, isSubmitting },
     reset,
   } = useForm<FormProps>()
+
+  const { data: me } = useFetch('/cliente/me', Cookies.get('token'))
+  console.log(me)
 
   async function handleUpdateProfile(data: FormProps) {
     try {
@@ -57,7 +61,7 @@ const ProfileUpdate: NextPage = () => {
   }
   return (
     <main className="relative pb-20">
-      <HeaderNavigation backRoute="/login" />
+      <HeaderNavigation backRoute="/profile" />
       <section className="mx-4 my-4">
         <h3 className="text-2xl text-brand-gray-600">Alterar perfil</h3>
         <form
@@ -69,6 +73,7 @@ const ProfileUpdate: NextPage = () => {
             <div className="mb-5 ">
               <input
                 placeholder="Nome"
+                defaultValue={me?.results.nome}
                 type="text"
                 id="nome"
                 style={errors.nome && { border: '1px solid red' }}
@@ -89,6 +94,7 @@ const ProfileUpdate: NextPage = () => {
                 type="text"
                 autoComplete="off"
                 id="email"
+                defaultValue={me?.results.email}
                 style={errors.email && { border: '1px solid red' }}
                 {...register('email', {
                   required: { message: 'Campo obrigatório', value: true },
@@ -104,6 +110,7 @@ const ProfileUpdate: NextPage = () => {
             <div className="mb-5">
               <TextFormMask
                 mask="(99) 99999-9999"
+                defaultValue={me?.results.celular}
                 placeholder="Celular"
                 errors={errors}
                 name={'celular'}

@@ -12,6 +12,7 @@ export function TextFormMask({
   mask,
   disabled = false,
   placeholder = ' ',
+  defaultValue = '',
 }: {
   register: any
   errors: any
@@ -21,11 +22,13 @@ export function TextFormMask({
   mask: string
   disabled?: boolean
   placeholder?: string
+  defaultValue?: string | number
 }) {
   return (
     <div>
       {/*  <Label label={label} name={name} /> */}
       <InputMask
+        defaultValue={defaultValue}
         mask={mask}
         type="text"
         placeholder={placeholder}

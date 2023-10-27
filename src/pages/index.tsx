@@ -19,6 +19,7 @@ import { api } from '../services/axios'
 import { CardsPlaceSkeleton } from '../components/Partials/Skeleton/CardsPlaceSkeleton'
 import locationError from '../helpers/handlerErrorGeoLocation'
 import Cookies from 'js-cookie'
+import { HeaderNavigation } from '../components/HeaderNavigation'
 interface IPlaces {
   results: {
     uuid: string
@@ -174,18 +175,7 @@ const Home: NextPage = () => {
 
   return (
     <main className="relative">
-      <header className="py-4  shadow-md">
-        <nav className="flex justify-center w-full">
-          {/* <button>
-            <Icon
-              icon="icon-park-outline:back-one"
-              color="#528fa7"
-              fontSize={44}
-            />
-          </button> */}
-          <img src="/img/logo.png" alt="logo my place 2 go" />
-        </nav>
-      </header>
+      <HeaderNavigation backRoute="" />
       <section className="mx-4 my-4">
         {/*   <h1 className="text-2xl font-bold text-brand-gray-900">
           Seja Bem vindo
