@@ -20,6 +20,7 @@ import { CardsPlaceSkeleton } from '../components/Partials/Skeleton/CardsPlaceSk
 import locationError from '../helpers/handlerErrorGeoLocation'
 import Cookies from 'js-cookie'
 import { HeaderNavigation } from '../components/HeaderNavigation'
+import { Zoom } from 'swiper'
 interface IPlaces {
   results: {
     uuid: string
@@ -54,10 +55,10 @@ const Home: NextPage = () => {
     }
   }
 
-  async function getPlaces(lat: number, lon: number) {
+  async function getPlaces(lat: number, lon: number, zoom = 14.28) {
     try {
       const response = await api.get(
-        `/pontos-turisticos?lat=${lat}&lon=${lon}&raio=14.28`
+        `/pontos-turisticos?lat=${lat}&lon=${lon}&raio=${zoom}`
       )
       setPlaces(response.data)
     } catch (erro: any) {
@@ -173,6 +174,11 @@ const Home: NextPage = () => {
     })
   }
 
+  const handleUpdateMap = (e: any) => {
+    console.log(e)
+    getPlaces(e.center.lat, e.center.lng, e.zoom)
+  }
+
   return (
     <main className="relative">
       <HeaderNavigation backRoute="" />
@@ -253,14 +259,22 @@ const Home: NextPage = () => {
                     </button>
                   </Link>
                 </div>
+
                 <GoogleMapReact
+                  onChange={(e) => {
+                    handleUpdateMap(e)
+                    console.log(e)
+                  }}
                   bootstrapURLKeys={{
                     key: 'AIzaSyAXVy2ejGB5cOb_FPd0J2mhxaMjJ4It6JA',
                   }}
-                  yesIWantToUseGoogleMapApiInternals
                   onGoogleApiLoaded={({ map, maps }) =>
                     handleApiLoaded(map, maps)
                   }
+                  onZoomAnimationEnd={(e) => {
+                    console.log(e)
+                  }}
+                  onDragEnd={(e) => {}}
                   defaultCenter={defaultProps.center}
                   defaultZoom={defaultProps.zoom}
                   options={{
@@ -274,7 +288,7 @@ const Home: NextPage = () => {
                   {places?.results?.map((place) => {
                     return (
                       <div
-                        key={place.uuid}
+                        key={place.uuid + ' ' + place.nome}
                         lat={place.lat}
                         lng={place.lon}
                         className="relative -translate-x-2 -translate-y-8"

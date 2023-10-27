@@ -99,10 +99,10 @@ const Login: NextPage = () => {
             </div>
           </div>
 
-          <div className=" w-full flex justify-center flex-col mt-24">
+          <div className=" w-full flex justify-center flex-col mt-5">
             <button
               type="submit"
-              className="rounded-xl flex justify-center py-5   drop-shadow-2xl font-light bg-brand-blue-100 w-full text-3xl text-white"
+              className="rounded-xl flex justify-center py-5   drop-shadow-2xl font-light bg-brand-blue-100 w-full text-2xl text-white"
             >
               {!isSubmitting ? (
                 'Fazer Login'
@@ -110,6 +110,11 @@ const Login: NextPage = () => {
                 <Icon icon="mingcute:loading-3-fill" />
               )}
             </button>
+            <Link href="/">
+              <button className="rounded-xl flex justify-center py-5 mt-2   drop-shadow-2xl font-light bg-brand-yellow-300 w-full text-2xl text-black">
+                Voltar para o inicio
+              </button>
+            </Link>
             <Link href="/register">
               <button className="underline drop-shadow-lg backdrop-blur-md rounded-lg w-full text-white text-2xl text-center mt-2 py-5 font-normal">
                 Criar uma conta
