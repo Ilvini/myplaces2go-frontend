@@ -27,4 +27,6 @@
 body {
   position: static !important;
   top: 0px !important;
+  overscroll-behavior-y: contain;
 }
+

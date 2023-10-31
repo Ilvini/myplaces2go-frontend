@@ -48,7 +48,7 @@ export const PlaceDetailsComments = ({ data }) => {
         }}
       >
         <Icon icon="ep:place" className="text-brand-blue-100 text-2xl" />
-        <p className="w-full text-center">Eu visitei o ponto turístico</p>
+        <p className="w-full text-center">Avaliar Local</p>
       </button>
       {/*  <form
         action="

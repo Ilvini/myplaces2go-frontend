@@ -40,6 +40,7 @@ const Home: NextPage = () => {
   const apiKey = 'AIzaSyAXVy2ejGB5cOb_FPd0J2mhxaMjJ4It6JA'
   const [places, setPlaces] = React.useState<IPlaces>()
   const [loading, setLoading] = React.useState(false)
+  const [zoom, setZoom] = React.useState<number | null>(null)
   const router = useRouter()
 
   /* const { data } = useFetch<IPlaces>(
@@ -77,6 +78,7 @@ const Home: NextPage = () => {
         {
           headers: {
             'User-Agent': 'My Place 2 Go',
+            Authorization: `Bearer ${Cookies.get('token')}`,
           },
         }
       )
@@ -287,6 +289,8 @@ const Home: NextPage = () => {
 
                 <GoogleMapReact
                   onChange={(e) => {
+                    setZoom(e.zoom)
+                    if (zoom === e.zoom) return
                     handleUpdateMap(
                       currentPosition.latitude,
                       currentPosition.longitude,
@@ -300,7 +304,12 @@ const Home: NextPage = () => {
                   onGoogleApiLoaded={({ map, maps }) =>
                     handleApiLoaded(map, maps)
                   }
-                  onDragEnd={(e) => {}}
+                  onDragEnd={(e) => {
+                    setLoading(true)
+                    setTimeout(() => {
+                      setLoading(false)
+                    }, 300)
+                  }}
                   defaultCenter={defaultProps.center}
                   defaultZoom={defaultProps.zoom}
                   options={{

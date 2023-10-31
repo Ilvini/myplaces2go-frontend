@@ -133,9 +133,11 @@ const Profile: NextPage = () => {
             Encontrar Guia Turístico
           </button>
         </Link>
-        <button className="bg-brand-yellow-300   rounded-lg p-3 mt-3 w-full text-center ">
-          Mudar preferências
-        </button>
+        <Link href="/preferrences">
+          <button className="bg-brand-yellow-300   rounded-lg p-3 mt-3 w-full text-center ">
+            Mudar preferências
+          </button>
+        </Link>
         {/*  <button className="bg-brand-yellow-300   rounded-lg p-3 mt-3 w-full text-center ">
           Alterar Idioma
         </button> */}

@@ -39,6 +39,7 @@ export function RattingModal() {
         }
       )
       setModalState(false)
+      toast.success(response.data.message)
     } catch (error) {
       console.log(error)
       errorHandler(error)
