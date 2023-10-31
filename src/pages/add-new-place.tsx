@@ -14,6 +14,7 @@ import Cookies from 'js-cookie'
 import { HeaderNavigation } from '../components/HeaderNavigation'
 import { useForm } from 'react-hook-form'
 import { LabelError } from '../components/Forms/components/LabelError'
+import { GoogleMapsPlaceLocation } from '../components/GoogleMapsPlaceLocation'
 interface FormProps {
   subcategoria_id: number
   nome: string
@@ -130,7 +131,20 @@ const Profile: NextPage = () => {
             />
           </div>
         </form>
-        <div className="my-2"></div>
+        <div className="my-2">
+          {typeof data?.results.lat === 'number' &&
+            typeof data?.results.lon === 'number' && (
+              <div className=" w-full h-full">
+                <h4 className="text-2xl mt-2 text-brand-gray-600">
+                  Localização
+                </h4>
+                <GoogleMapsPlaceLocation
+                  lat={data.results.lat}
+                  lon={data.results.lon}
+                />
+              </div>
+            )}
+        </div>
       </section>
 
       <BottomNavigation />

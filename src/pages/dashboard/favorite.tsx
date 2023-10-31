@@ -38,10 +38,10 @@ const Favorite: NextPage = () => {
   }
 
   const { data: favorites } = useFetch(
-    '/cliente/favoritos',
+    '/cliente/favoritos/novo',
     Cookies.get('token')
   )
-  console.log(favorites)
+
   return (
     <main className="relative pb-20">
       <HeaderNavigation backRoute="/" />
