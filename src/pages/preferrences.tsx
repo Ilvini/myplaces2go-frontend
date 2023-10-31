@@ -65,7 +65,7 @@ const Preferrences: NextPage = () => {
           <ul className="space-y-8">
             {preferrencias?.results.map((preferrencia) => {
               return (
-                <li className="flex items-center">
+                <li key={preferrencia.id} className="flex items-center">
                   <input
                     type="checkbox"
                     id={preferrencia.id.toString()}
