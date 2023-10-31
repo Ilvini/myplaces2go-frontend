@@ -6,21 +6,28 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/css'
 import 'swiper/css/pagination'
 
-import BottomNavigation from '../components/Partials/BottomNavigation'
+import BottomNavigation from '../../components/Partials/BottomNavigation'
 import Link from 'next/link'
-import React, { useEffect } from 'react'
-import { useFetch } from '../services/useFetch'
+import React, { useEffect, useState } from 'react'
+import { useFetch } from '../../services/useFetch'
 import Cookies from 'js-cookie'
-import { HeaderNavigation } from '../components/HeaderNavigation'
+import { HeaderNavigation } from '../../components/HeaderNavigation'
 import { useForm } from 'react-hook-form'
-import { LabelError } from '../components/Forms/components/LabelError'
-import { GoogleMapsPlaceLocation } from '../components/GoogleMapsPlaceLocation'
+import { LabelError } from '../../components/Forms/components/LabelError'
+import { GoogleMapsPlaceLocation } from '../../components/GoogleMapsPlaceLocation'
+import ButtonPrimary from '../../components/Buttons/ButtonPrimary'
+import toast from 'react-hot-toast'
 interface FormProps {
   subcategoria_id: number
   nome: string
   endereco: string
   lat: number
   lon: number
+}
+
+interface Ilocation {
+  lat: number | null
+  lon: number | null
 }
 
 interface IResponse {
@@ -31,7 +38,8 @@ interface IResponse {
   error: boolean
   message: string
 }
-const Profile: NextPage = () => {
+
+const AddNewPlace: NextPage = () => {
   const router = useRouter()
 
   const {
@@ -56,12 +64,35 @@ const Profile: NextPage = () => {
   }
 
   async function handleAddPlace(data: FormProps) {
+    if (location.lat === null || location.lon === null)
+      return toast.error('Por favor, selecione a localização no mapa')
     try {
       console.log(data)
     } catch (error) {
       console.log(error)
     }
   }
+  const [location, setLocation] = useState<Ilocation>({
+    lat: null,
+    lon: null,
+  })
+  useEffect(() => {
+    //get geolocation
+    // check if geolocation as permission and avalible
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setLocation({
+            lat: position.coords.latitude,
+            lon: position.coords.longitude,
+          })
+        },
+        (error) => {
+          console.log(error)
+        }
+      )
+    }
+  }, [])
 
   return (
     <main className="relative pb-20">
@@ -130,21 +161,28 @@ const Profile: NextPage = () => {
               hasError={errors.subcategoria_id as any}
             />
           </div>
+          <div className="my-2">
+            <div className=" w-full h-full">
+              <h4 className="text-2xl mt-2 text-brand-gray-600">Localização</h4>
+              <p className="text-brand-gray-600">
+                Selecione o mapa para adicionar a localização
+              </p>
+              {location.lat && location.lon && (
+                <Link
+                  href={`/add-new-place/map?lat=${location.lat}&lon=${location.lon}`}
+                >
+                  <GoogleMapsPlaceLocation
+                    lat={location.lat}
+                    lon={location.lon}
+                  />
+                </Link>
+              )}
+            </div>
+          </div>
+          <div>
+            <ButtonPrimary>Adicionar Nova Localidade</ButtonPrimary>
+          </div>
         </form>
-        <div className="my-2">
-          {/* {typeof data?.results.lat === 'number' &&
-            typeof data?.results.lon === 'number' && (
-              <div className=" w-full h-full">
-                <h4 className="text-2xl mt-2 text-brand-gray-600">
-                  Localização
-                </h4>
-                <GoogleMapsPlaceLocation
-                  lat={data.results.lat}
-                  lon={data.results.lon}
-                />
-              </div>
-            )} */}
-        </div>
       </section>
 
       <BottomNavigation />
@@ -152,5 +190,5 @@ const Profile: NextPage = () => {
   )
 }
 
-export default Profile
+export default AddNewPlace
 
