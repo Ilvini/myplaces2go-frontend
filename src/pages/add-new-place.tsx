@@ -132,7 +132,7 @@ const Profile: NextPage = () => {
           </div>
         </form>
         <div className="my-2">
-          {typeof data?.results.lat === 'number' &&
+          {/* {typeof data?.results.lat === 'number' &&
             typeof data?.results.lon === 'number' && (
               <div className=" w-full h-full">
                 <h4 className="text-2xl mt-2 text-brand-gray-600">
@@ -143,7 +143,7 @@ const Profile: NextPage = () => {
                   lon={data.results.lon}
                 />
               </div>
-            )}
+            )} */}
         </div>
       </section>
 
