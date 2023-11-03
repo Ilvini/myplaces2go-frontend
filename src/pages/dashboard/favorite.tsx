@@ -1,11 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
-import { Icon } from '@iconify/react'
-import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/css'
 import 'swiper/css/pagination'
-import { Ratting } from '../../components/Ratting'
 import BottomNavigation from '../../components/Partials/BottomNavigation'
 import Link from 'next/link'
 import React, { useEffect } from 'react'

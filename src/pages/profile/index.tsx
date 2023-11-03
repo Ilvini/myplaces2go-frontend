@@ -16,6 +16,7 @@ import { HeaderNavigation } from '../../components/HeaderNavigation'
 const Profile: NextPage = () => {
   const router = useRouter()
   const [selected, setSelected] = useState(null)
+  const [currentLanguage, setCurrentLanguage] = useState('' as string)
   const { data: me } = useFetch('/cliente/me', Cookies.get('token'))
 
   useEffect(() => {
@@ -38,11 +39,11 @@ const Profile: NextPage = () => {
   const languages = [
     { label: 'English', value: '/auto/en' },
     { label: `Português`, value: '/auto/pt' },
-    { label: `Espanhol`, value: '/auto/es' },
   ]
 
   const langChange = (e, m, evt) => {
     evt.preventDefault()
+    setCurrentLanguage(e)
     console.log(decodeURI(e))
     if (Cookies.get('googtrans')) {
       Cookies.set('googtrans', decodeURI(e))
@@ -59,7 +60,7 @@ const Profile: NextPage = () => {
       {
         pageLanguage: 'pt',
         autoDisplay: false,
-        includedLanguages: 'en,pt,es',
+        includedLanguages: 'en,pt',
         layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
       },
       'google_translate_element'
@@ -111,7 +112,22 @@ const Profile: NextPage = () => {
           </tr>
         </table>
         <div className="my-2">
-          <select
+          <p className="text-brand-gray-900 text-2xl my-2">Idioma</p>
+          <div className="flex my-4">
+            <img
+              src="/img/bandeira-brasil.png"
+              alt=""
+              className="w-14"
+              onClick={(e) => langChange('/auto/pt', '/auto/pt', e)}
+            />
+            <img
+              src="/img/bandeira-eua.png"
+              alt=""
+              className="w-14 ml-4"
+              onClick={(e) => langChange('/auto/en', '/auto/en', e)}
+            />
+          </div>
+          {/*< select
             placeholder="Idioma"
             id="Idioma"
             className="w-full py-3 h-14 bg-transparent border rounded-lg px-6 text-base text-brand-gray-400 placeholder:text-brand-gray-500 "
@@ -125,7 +141,7 @@ const Profile: NextPage = () => {
                 {language.label}
               </option>
             ))}
-          </select>
+          </select> */}
           <div id="google_translate_element"></div>
         </div>
         <Link href="/guide">

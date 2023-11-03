@@ -6,21 +6,29 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/css'
 import 'swiper/css/pagination'
 
-import BottomNavigation from '../components/Partials/BottomNavigation'
+import BottomNavigation from '../../components/Partials/BottomNavigation'
 import Link from 'next/link'
-import React, { useEffect } from 'react'
-import { useFetch } from '../services/useFetch'
+import React, { useEffect, useState } from 'react'
+import { useFetch } from '../../services/useFetch'
 import Cookies from 'js-cookie'
-import { HeaderNavigation } from '../components/HeaderNavigation'
+import { HeaderNavigation } from '../../components/HeaderNavigation'
 import { useForm } from 'react-hook-form'
-import { LabelError } from '../components/Forms/components/LabelError'
-import { GoogleMapsPlaceLocation } from '../components/GoogleMapsPlaceLocation'
+import { LabelError } from '../../components/Forms/components/LabelError'
+import { GoogleMapsPlaceLocation } from '../../components/GoogleMapsPlaceLocation'
+import ButtonPrimary from '../../components/Buttons/ButtonPrimary'
+import toast from 'react-hot-toast'
+import { api } from '../../services/axios'
 interface FormProps {
   subcategoria_id: number
   nome: string
   endereco: string
   lat: number
   lon: number
+}
+
+interface Ilocation {
+  lat: number | null
+  lon: number | null
 }
 
 interface IResponse {
@@ -31,7 +39,8 @@ interface IResponse {
   error: boolean
   message: string
 }
-const Profile: NextPage = () => {
+
+const AddNewPlace: NextPage = () => {
   const router = useRouter()
 
   const {
@@ -56,18 +65,61 @@ const Profile: NextPage = () => {
   }
 
   async function handleAddPlace(data: FormProps) {
+    if (location.lat === null || location.lon === null)
+      return toast.error('Por favor, selecione a localização no mapa')
     try {
+      const response = await api.post(
+        'pontos-turisticos',
+        {
+          subcategoria_id: data.subcategoria_id,
+          nome: data.nome,
+          endereco: data.endereco,
+          lat: location.lat,
+          lon: location.lon,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${Cookies.get('token')}`,
+          },
+        }
+      )
+      toast.success(response.data.message)
       console.log(data)
     } catch (error) {
       console.log(error)
     }
   }
+  const [location, setLocation] = useState<Ilocation>({
+    lat: null,
+    lon: null,
+  })
+  useEffect(() => {
+    //get geolocation
+    // check if geolocation as permission and avalible
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setLocation({
+            lat: position.coords.latitude,
+            lon: position.coords.longitude,
+          })
+        },
+        (error) => {
+          console.log(error)
+        }
+      )
+    }
+  }, [])
 
   return (
     <main className="relative pb-20">
       <HeaderNavigation backRoute="/profile" />
       <section className="mx-4 my-4">
-        <h3 className="text-brand-gray-600 text-xl">Adicionar novo Lugar</h3>
+        <h3 className="text-brand-gray-600 text-2xl">Adicionar novo Lugar</h3>
+        {/*   <p className="text-brand-gray-500 mt-2">
+          Forneça algumas informações sobre esse lugar. Se for adicionado a
+          plataforma, esse lugar ficará disponível publicamente.
+        </p> */}
         <form className="flex flex-col" onSubmit={handleSubmit(handleAddPlace)}>
           <div className="mt-5 ">
             <input
@@ -130,21 +182,47 @@ const Profile: NextPage = () => {
               hasError={errors.subcategoria_id as any}
             />
           </div>
-        </form>
-        <div className="my-2">
-          {/* {typeof data?.results.lat === 'number' &&
-            typeof data?.results.lon === 'number' && (
-              <div className=" w-full h-full">
-                <h4 className="text-2xl mt-2 text-brand-gray-600">
-                  Localização
-                </h4>
-                <GoogleMapsPlaceLocation
-                  lat={data.results.lat}
-                  lon={data.results.lon}
+          <div className="my-2">
+            <div className=" w-full h-full">
+              <h4 className="text-2xl mt-2 text-brand-gray-600">Localização</h4>
+              <p className="text-brand-gray-600">
+                Selecione o mapa para adicionar a localização
+              </p>
+              <div className="relative">
+                <img
+                  className="w-full h-56 mt-2 rounded-lg"
+                  src={`https://maps.googleapis.com/maps/api/staticmap?zoom=17&format=png&size=386x225&markers=color:red%7C${location.lat},${location.lon}&maptype=satellite&key=AIzaSyCxfIUUn01z3j79gsuSkGio6vfd3lTpMvg&region=BR&center=${location.lat},${location.lon}`}
+                  alt=""
                 />
+                <Link
+                  href={`/add-new-place/map?lat=${location.lat}&lon=${location.lon}`}
+                >
+                  <button className="flex items-center absolute bottom-3 left-3 drop-shadow-md rounded-full text-black bg-white py-4 px-5 text-base">
+                    <Icon
+                      fontSize={20}
+                      className="mr-2 text-brand-green-300"
+                      icon="uil:map-marker-edit"
+                    />{' '}
+                    Editar Local do mapa
+                  </button>
+                </Link>
               </div>
-            )} */}
-        </div>
+              {/* {location.lat && location.lon && (
+                <Link
+                  href={`/add-new-place/map?lat=${location.lat}&lon=${location.lon}`}
+                >
+                  <GoogleMapsPlaceLocation
+                    lat={location.lat}
+                    lon={location.lon}
+                  />
+                </Link>
+              )} */}
+            </div>
+          </div>
+          <div>
+            <ButtonPrimary>Adicionar Nova Localidade</ButtonPrimary>
+          </div>
+        </form>
       </section>
 
       <BottomNavigation />
@@ -152,5 +230,5 @@ const Profile: NextPage = () => {
   )
 }
 
-export default Profile
+export default AddNewPlace
 

@@ -39,7 +39,7 @@ const Preferrences: NextPage = () => {
 
   async function handlePreferrences(id: number, nome: string) {
     try {
-      const response = await api.post(`/cliente/categorias/${id}`, {
+      const response = await api.post(`/cliente/categorias/${id}`, null, {
         headers: {
           Authorization: `Bearer ${Cookies.get('token')}`,
         },

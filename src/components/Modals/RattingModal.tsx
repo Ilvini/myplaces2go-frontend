@@ -16,7 +16,7 @@ interface FormProps {
 
 export function RattingModal() {
   const { modalState, setModalState, modalData } = rattingModalStore()
-
+  const [loading, setLoading] = useState(false)
   const [comment, setComment] = useState('')
   const [rating, setRating] = useState(0)
 
@@ -30,7 +30,7 @@ export function RattingModal() {
       if (comment === '') {
         return setComment('Sem comentário')
       }
-
+      setLoading(true)
       const response = await api.post(
         `/pontos-turisticos/${modalData?.results.uuid}/avaliacoes/novo`,
         {
@@ -38,9 +38,11 @@ export function RattingModal() {
           comentario: comment,
         }
       )
+      setLoading(false)
       setModalState(false)
       toast.success(response.data.message)
     } catch (error) {
+      setLoading(false)
       console.log(error)
       errorHandler(error)
     }
@@ -86,18 +88,6 @@ export function RattingModal() {
               </label>
             )
           })}
-          {/*  <Rating
-            transition
-            allowFraction={false}
-            onClick={handleRating}
-            allowHover={true}
-            emptyIcon={
-              <Icon icon="ph:star-light" color="#f2c05f" fontSize={50} />
-            }
-            fillIcon={
-              <Icon icon="bi:star-fill" color="#f2c05f" fontSize={50} />
-            }
-          /> */}
         </div>
         <form action="" className="w-full flex flex-col gap-3">
           <textarea
@@ -109,7 +99,11 @@ export function RattingModal() {
             className="w-full border p-3 rounded-lg mt-5"
           ></textarea>
 
-          <ButtonPrimary onClick={handleRatting} type="button">
+          <ButtonPrimary
+            disabled={loading}
+            onClick={handleRatting}
+            type="button"
+          >
             Enviar
           </ButtonPrimary>
         </form>

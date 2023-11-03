@@ -290,6 +290,7 @@ const Home: NextPage = () => {
                 <GoogleMapReact
                   onChange={(e) => {
                     setZoom(e.zoom)
+                    // chama a api somente se alterar o zoom
                     if (zoom === e.zoom) return
                     handleUpdateMap(
                       currentPosition.latitude,
