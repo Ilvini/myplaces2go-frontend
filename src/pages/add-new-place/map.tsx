@@ -3,6 +3,7 @@ import GoogleMapReact, { Position } from 'google-map-react'
 import { useRouter } from 'next/router'
 import styleGoogleMaps from '../../styles/googleMapsStyle/main'
 import { Icon } from '@iconify/react'
+import useLocationNewPlace from '../../stores/useLocationNewPlace'
 
 interface Position {
   lat: number
@@ -14,9 +15,9 @@ const MapAddNewPlace = () => {
     lat: 0,
     lon: 0,
   })
-
+  const { locationStore, setLocationStore } = useLocationNewPlace()
   let locationParams = useRouter().query
-  console.log(locationParams)
+  const router = useRouter()
 
   const CurrentLocationMarker = () => (
     <Icon
@@ -30,6 +31,15 @@ const MapAddNewPlace = () => {
   function handleSetLocationOnNewPlace() {
     locationParams.lat = location.lat
     locationParams.lon = location.lon
+
+    setLocationStore({
+      lat: location.lat,
+      lon: location.lon,
+    })
+    router.push({
+      pathname: '/add-new-place',
+      query: locationParams,
+    })
     console.log(locationParams)
   }
 
