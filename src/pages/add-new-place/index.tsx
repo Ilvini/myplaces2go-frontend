@@ -17,6 +17,7 @@ import { LabelError } from '../../components/Forms/components/LabelError'
 import { GoogleMapsPlaceLocation } from '../../components/GoogleMapsPlaceLocation'
 import ButtonPrimary from '../../components/Buttons/ButtonPrimary'
 import toast from 'react-hot-toast'
+import { api } from '../../services/axios'
 interface FormProps {
   subcategoria_id: number
   nome: string
@@ -67,6 +68,22 @@ const AddNewPlace: NextPage = () => {
     if (location.lat === null || location.lon === null)
       return toast.error('Por favor, selecione a localização no mapa')
     try {
+      const response = await api.post(
+        'pontos-turisticos',
+        {
+          subcategoria_id: data.subcategoria_id,
+          nome: data.nome,
+          endereco: data.endereco,
+          lat: location.lat,
+          lon: location.lon,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${Cookies.get('token')}`,
+          },
+        }
+      )
+      toast.success(response.data.message)
       console.log(data)
     } catch (error) {
       console.log(error)
@@ -98,7 +115,11 @@ const AddNewPlace: NextPage = () => {
     <main className="relative pb-20">
       <HeaderNavigation backRoute="/profile" />
       <section className="mx-4 my-4">
-        <h3 className="text-brand-gray-600 text-xl">Adicionar novo Lugar</h3>
+        <h3 className="text-brand-gray-600 text-2xl">Adicionar novo Lugar</h3>
+        {/*   <p className="text-brand-gray-500 mt-2">
+          Forneça algumas informações sobre esse lugar. Se for adicionado a
+          plataforma, esse lugar ficará disponível publicamente.
+        </p> */}
         <form className="flex flex-col" onSubmit={handleSubmit(handleAddPlace)}>
           <div className="mt-5 ">
             <input
@@ -167,7 +188,26 @@ const AddNewPlace: NextPage = () => {
               <p className="text-brand-gray-600">
                 Selecione o mapa para adicionar a localização
               </p>
-              {location.lat && location.lon && (
+              <div className="relative">
+                <img
+                  className="w-full h-56 mt-2 rounded-lg"
+                  src={`https://maps.googleapis.com/maps/api/staticmap?zoom=17&format=png&size=386x225&markers=color:red%7C${location.lat},${location.lon}&maptype=satellite&key=AIzaSyCxfIUUn01z3j79gsuSkGio6vfd3lTpMvg&region=BR&center=${location.lat},${location.lon}`}
+                  alt=""
+                />
+                <Link
+                  href={`/add-new-place/map?lat=${location.lat}&lon=${location.lon}`}
+                >
+                  <button className="flex items-center absolute bottom-3 left-3 drop-shadow-md rounded-full text-black bg-white py-4 px-5 text-base">
+                    <Icon
+                      fontSize={20}
+                      className="mr-2 text-brand-green-300"
+                      icon="uil:map-marker-edit"
+                    />{' '}
+                    Editar Local do mapa
+                  </button>
+                </Link>
+              </div>
+              {/* {location.lat && location.lon && (
                 <Link
                   href={`/add-new-place/map?lat=${location.lat}&lon=${location.lon}`}
                 >
@@ -176,7 +216,7 @@ const AddNewPlace: NextPage = () => {
                     lon={location.lon}
                   />
                 </Link>
-              )}
+              )} */}
             </div>
           </div>
           <div>
