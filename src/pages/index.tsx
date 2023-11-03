@@ -339,6 +339,7 @@ const Home: NextPage = () => {
                             <img
                               src={place.icone}
                               alt=""
+                              loading="lazy"
                               className="aspect-square w-5 absolute top-[2px] left-[3px]"
                             />
                           </>

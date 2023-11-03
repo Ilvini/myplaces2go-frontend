@@ -18,6 +18,7 @@ import { GoogleMapsPlaceLocation } from '../../components/GoogleMapsPlaceLocatio
 import ButtonPrimary from '../../components/Buttons/ButtonPrimary'
 import toast from 'react-hot-toast'
 import { api } from '../../services/axios'
+import useLocationNewPlace from '../../stores/useLocationNewPlace'
 interface FormProps {
   subcategoria_id: number
   nome: string
@@ -43,6 +44,8 @@ interface IResponse {
 const AddNewPlace: NextPage = () => {
   const router = useRouter()
 
+  const { locationStore, setLocationStore } = useLocationNewPlace()
+
   const {
     register,
     handleSubmit,
@@ -65,7 +68,12 @@ const AddNewPlace: NextPage = () => {
   }
 
   async function handleAddPlace(data: FormProps) {
-    if (location.lat === null || location.lon === null)
+    if (
+      locationStore.lat === null &&
+      locationStore.lon === null &&
+      location.lat === null &&
+      location.lon === null
+    )
       return toast.error('Por favor, selecione a localização no mapa')
     try {
       const response = await api.post(
@@ -84,7 +92,7 @@ const AddNewPlace: NextPage = () => {
         }
       )
       toast.success(response.data.message)
-      console.log(data)
+      router.push('/profile')
     } catch (error) {
       console.log(error)
     }
@@ -94,15 +102,31 @@ const AddNewPlace: NextPage = () => {
     lon: null,
   })
   useEffect(() => {
-    //get geolocation
-    // check if geolocation as permission and avalible
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
+          console.log(position)
+          if (locationStore.lat && locationStore.lon) {
+            setLocation({
+              lat: locationStore.lat,
+              lon: locationStore.lon,
+            })
+            return
+          }
           setLocation({
             lat: position.coords.latitude,
             lon: position.coords.longitude,
           })
+
+          /*   setLocationStore({
+            lat: position.coords.latitude,
+            lon: position.coords.longitude,
+          })
+
+          setLocation({
+            lat: position.coords.latitude,
+            lon: position.coords.longitude,
+          }) */
         },
         (error) => {
           console.log(error)
