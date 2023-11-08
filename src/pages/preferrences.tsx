@@ -57,7 +57,7 @@ const Preferrences: NextPage = () => {
   console.log(preferrencias)
   return (
     <main className="relative pb-20">
-      <HeaderNavigation backRoute="/" />
+      <HeaderNavigation backRoute="/profile" />
       <section className="mx-4 my-4">
         <h3 className="text-brand-gray-600 text-3xl">Minhas Preferências</h3>
 
