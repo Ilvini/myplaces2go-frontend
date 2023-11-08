@@ -11,6 +11,7 @@ import { Icon } from '@iconify/react'
 import { api } from '../services/axios'
 import Cookies from 'js-cookie'
 import Link from 'next/link'
+import { useState } from 'react'
 interface FormProps {
   email: string
   password: string
@@ -24,7 +25,7 @@ const Login: NextPage = () => {
     formState: { errors, isSubmitting },
     reset,
   } = useForm<FormProps>()
-
+  const [termos, setTermos] = useState(false)
   async function handleLogin(data: FormProps) {
     try {
       if (data.email === '' || data.password === '')
@@ -50,10 +51,10 @@ const Login: NextPage = () => {
   return (
     <main className="relative">
       <span className="bg-gradient-to-t pt-16 px-10 to-brand-yellow-300 from-transparent h-[300px] w-full absolute">
-        <h2 className="text-white font-bold text-5xl text-shadow">
+        <h2 className="text-white font-bold text-4xl text-shadow">
           Comece agora a explorar novos lugares
         </h2>
-        <h4 className="mt-4 text-white/80 text-3xl text-shadow">
+        <h4 className="mt-4 text-white/80 text-2xl text-shadow">
           conecte na nossa rede criando uma conta
         </h4>
         <form
@@ -98,11 +99,36 @@ const Login: NextPage = () => {
               />
             </div>
           </div>
+          <div>
+            <label htmlFor="corcordo">
+              <input
+                type="checkbox"
+                id="corcordo"
+                defaultChecked={termos}
+                onChange={() => setTermos((state) => !state)}
+              />
+              Aceito os{' '}
+              <Link
+                className="text-brand-blue-800 font-bold"
+                href="/termos-de-uso"
+              >
+                termos de uso
+              </Link>{' '}
+              e{' '}
+              <Link
+                className="text-brand-blue-800 font-bold"
+                href="/politica-de-privacidade"
+              >
+                Política de Privacidade
+              </Link>
+            </label>
+          </div>
 
           <div className=" w-full flex justify-center flex-col mt-5">
             <button
+              disabled={!termos}
               type="submit"
-              className="rounded-xl flex justify-center py-5   drop-shadow-2xl font-light bg-brand-blue-100 w-full text-2xl text-white"
+              className="rounded-xl disabled:bg-brand-green-600 disabled:text-white/50 flex justify-center py-5   drop-shadow-2xl font-light bg-brand-blue-100 w-full text-xl text-white"
             >
               {!isSubmitting ? (
                 'Fazer Login'
@@ -111,12 +137,12 @@ const Login: NextPage = () => {
               )}
             </button>
             <Link href="/">
-              <button className="rounded-xl flex justify-center py-5 mt-2   drop-shadow-2xl font-light bg-brand-yellow-300 w-full text-2xl text-black">
+              <button className="rounded-xl flex justify-center py-5 mt-2   drop-shadow-2xl font-light bg-brand-yellow-300 w-full text-xl text-black">
                 Voltar para o inicio
               </button>
             </Link>
             <Link href="/register">
-              <button className="underline drop-shadow-lg backdrop-blur-md rounded-lg w-full text-white text-2xl text-center mt-2 py-5 font-normal">
+              <button className="underline drop-shadow-lg backdrop-blur-md rounded-lg w-full text-white text-xl text-center mt-2 py-5 font-normal">
                 Criar uma conta
               </button>
             </Link>

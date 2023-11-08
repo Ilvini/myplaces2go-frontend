@@ -105,7 +105,8 @@ const AddNewPlace: NextPage = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          console.log(position)
+          // localizationStore = a localização que  foi setada pelo usuário.
+          // se não exister a localização no store, seta a localização atual
           if (locationStore.lat && locationStore.lon) {
             setLocation({
               lat: locationStore.lat,
