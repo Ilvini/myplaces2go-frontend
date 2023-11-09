@@ -18,6 +18,7 @@ import toast from 'react-hot-toast'
 import { HeaderNavigation } from '../../components/HeaderNavigation'
 import { useFetch } from '../../services/useFetch'
 import Cookies from 'js-cookie'
+import useSWR from 'swr'
 
 interface FormProps {
   nome: string
@@ -45,12 +46,20 @@ const ProfileUpdate: NextPage = () => {
     if (!token) return router.push('/login')
   }
 
-  async function handleUpdateProfile(data: FormProps) {
+  async function handleChangePassword(data: FormProps) {
     try {
-      const response = await api.put('/cliente/alterar', {
-        password: data.password,
-        password_confirmation: data.password_confirmation,
-      })
+      const response = await api.put(
+        '/cliente/alterar-senha',
+        {
+          password: data.password,
+          password_confirmation: data.password_confirmation,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${Cookies.get('token')}`,
+          },
+        }
+      )
       toast.success('Alteração realizada com sucesso')
       reset({
         password: '',
@@ -70,7 +79,7 @@ const ProfileUpdate: NextPage = () => {
         <form
           action=""
           className="mt-6 flex justify-between flex-col  "
-          onSubmit={handleSubmit(handleUpdateProfile)}
+          onSubmit={handleSubmit(handleChangePassword)}
         >
           <div>
             <div className="mb-5 ">
@@ -82,7 +91,7 @@ const ProfileUpdate: NextPage = () => {
                 {...register('password', {
                   required: { message: 'Campo obrigatório', value: true },
                 })}
-                className="w-full py-5 h-20 px-6 text-2xl placeholder:text-brand-gray-500 "
+                className="w-full py-5 h-20 px-6 text-xl placeholder:text-brand-gray-500 "
                 disabled={isSubmitting}
               />
               <LabelError
@@ -102,7 +111,7 @@ const ProfileUpdate: NextPage = () => {
                 {...register('password_confirmation', {
                   required: { message: 'Campo obrigatório', value: true },
                 })}
-                className="w-full py-5 h-20 px-6 text-2xl placeholder:text-brand-gray-500 "
+                className="w-full py-5 h-20 px-6 text-xl placeholder:text-brand-gray-500 "
                 disabled={isSubmitting}
               />
               <LabelError

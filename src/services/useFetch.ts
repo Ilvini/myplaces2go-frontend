@@ -2,7 +2,7 @@ import useSWR from 'swr'
 import { api } from './axios'
 
 export function useFetch<T>(url: string, token?: string) {
-  const { data, error, isLoading } = useSWR<T>(url, async (url) => {
+  const { data, error, isLoading, mutate } = useSWR<T>(url, async (url) => {
     const response = await api.get(url, {
       headers: {
         'Content-Type': 'application/json',
@@ -12,6 +12,6 @@ export function useFetch<T>(url: string, token?: string) {
     return response.data
   })
 
-  return { data, error, isLoading }
+  return { data, error, isLoading, mutate }
 }
 

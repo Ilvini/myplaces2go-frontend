@@ -15,6 +15,7 @@ import { HeaderNavigation } from '../components/HeaderNavigation'
 import { errorHandler } from '../services/errorHandler'
 import { api } from '../services/axios'
 import toast from 'react-hot-toast'
+import { mutate } from 'swr'
 
 interface IPreferrences {
   error: boolean
@@ -27,6 +28,11 @@ interface IPreferrences {
 
 const Preferrences: NextPage = () => {
   const router = useRouter()
+
+  const { data: preferrencias, mutate } = useFetch<IPreferrences>(
+    '/cliente/categorias',
+    Cookies.get('token')
+  )
 
   useEffect(() => {
     userIsLogged()
@@ -50,10 +56,22 @@ const Preferrences: NextPage = () => {
     }
   }
 
-  const { data: preferrencias } = useFetch<IPreferrences>(
-    '/cliente/categorias',
-    Cookies.get('token')
-  )
+  async function refreshPreferrences() {
+    try {
+      const response = await api.get('/cliente/categorias', {
+        headers: {
+          Authorization: `Bearer ${Cookies.get('token')}`,
+        },
+      })
+      mutate(response.data.results)
+    } catch (err) {
+      errorHandler(err)
+    }
+  }
+
+  useEffect(() => {
+    mutate()
+  }, [])
   console.log(preferrencias)
   return (
     <main className="relative pb-20">
@@ -68,6 +86,7 @@ const Preferrences: NextPage = () => {
                 <li key={preferrencia.id} className="flex items-center">
                   <input
                     type="checkbox"
+                    defaultChecked={preferrencia.ativo}
                     id={preferrencia.id.toString()}
                     name={preferrencia.nome}
                     className="mr-4 w-10 rounded-2xl h-10"
