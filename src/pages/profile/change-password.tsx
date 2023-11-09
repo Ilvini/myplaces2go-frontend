@@ -66,7 +66,7 @@ const ProfileUpdate: NextPage = () => {
     <main className="relative pb-20">
       <HeaderNavigation backRoute="/profile" />
       <section className="mx-4 my-4">
-        <h3 className="text-2xl text-brand-gray-600">Alterar perfil</h3>
+        <h3 className="text-2xl text-brand-gray-600">Alterar Senha</h3>
         <form
           action=""
           className="mt-6 flex justify-between flex-col  "
@@ -75,7 +75,7 @@ const ProfileUpdate: NextPage = () => {
           <div>
             <div className="mb-5 ">
               <input
-                placeholder="password"
+                placeholder="Senha"
                 type="text"
                 id="password"
                 style={errors.password && { border: '1px solid red' }}
@@ -92,7 +92,7 @@ const ProfileUpdate: NextPage = () => {
             </div>
             <div className="mb-5">
               <input
-                placeholder="password_confirmation"
+                placeholder="Confirmar Senha"
                 type="text"
                 autoComplete="off"
                 id="password_confirmation"

@@ -35,9 +35,11 @@ const Favorite: NextPage = () => {
   }
 
   const { data: favorites } = useFetch(
-    '/cliente/favoritos/novo',
+    '/cliente/favoritos',
     Cookies.get('token')
   )
+
+  console.log(favorites)
 
   return (
     <main className="relative pb-20">
@@ -45,9 +47,9 @@ const Favorite: NextPage = () => {
       <section className="mx-4 my-4">
         <h3 className="text-brand-gray-600 text-3xl">Meus Favoritos</h3>
         {favorites ? (
-          favorites.map((place) => {
+          favorites?.results.map((place) => {
             return (
-              <Link key={place.uuid} href={`/dashboard/place/${place.uuid}`}>
+              <Link key={place.id} href={`/dashboard/place/${place.id}`}>
                 <div className="flex mt-5">
                   <div className="w-1/4 aspect-square rounded-lg overflow-hidden drop-shadow-lg">
                     <img

@@ -104,12 +104,12 @@ const PlaceDetails: NextPage = () => {
                     return (
                       <SwiperSlide
                         key={index + imagem}
-                        className="flex flex-col rounded-3xl overflow-hidden aspect-square"
+                        className="flex  flex-col rounded-3xl overflow-hidden aspect-square"
                       >
                         <img
                           src={imagem}
                           alt=""
-                          className="h-full w-full  scale-105"
+                          className="h-full w-full  object-cover scale-105"
                         />
                       </SwiperSlide>
                     )

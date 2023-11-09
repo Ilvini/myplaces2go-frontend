@@ -42,10 +42,12 @@ const Home: NextPage = () => {
   const [loading, setLoading] = React.useState(false)
   const [zoom, setZoom] = React.useState<number | null>(null)
   const router = useRouter()
+  const [openWindow, setOpenWindow] = React.useState<string | null>(null)
 
-  /* const { data } = useFetch<IPlaces>(
-    '/pontos-turisticos?lat=-1.459549&lon=-48.49707&raio=14.28&categorias=10000,13000,14000,16000,18000,19000'
+  /*   const { data } = useFetch<IPlaces>(
+    `/pontos-turisticos?lat=${}=-48.49707&raio=14.28&categorias=10000,13000,14000,16000,18000,19000`
   )
+
  */
 
   function limitarCaracteres(texto: string, limite: number) {
@@ -225,7 +227,7 @@ const Home: NextPage = () => {
                       <img
                         src={place.imagem}
                         alt=""
-                        className="aspect-square rounded-3xl drop-shadow-lg  w-full bg-zinc-200"
+                        className="aspect-square object-cover rounded-3xl drop-shadow-lg  w-full bg-zinc-200"
                         onError={(e) => {
                           e.currentTarget.src = '/img/no-image.png'
                           e.currentTarget.onerror = null
@@ -329,7 +331,11 @@ const Home: NextPage = () => {
                         lng={place.lon}
                         className="relative -translate-x-2 -translate-y-8"
                       >
-                        <Link href={`/dashboard/place/${place.uuid}`}>
+                        <div
+                          onClick={() => {
+                            setOpenWindow(place.uuid)
+                          }}
+                        >
                           <>
                             <Icon
                               icon="fontisto:map-marker"
@@ -340,10 +346,10 @@ const Home: NextPage = () => {
                               src={place.icone}
                               alt=""
                               loading="lazy"
-                              className="aspect-square w-5 absolute top-[2px] left-[3px]"
+                              className="aspect-square w-5 brightness-100 absolute top-[2px] left-[3px]"
                             />
                           </>
-                        </Link>
+                        </div>
                       </div>
                     )
                   })}
