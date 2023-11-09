@@ -8,7 +8,7 @@ import 'swiper/css/pagination'
 
 import BottomNavigation from '../components/Partials/BottomNavigation'
 import Link from 'next/link'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useFetch } from '../services/useFetch'
 import { useForm } from 'react-hook-form'
 import { errorHandler } from '../services/errorHandler'
@@ -27,6 +27,7 @@ interface FormProps {
 }
 
 const Register: NextPage = () => {
+  const [termos, setTermos] = useState(false)
   const router = useRouter()
   const {
     register,
@@ -185,11 +186,33 @@ const Register: NextPage = () => {
               <p className="text-brand-gray-500">Mínimo 8 caracteres</p>
             </div>
           </div>
-
+          <label htmlFor="corcordo">
+            <input
+              type="checkbox"
+              id="corcordo"
+              defaultChecked={termos}
+              onChange={() => setTermos((state) => !state)}
+            />
+            Aceito os{' '}
+            <Link
+              className="text-brand-blue-800 font-bold"
+              href="/termos-de-uso"
+            >
+              termos de uso
+            </Link>{' '}
+            e{' '}
+            <Link
+              className="text-brand-blue-800 font-bold"
+              href="/politica-de-privacidade"
+            >
+              Política de Privacidade
+            </Link>
+          </label>
           <div className=" w-full flex justify-center flex-col ">
             <button
+              disabled={!termos}
               type="submit"
-              className="bg-brand-yellow-300 rounded-lg px-3 py-5 mt-3 w-full text-center "
+              className="bg-brand-yellow-300 disabled:bg-brand-yellow-600 disabled:text-white/50 rounded-lg px-3 py-5 mt-3 w-full text-center "
             >
               {!isSubmitting ? (
                 '  cadastra-se'

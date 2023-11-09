@@ -117,13 +117,13 @@ const Profile: NextPage = () => {
             <img
               src="/img/bandeira-brasil.png"
               alt=""
-              className="w-14"
+              className="w-10"
               onClick={(e) => langChange('/auto/pt', '/auto/pt', e)}
             />
             <img
               src="/img/bandeira-eua.png"
               alt=""
-              className="w-14 ml-4"
+              className="w-10 ml-4"
               onClick={(e) => langChange('/auto/en', '/auto/en', e)}
             />
           </div>
@@ -147,6 +147,11 @@ const Profile: NextPage = () => {
         <Link href="/guide">
           <button className="bg-brand-yellow-300   rounded-lg p-3  w-full text-center ">
             Encontrar Guia Turístico
+          </button>
+        </Link>
+        <Link href="/profile/change-password">
+          <button className="bg-brand-yellow-300  mt-3  rounded-lg p-3  w-full text-center ">
+            Trocar senha
           </button>
         </Link>
         <Link href="/preferrences">

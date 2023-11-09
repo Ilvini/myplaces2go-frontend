@@ -25,7 +25,7 @@ const Login: NextPage = () => {
     formState: { errors, isSubmitting },
     reset,
   } = useForm<FormProps>()
-  const [termos, setTermos] = useState(false)
+
   async function handleLogin(data: FormProps) {
     try {
       if (data.email === '' || data.password === '')
@@ -99,34 +99,10 @@ const Login: NextPage = () => {
               />
             </div>
           </div>
-          <div>
-            <label htmlFor="corcordo">
-              <input
-                type="checkbox"
-                id="corcordo"
-                defaultChecked={termos}
-                onChange={() => setTermos((state) => !state)}
-              />
-              Aceito os{' '}
-              <Link
-                className="text-brand-blue-800 font-bold"
-                href="/termos-de-uso"
-              >
-                termos de uso
-              </Link>{' '}
-              e{' '}
-              <Link
-                className="text-brand-blue-800 font-bold"
-                href="/politica-de-privacidade"
-              >
-                Política de Privacidade
-              </Link>
-            </label>
-          </div>
+          <div></div>
 
           <div className=" w-full flex justify-center flex-col mt-5">
             <button
-              disabled={!termos}
               type="submit"
               className="rounded-xl disabled:bg-brand-green-600 disabled:text-white/50 flex justify-center py-5   drop-shadow-2xl font-light bg-brand-blue-100 w-full text-xl text-white"
             >
