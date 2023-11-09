@@ -190,19 +190,20 @@ const Register: NextPage = () => {
             <input
               type="checkbox"
               id="corcordo"
+              className="mr-2"
               defaultChecked={termos}
               onChange={() => setTermos((state) => !state)}
             />
             Aceito os{' '}
             <Link
-              className="text-brand-blue-800 font-bold"
+              className="text-brand-gray-900 font-bold"
               href="/termos-de-uso"
             >
               termos de uso
             </Link>{' '}
             e{' '}
             <Link
-              className="text-brand-blue-800 font-bold"
+              className="text-brand-gray-900 font-bold"
               href="/politica-de-privacidade"
             >
               Política de Privacidade
@@ -212,7 +213,7 @@ const Register: NextPage = () => {
             <button
               disabled={!termos}
               type="submit"
-              className="bg-brand-yellow-300 disabled:bg-brand-yellow-600 disabled:text-white/50 rounded-lg px-3 py-5 mt-3 w-full text-center "
+              className="bg-brand-yellow-300 disabled:bg-brand-gray-400  disabled:text-white/50 rounded-lg px-3 py-5 mt-5 w-full text-center "
             >
               {!isSubmitting ? (
                 '  cadastra-se'

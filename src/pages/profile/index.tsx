@@ -12,6 +12,9 @@ import React, { useEffect, useState } from 'react'
 import { useFetch } from '../../services/useFetch'
 import Cookies from 'js-cookie'
 import { HeaderNavigation } from '../../components/HeaderNavigation'
+import { api } from '../../services/axios'
+import toast from 'react-hot-toast'
+import { errorHandler } from '../../services/errorHandler'
 
 const Profile: NextPage = () => {
   const router = useRouter()
@@ -67,6 +70,23 @@ const Profile: NextPage = () => {
     )
   }
 
+  const handleDeleteAccount = async () => {
+    try {
+      const response = await api.delete('/cliente', {
+        headers: {
+          Authorization: `Bearer ${Cookies.get('token')}`,
+        },
+      })
+
+      Cookies.remove('token')
+      toast.success(response.data.message)
+      router.push('/login')
+    } catch (error) {
+      errorHandler(error)
+      console.log(error)
+    }
+  }
+
   useEffect(() => {}, [])
 
   useEffect(() => {
@@ -117,31 +137,22 @@ const Profile: NextPage = () => {
             <img
               src="/img/bandeira-brasil.png"
               alt=""
-              className="w-10"
+              className={`w-14 ${
+                Cookies.get('googtrans') === '/auto/pt' &&
+                'bg-black p-1 rounded-full'
+              }`}
               onClick={(e) => langChange('/auto/pt', '/auto/pt', e)}
             />
             <img
               src="/img/bandeira-eua.png"
               alt=""
-              className="w-10 ml-4"
+              className={`w-14 ml-3 ${
+                Cookies.get('googtrans') === '/auto/en' &&
+                'bg-black p-1 rounded-full'
+              }`}
               onClick={(e) => langChange('/auto/en', '/auto/en', e)}
             />
           </div>
-          {/*< select
-            placeholder="Idioma"
-            id="Idioma"
-            className="w-full py-3 h-14 bg-transparent border rounded-lg px-6 text-base text-brand-gray-400 placeholder:text-brand-gray-500 "
-            onChange={(e) => langChange(e.target.value, e.target.value, e)}
-          >
-            <option defaultValue="" disabled={true}>
-              Escolha um ìdioma
-            </option>
-            {languages.map((language) => (
-              <option key={language.label} value={language.value}>
-                {language.label}
-              </option>
-            ))}
-          </select> */}
           <div id="google_translate_element"></div>
         </div>
         <Link href="/guide">
@@ -177,6 +188,13 @@ const Profile: NextPage = () => {
             Encerrar Sessão
           </button>
         </Link>
+
+        <button
+          className="border-brand-red-500 border   rounded-lg p-3 mt-3 w-full text-center "
+          onClick={() => handleDeleteAccount()}
+        >
+          Excluir conta
+        </button>
       </section>
 
       <BottomNavigation />

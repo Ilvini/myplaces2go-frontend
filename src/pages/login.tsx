@@ -99,7 +99,13 @@ const Login: NextPage = () => {
               />
             </div>
           </div>
-          <div></div>
+          <div>
+            <Link href="/recuperar-senha/forgot-password">
+              <small className="text-white text-xl underline">
+                Esqueci minha senha
+              </small>
+            </Link>
+          </div>
 
           <div className=" w-full flex justify-center flex-col mt-5">
             <button

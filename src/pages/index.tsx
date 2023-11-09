@@ -21,7 +21,6 @@ import locationError from '../helpers/handlerErrorGeoLocation'
 import Cookies from 'js-cookie'
 import { HeaderNavigation } from '../components/HeaderNavigation'
 import { Zoom } from 'swiper'
-import useSWR from 'swr'
 interface IPlaces {
   results: {
     uuid: string
@@ -42,8 +41,6 @@ const Home: NextPage = () => {
   const [places, setPlaces] = React.useState<IPlaces>()
   const [loading, setLoading] = React.useState(false)
   const [zoom, setZoom] = React.useState<number | null>(null)
-  const [lat, setLat] = React.useState<number | null>(null)
-  const [lon, setLon] = React.useState<number | null>(null)
   const router = useRouter()
   const [openWindow, setOpenWindow] = React.useState<string | null>(null)
 
@@ -52,22 +49,6 @@ const Home: NextPage = () => {
   )
 
  */
-
-  const {
-    data: Places,
-    error,
-    isLoading,
-    mutate,
-  } = useSWR(
-    `/pontos-turisticos?lat=${lat}&lon=${lon}&raio=${zoom}`,
-    async (url) => {
-      if (!lat || !lon) return
-      const response = await api.get(url)
-      return response.data.results
-    }
-  )
-
-  console.log(Places)
 
   function limitarCaracteres(texto: string, limite: number) {
     if (texto.length <= limite) {
@@ -81,11 +62,9 @@ const Home: NextPage = () => {
   async function getPlaces(lat: number, lon: number, zoom = 14.28) {
     try {
       setLoading(true)
-
       const response = await api.get(
         `/pontos-turisticos?lat=${lat}&lon=${lon}&raio=${zoom}`
       )
-      mutate(response.data.results, false)
       setPlaces(response.data)
       setLoading(false)
     } catch (erro: any) {
@@ -122,28 +101,11 @@ const Home: NextPage = () => {
   }
 
   useEffect(() => {
-    const Places = localStorage.getItem('Places')
-    if (Places) {
-      mutate(JSON.parse(Places))
-    }
-  }, [])
-
-  useEffect(() => {
-    if (Places) {
-      localStorage.setItem('Places', JSON.stringify(Places))
-    }
-  }, [Places])
-
-  useEffect(() => {
     if (navigator.geolocation) {
       navigator.permissions.query({ name: 'geolocation' }).then((result) => {
         if (result.state === 'granted') {
           navigator.geolocation.getCurrentPosition(
             (position: GeolocationPosition) => {
-              setLat(position.coords.latitude)
-              setLon(position.coords.longitude)
-              setZoom(14.28)
-
               setCurrentPosition({
                 latitude: position.coords.latitude,
                 longitude: position.coords.longitude,
@@ -173,6 +135,10 @@ const Home: NextPage = () => {
               })
             }
           )
+        } else if (result.state === 'denied') {
+          toast.error('Você negou a permissão de geolocalização', {
+            duration: 5000,
+          })
         }
       })
     } else {
@@ -189,11 +155,12 @@ const Home: NextPage = () => {
       if (currentPosition.latitude !== 0 && currentPosition.longitude !== 0) {
         navigator.geolocation.watchPosition(
           (position: GeolocationPosition) => {
+            //tentar novamente o swr com essa alteração abaixo
+            getPlaces(position.coords.latitude, position.coords.longitude)
             setCurrentPosition({
               latitude: position.coords.latitude,
               longitude: position.coords.longitude,
             })
-            getPlaces(position.coords.latitude, position.coords.longitude)
           },
           (error: GeolocationPositionError) => {
             console.log(locationError(error))
@@ -243,8 +210,8 @@ const Home: NextPage = () => {
     }) */
   }
 
-  const handleUpdateMap = async (lat: number, long: number, e: any) => {
-    await getPlaces(lat, long, e.zoom)
+  const handleUpdateMap = (lat: number, long: number, e: any) => {
+    getPlaces(lat, long, e.zoom)
   }
 
   return (
@@ -257,9 +224,9 @@ const Home: NextPage = () => {
         {/*   <p className="text-brand-gray-500 text-xl mt-1">Lugares por perto</p> */}
 
         <div className="mt-3">
-          {Places?.length > 0 ? (
+          {places && places?.results.length > 0 ? (
             <Swiper slidesPerView={3} spaceBetween={12} className="">
-              {Places?.map((place) => {
+              {places?.results.map((place) => {
                 return (
                   <SwiperSlide key={place.uuid} className="flex flex-col">
                     <Link href={`/dashboard/place/${place.uuid}`}>
@@ -305,116 +272,134 @@ const Home: NextPage = () => {
             className="aspect-square rounded-lg relative overflow-hidden"
             style={{ width: '100%' }}
           >
-            {/*     {Places?.length ? ( */}
-            <>
-              <div className="absolute left-2 top-3 flex flex-wrap z-30 space-x-2">
-                <Link href="/info-city">
-                  <button className="text-sm drop-shadow-lg bg-white flex items-center px-4 py-2 text-brand-gray-900 font-normal  rounded-full">
-                    <Icon icon="mdi:city" className="mr-2" /> Rio de Janeiro
-                  </button>
-                </Link>
+            {places?.results.length ? (
+              <>
+                <div className="absolute left-2 top-3 flex flex-wrap z-30 space-x-2">
+                  <Link href="/info-city">
+                    <button className="text-sm drop-shadow-lg bg-white flex items-center px-4 py-2 text-brand-gray-900 font-normal  rounded-full">
+                      <Icon icon="mdi:city" className="mr-2" /> Rio de Janeiro
+                    </button>
+                  </Link>
 
-                <Link href="/guide">
-                  <button className=" text-sm drop-shadow-lg bg-white flex items-center px-4 py-2 text-brand-gray-900 font-normal  rounded-full">
-                    <Icon icon="solar:user-bold" className="mr-2" />
-                    Guias
-                  </button>
-                </Link>
-                <Link href="/events">
-                  <button className=" text-sm drop-shadow-lg bg-white flex items-center px-4 py-2 text-brand-gray-900 font-normal  rounded-full">
-                    <Icon icon="solar:user-bold" className="mr-2" />
-                    Eventos
-                  </button>
-                </Link>
-              </div>
+                  <Link href="/guide">
+                    <button className=" text-sm drop-shadow-lg bg-white flex items-center px-4 py-2 text-brand-gray-900 font-normal  rounded-full">
+                      <Icon icon="solar:user-bold" className="mr-2" />
+                      Guias
+                    </button>
+                  </Link>
+                  <Link href="/events">
+                    <button className=" text-sm drop-shadow-lg bg-white flex items-center px-4 py-2 text-brand-gray-900 font-normal  rounded-full">
+                      <Icon icon="solar:user-bold" className="mr-2" />
+                      Eventos
+                    </button>
+                  </Link>
+                </div>
 
-              <GoogleMapReact
-                onChange={(e) => {
-                  setZoom(e.zoom)
-                  // chama a api somente se alterar o zoom
-                  if (zoom === e.zoom) return
-                  handleUpdateMap(
-                    currentPosition.latitude,
-                    currentPosition.longitude,
-                    e
-                  )
-                  console.log(e)
-                }}
-                bootstrapURLKeys={{
-                  key: 'AIzaSyAXVy2ejGB5cOb_FPd0J2mhxaMjJ4It6JA',
-                }}
-                onGoogleApiLoaded={({ map, maps }) =>
-                  handleApiLoaded(map, maps)
-                }
-                onDragEnd={(e) => {
-                  setLoading(true)
-                  setTimeout(() => {
-                    setLoading(false)
-                  }, 300)
-                }}
-                defaultCenter={defaultProps.center}
-                defaultZoom={defaultProps.zoom}
-                options={{
-                  styles: defaultProps.styles,
-                }}
-              >
-                <CurrentLocationMarker
-                  lat={currentPosition.latitude}
-                  lng={currentPosition.longitude}
-                />
-                {places?.results?.map((place) => {
-                  return (
-                    <div
-                      key={place.uuid}
-                      lat={place.lat}
-                      lng={place.lon}
-                      className="relative -translate-x-2 -translate-y-8"
-                    >
+                <GoogleMapReact
+                  onClick={() => {
+                    if (openWindow) setOpenWindow(null)
+                  }}
+                  onChange={(e) => {
+                    setZoom(e.zoom)
+                    // chama a api somente se alterar o zoom
+                    if (zoom === e.zoom) return
+                    handleUpdateMap(
+                      currentPosition.latitude,
+                      currentPosition.longitude,
+                      e
+                    )
+                    console.log(e)
+                  }}
+                  bootstrapURLKeys={{
+                    key: 'AIzaSyAXVy2ejGB5cOb_FPd0J2mhxaMjJ4It6JA',
+                  }}
+                  onGoogleApiLoaded={({ map, maps }) =>
+                    handleApiLoaded(map, maps)
+                  }
+                  onDragEnd={(e) => {
+                    setLoading(true)
+                    setTimeout(() => {
+                      setLoading(false)
+                    }, 300)
+                  }}
+                  defaultCenter={defaultProps.center}
+                  defaultZoom={defaultProps.zoom}
+                  options={{
+                    styles: defaultProps.styles,
+                  }}
+                >
+                  <CurrentLocationMarker
+                    lat={currentPosition.latitude}
+                    lng={currentPosition.longitude}
+                  />
+                  {places?.results?.map((place) => {
+                    return (
                       <div
-                        onClick={() => {
-                          setOpenWindow(place.uuid)
-                        }}
+                        key={place.uuid}
+                        lat={place.lat}
+                        lng={place.lon}
+                        className="relative -translate-x-2 -translate-y-8"
                       >
-                        <>
-                          {openWindow === place.uuid && (
-                            <div>
-                              <div className="absolute top-0 left-0 w-full h-full z-50 bg-black bg-opacity-50"></div>
-                              <div className="absolute top-0 left-0 w-full h-full z-50 flex justify-center items-center">
-                                <div className="bg-white rounded-lg p-2">
-                                  <p className="text-center text-brand-gray-900">
-                                    {place.nome}
-                                  </p>
-                                  <p className="text-center text-brand-gray-900">
-                                    {place.categoria}
-                                  </p>
+                        <div
+                          onClick={() => {
+                            setOpenWindow(place.uuid)
+                          }}
+                        >
+                          <>
+                            {openWindow === place.uuid && (
+                              <div>
+                                <div className="absolute bottom-16 -left-12 w-32 h-full z-50 flex justify-center items-center">
+                                  {/*  <span
+                                    className="absolute right-0 -top-6 p-2"
+                                    onClick={() => setOpenWindow(null)}
+                                  >
+                                    <Icon
+                                      icon="zondicons:close-solid"
+                                      color="red"
+                                    />
+                                  </span> */}
+                                  <div className="bg-white rounded-lg p-2">
+                                    <p className="text-center font-bold text-brand-gray-900">
+                                      {place.nome}
+                                    </p>
+                                    <p className="text-center text-brand-gray-900">
+                                      {place.categoria}
+                                    </p>
+                                    <Link
+                                      href={`/dashboard/place/${place.uuid}`}
+                                    >
+                                      <button className="bg-brand-yellow-300 w-32 text-brand-gray-900 rounded-sm p-1 mt-2 ">
+                                        Ver mais
+                                      </button>
+                                    </Link>
+                                  </div>
                                 </div>
                               </div>
-                            </div>
-                          )}
-                          <Icon
-                            icon="fontisto:map-marker"
-                            color="red"
-                            fontSize={30}
-                          />
-                          <img
-                            src={place.icone}
-                            alt=""
-                            loading="lazy"
-                            className="aspect-square w-5 text-white  absolute top-[2px] left-[3px]"
-                          />
-                        </>
+                            )}
+                            <Icon
+                              icon="fontisto:map-marker"
+                              color="red"
+                              fontSize={30}
+                            />
+                            <img
+                              src={place.icone}
+                              alt=""
+                              loading="lazy"
+                              className="aspect-square w-5  absolute top-[2px] left-[3px] google_maps_icons"
+                            />
+                          </>
+                        </div>
                       </div>
-                    </div>
-                  )
-                })}
-              </GoogleMapReact>
-            </>
-            {/* ) : (
+                    )
+                  })}
+                </GoogleMapReact>
+              </>
+            ) : (
               <div
                 className="aspect-square rounded-lg bg-zinc-300 animate-pulse"
                 style={{ width: '100%' }}
               ></div>
-            )} */}
+            )}
           </div>
         ) : (
           <div className="aspect-square bg-brand-blue-100 flex justify-center items-center">
