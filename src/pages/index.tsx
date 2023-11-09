@@ -135,6 +135,10 @@ const Home: NextPage = () => {
               })
             }
           )
+        } else if (result.state === 'denied') {
+          toast.error('Você negou a permissão de geolocalização', {
+            duration: 5000,
+          })
         }
       })
     } else {
@@ -151,6 +155,8 @@ const Home: NextPage = () => {
       if (currentPosition.latitude !== 0 && currentPosition.longitude !== 0) {
         navigator.geolocation.watchPosition(
           (position: GeolocationPosition) => {
+            //tentar novamente o swr com essa alteração abaixo
+            getPlaces(position.coords.latitude, position.coords.longitude)
             setCurrentPosition({
               latitude: position.coords.latitude,
               longitude: position.coords.longitude,
@@ -220,7 +226,7 @@ const Home: NextPage = () => {
         <div className="mt-3">
           {places?.results.length ? (
             <Swiper slidesPerView={3} spaceBetween={12} className="">
-              {places?.results?.map((place) => {
+              {places?.results.map((place) => {
                 return (
                   <SwiperSlide key={place.uuid} className="flex flex-col">
                     <Link href={`/dashboard/place/${place.uuid}`}>
@@ -263,7 +269,7 @@ const Home: NextPage = () => {
       <section className="mb-[72px]">
         {typeof navigator !== 'undefined' && navigator?.geolocation ? (
           <div
-            className="aspect-square rounded-lg relative"
+            className="aspect-square rounded-lg relative overflow-hidden"
             style={{ width: '100%' }}
           >
             {places?.results.length ? (
@@ -290,6 +296,9 @@ const Home: NextPage = () => {
                 </div>
 
                 <GoogleMapReact
+                  onClick={() => {
+                    if (openWindow) setOpenWindow(null)
+                  }}
                   onChange={(e) => {
                     setZoom(e.zoom)
                     // chama a api somente se alterar o zoom
@@ -337,6 +346,36 @@ const Home: NextPage = () => {
                           }}
                         >
                           <>
+                            {openWindow === place.uuid && (
+                              <div>
+                                <div className="absolute bottom-16 -left-12 w-32 h-full z-50 flex justify-center items-center">
+                                  {/*  <span
+                                    className="absolute right-0 -top-6 p-2"
+                                    onClick={() => setOpenWindow(null)}
+                                  >
+                                    <Icon
+                                      icon="zondicons:close-solid"
+                                      color="red"
+                                    />
+                                  </span> */}
+                                  <div className="bg-white rounded-lg p-2">
+                                    <p className="text-center font-bold text-brand-gray-900">
+                                      {place.nome}
+                                    </p>
+                                    <p className="text-center text-brand-gray-900">
+                                      {place.categoria}
+                                    </p>
+                                    <Link
+                                      href={`/dashboard/place/${place.uuid}`}
+                                    >
+                                      <button className="bg-brand-yellow-300 w-32 text-brand-gray-900 rounded-sm p-1 mt-2 ">
+                                        Ver mais
+                                      </button>
+                                    </Link>
+                                  </div>
+                                </div>
+                              </div>
+                            )}
                             <Icon
                               icon="fontisto:map-marker"
                               color="red"
@@ -346,7 +385,7 @@ const Home: NextPage = () => {
                               src={place.icone}
                               alt=""
                               loading="lazy"
-                              className="aspect-square w-5 brightness-100 absolute top-[2px] left-[3px]"
+                              className="aspect-square w-5  absolute top-[2px] left-[3px] google_maps_icons"
                             />
                           </>
                         </div>
