@@ -346,7 +346,7 @@ const Home: NextPage = () => {
                               src={place.icone}
                               alt=""
                               loading="lazy"
-                              className="aspect-square w-5 brightness-100 absolute top-[2px] left-[3px]"
+                              className="aspect-square w-5 text-white  absolute top-[2px] left-[3px]"
                             />
                           </>
                         </div>

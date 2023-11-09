@@ -32,18 +32,15 @@ interface IResponse {
 
 const Guides: NextPage = () => {
   const router = useRouter()
-  useEffect(() => {
+  /* useEffect(() => {
     userIsLogged()
-  }, [])
+  }, []) */
 
-  function userIsLogged() {
+  /* function userIsLogged() {
     const token = Cookies.get('token')
     if (!token) return router.push('/login')
-  }
-  const { data: guide } = useFetch<IResponse>(
-    `/guias?estado=PA&cidade=Belém`,
-    Cookies.get('token')
-  )
+  } */
+  const { data: guide } = useFetch<IResponse>(`/guias?estado=PA&cidade=Belém`)
 
   /*  } */
 

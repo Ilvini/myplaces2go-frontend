@@ -2,6 +2,10 @@ import Cookies from 'js-cookie'
 import toast from 'react-hot-toast'
 
 export function errorHandler(error: any) {
+  if (error?.response?.status === 403) {
+    toast.error('Senha ou Email Incorretos')
+    return
+  }
   if (error?.response?.status === 401) {
     toast.error('Sessão expirada, faça login novamente')
     Cookies.remove('token')
