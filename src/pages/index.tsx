@@ -73,8 +73,7 @@ const Home: NextPage = () => {
       setLoading(false)
       errorHandler(erro)
     }
-    console.log("busca realizada");
-    
+    console.log('busca realizada')
   }
 
   const getInfoAboutLatAndLong = useCallback(async () => {
@@ -216,7 +215,7 @@ const Home: NextPage = () => {
     }, 5000)
 
     return () => clearTimeout(timer)
-  }, [currentPosition])
+  }, [])
 
   return (
     <div className="relative">
@@ -425,3 +424,4 @@ const Home: NextPage = () => {
 }
 
 export default Home
+

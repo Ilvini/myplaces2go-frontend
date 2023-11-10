@@ -191,7 +191,7 @@ const AddNewPlace: NextPage = () => {
               className="w-full py-5 h-20 bg-transparent border rounded-lg px-6 text-base text-brand-gray-400 placeholder:text-brand-gray-500 "
               disabled={isSubmitting}
             >
-              <option defaultValue="Escolha a categoria" disabled={true}>
+              <option selected disabled={true}>
                 Escolha a categoria
               </option>
               {categories?.results.map((categorie) => {
