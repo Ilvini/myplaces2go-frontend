@@ -46,12 +46,6 @@ const Home: NextPage = () => {
   const router = useRouter()
   const [openWindow, setOpenWindow] = React.useState<string | null>(null)
 
-  /*   const { data } = useFetch<IPlaces>(
-    `/pontos-turisticos?lat=${}=-48.49707&raio=14.28&categorias=10000,13000,14000,16000,18000,19000`
-  )
-
- */
-
   function limitarCaracteres(texto: string, limite: number) {
     if (texto.length <= limite) {
       return texto // Retorna a string sem fazer alterações se estiver dentro do limite.
@@ -61,6 +55,7 @@ const Home: NextPage = () => {
     }
   }
 
+  // função para pegar os lugares baseado na latitude e longitude
   async function getPlaces(lat: number, lon: number, zoom = 14.28) {
     try {
       setLoading(true)
@@ -76,6 +71,7 @@ const Home: NextPage = () => {
     console.log('busca realizada')
   }
 
+  // função para pegar informações sobre a latitude e longitude, atualmente é usada para pegar a cidade e o estado
   const getInfoAboutLatAndLong = useCallback(async () => {
     try {
       const response = await fetch(
@@ -93,16 +89,13 @@ const Home: NextPage = () => {
         'state',
         data.address['ISO3166-2-lvl4'].split('-')[1]
       )
-      console.log(
-        data.address.city,
-        data.address['ISO3166-2-lvl4'].split('-')[1]
-      )
+
       console.log(data)
     } catch (error) {
       console.log(error)
     }
   }, [currentPosition])
-
+  // configuração padrão para o mapa
   const defaultProps = {
     center: {
       lat: currentPosition.latitude,
@@ -111,7 +104,7 @@ const Home: NextPage = () => {
     zoom: 14.28,
     styles: styleGoogleMaps,
   }
-
+  // marker para a localização atual
   const CurrentLocationMarker = ({ text }: { text: string }) => (
     <Icon
       icon="ic:round-emoji-people"
@@ -120,6 +113,8 @@ const Home: NextPage = () => {
       color="red"
     />
   )
+
+  // lugar onde podemos setar configurações do mapa
   const handleApiLoaded = (map: any, maps: any) => {
     // use map and maps objects
     map.setOptions({
@@ -159,7 +154,8 @@ const Home: NextPage = () => {
               toast.error(locationError(error) as string, {
                 duration: 5000,
               })
-            }
+            },
+            { enableHighAccuracy: true, maximumAge: 86400000, timeout: 5000 }
           )
         } else if (result.state === 'prompt') {
           navigator.geolocation.getCurrentPosition(
@@ -175,6 +171,11 @@ const Home: NextPage = () => {
               toast.error(locationError(error) as string, {
                 duration: 5000,
               })
+            },
+            {
+              enableHighAccuracy: true,
+              maximumAge: 86400000,
+              timeout: 5000,
             }
           )
         } else if (result.state === 'denied') {
@@ -209,7 +210,8 @@ const Home: NextPage = () => {
             toast.error(locationError(error) as string, {
               duration: 5000,
             })
-          }
+          },
+          { enableHighAccuracy: true, maximumAge: 86400000, timeout: 15000 }
         )
       }
     }, 5000)
