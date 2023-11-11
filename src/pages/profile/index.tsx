@@ -137,18 +137,18 @@ const Profile: NextPage = () => {
             <img
               src="/img/bandeira-brasil.png"
               alt=""
-              className={`w-14 ${
+              className={`w-10 ${
                 Cookies.get('googtrans') === '/auto/pt' &&
-                'bg-black p-1 rounded-full'
+                'bg-black p-[3px] rounded-full '
               }`}
               onClick={(e) => langChange('/auto/pt', '/auto/pt', e)}
             />
             <img
               src="/img/bandeira-eua.png"
               alt=""
-              className={`w-14 ml-3 ${
+              className={`w-10 ml-3 ${
                 Cookies.get('googtrans') === '/auto/en' &&
-                'bg-black p-1 rounded-full'
+                'bg-black p-[3px] rounded-full'
               }`}
               onClick={(e) => langChange('/auto/en', '/auto/en', e)}
             />
