@@ -117,6 +117,7 @@ const Home: NextPage = () => {
   // lugar onde podemos setar configurações do mapa
   const handleApiLoaded = (map: any, maps: any) => {
     // use map and maps objects
+
     map.setOptions({
       disableDefaultUI: true,
       zoomControl: true,
@@ -235,26 +236,28 @@ const Home: NextPage = () => {
                 return (
                   <SwiperSlide key={place.uuid} className="flex flex-col">
                     <Link href={`/dashboard/place/${place.uuid}`}>
-                      <img
-                        src={place.imagem}
-                        alt=""
-                        className="aspect-square object-cover rounded-3xl drop-shadow-lg  w-full bg-zinc-200"
-                        onError={(e) => {
-                          e.currentTarget.src = '/img/no-image.png'
-                          e.currentTarget.onerror = null
-                        }}
-                      />
-                      <div className="flex  flex-col mt-1">
-                        {/* <div className="flex">
+                      <div>
+                        <img
+                          src={place.imagem}
+                          alt=""
+                          className="aspect-square object-cover rounded-3xl drop-shadow-lg  w-full bg-zinc-200"
+                          onError={(e) => {
+                            e.currentTarget.src = '/img/no-image.png'
+                            e.currentTarget.onerror = null
+                          }}
+                        />
+                        <div className="flex  flex-col mt-1">
+                          {/* <div className="flex">
                           <Ratting />
                         </div> */}
-                        <h3 className="text-base">
-                          {limitarCaracteres(place.nome, 20)}
-                        </h3>
-                        <div className=" flex items-center">
-                          <span className="text-sm text-brand-gray-500">
-                            {limitarCaracteres(place.categoria, 14)}
-                          </span>
+                          <h3 className="text-base">
+                            {limitarCaracteres(place.nome, 20)}
+                          </h3>
+                          <div className=" flex items-center">
+                            <span className="text-sm text-brand-gray-500">
+                              {limitarCaracteres(place.categoria, 14)}
+                            </span>
+                          </div>
                         </div>
                       </div>
                     </Link>
@@ -274,10 +277,10 @@ const Home: NextPage = () => {
       <section className="mb-[72px]">
         {typeof navigator !== 'undefined' && navigator?.geolocation ? (
           <div
-            className="aspect-square rounded-lg relative overflow-hidden"
+            className="aspect-square rounded-lg relative overflow-hidden h-[400px]"
             style={{ width: '100%' }}
           >
-            {places?.results.length ? (
+            {places && places?.results.length ? (
               <>
                 <div className="absolute left-2 top-3 flex flex-wrap z-30 space-x-2 ">
                   <Link href="/info-city">
@@ -306,7 +309,7 @@ const Home: NextPage = () => {
                     bottom: 0,
                     left: 0,
                     width: '100%',
-                    height: '100%',
+                    height: '400px',
                   }}
                   onClick={() => {
                     if (openWindow) setOpenWindow(null)
@@ -325,9 +328,9 @@ const Home: NextPage = () => {
                   bootstrapURLKeys={{
                     key: 'AIzaSyAXVy2ejGB5cOb_FPd0J2mhxaMjJ4It6JA',
                   }}
-                  onGoogleApiLoaded={({ map, maps }) =>
-                    handleApiLoaded(map, maps)
-                  }
+                  onGoogleApiLoaded={({ map, maps }) => {
+                    setLoading(true), handleApiLoaded(map, maps)
+                  }}
                   onDragEnd={(e) => {
                     setLoading(true)
                     setTimeout(() => {
@@ -359,7 +362,7 @@ const Home: NextPage = () => {
                         >
                           <>
                             {openWindow === place.uuid && (
-                              <div>
+                              <div className="">
                                 <div className="absolute bottom-16 -left-12 w-32 h-full z-50 flex justify-center items-center">
                                   {/*  <span
                                     className="absolute right-0 -top-6 p-2"

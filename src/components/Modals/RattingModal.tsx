@@ -9,6 +9,7 @@ import { Rating } from 'react-simple-star-rating'
 import { Icon } from '@iconify/react'
 import { useState } from 'react'
 import { api } from '../../services/axios'
+import ButtonOutline from '../Buttons/ButtonOutline'
 interface FormProps {
   star: string
   message: string
@@ -47,7 +48,20 @@ export function RattingModal() {
       errorHandler(error)
     }
   }
-  console.log(modalData)
+  async function shareSomeContent(title, text, url) {
+    if (!navigator.share) {
+      return
+    }
+
+    navigator
+      .share({ title, text, url })
+      .then(() => {
+        console.log('The content was shared successfully')
+      })
+      .catch((error) => {
+        console.error('Error sharing the content', error)
+      })
+  }
 
   return (
     <Dialog
@@ -106,6 +120,17 @@ export function RattingModal() {
           >
             Enviar
           </ButtonPrimary>
+          <ButtonOutline
+            onClick={() =>
+              shareSomeContent(
+                modalData?.results.nome,
+                'Venha conhecer esse ponto turístico',
+                window.location.href
+              )
+            }
+          >
+            Compartilhar
+          </ButtonOutline>
         </form>
       </Dialog.Panel>
     </Dialog>
