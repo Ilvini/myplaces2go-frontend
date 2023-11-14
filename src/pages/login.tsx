@@ -100,7 +100,7 @@ const Login: NextPage = () => {
             </div>
           </div>
           <div>
-            <Link href="/recuperar-senha/forgot-password">
+            <Link href="/recuperar-senha/change-password">
               <small className="text-white text-xl underline">
                 Esqueci minha senha
               </small>
