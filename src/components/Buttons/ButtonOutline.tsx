@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 export default function ButtonOutline(
   props: React.DetailedHTMLProps<
@@ -6,10 +6,6 @@ export default function ButtonOutline(
     HTMLButtonElement
   >
 ) {
-  return (
-    <button
-      {...props}
-      className="btn btn-outline"
-    />
-  );
+  return <button {...props} className="btn btn-outline" />
 }
+

@@ -1,5 +1,5 @@
 import { Dialog } from '@headlessui/react'
-
+import { RWebShare } from 'react-web-share'
 import ButtonPrimary from '../Buttons/ButtonPrimary'
 import rattingModalStore from '../../stores/modals/RattingModalStore'
 import toast from 'react-hot-toast'
@@ -47,20 +47,6 @@ export function RattingModal() {
       console.log(error)
       errorHandler(error)
     }
-  }
-  async function shareSomeContent(title, text, url) {
-    if (!navigator.share) {
-      return
-    }
-
-    navigator
-      .share({ title, text, url })
-      .then(() => {
-        console.log('The content was shared successfully')
-      })
-      .catch((error) => {
-        console.error('Error sharing the content', error)
-      })
   }
 
   return (
@@ -120,17 +106,29 @@ export function RattingModal() {
           >
             Enviar
           </ButtonPrimary>
-          <ButtonOutline
-            onClick={() =>
+          <RWebShare
+            data={{
+              text: `My Place 2 GO - ${modalData?.results.nome}`,
+              url: `https://myplaces2go-frontend.vercel.app/dashboard/place/${modalData?.results.uuid}}`,
+              title: 'Venha conhecer esse ponto turístico',
+            }}
+            onClick={() => console.log('shared successfully!')}
+          >
+            <button
+              type="button"
+              className="border-brand-yellow-300 border rounded-lg p-3 mt-3 w-full text-center"
+              aria-label="Compartilhar"
+              /*  onClick={() =>
               shareSomeContent(
                 modalData?.results.nome,
                 'Venha conhecer esse ponto turístico',
                 window.location.href
               )
-            }
-          >
-            Compartilhar
-          </ButtonOutline>
+            } */
+            >
+              Compartilhar
+            </button>
+          </RWebShare>
         </form>
       </Dialog.Panel>
     </Dialog>

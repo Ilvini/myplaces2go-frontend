@@ -34,6 +34,7 @@
     "react-simple-star-rating": "^5.1.7",
     "react-tooltip": "^5.18.0",
     "react-use": "^17.4.0",
+    "react-web-share": "^2.0.2",
     "sass": "^1.54.5",
     "swiper": "^9.1.0",
     "swr": "^2.2.0",
