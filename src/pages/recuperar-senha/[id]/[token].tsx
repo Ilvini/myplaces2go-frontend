@@ -10,6 +10,7 @@ import { LabelError } from '../../../components/Forms/components/LabelError'
 import { api } from '../../../services/axios'
 import toast from 'react-hot-toast'
 import { HeaderNavigation } from '../../../components/HeaderNavigation'
+import Cookies from 'js-cookie'
 
 interface FormProps {
   password: string
@@ -31,10 +32,20 @@ const Forgetpassword: NextPage = () => {
 
   async function handleChangePassword(data: FormProps) {
     try {
-      const response = await api.put(`/recuperar-senha/${id}/${token}`, {
-        password: data.password,
-        password_confirmation: data.password_confirmation,
-      })
+      const response = await api.put(
+        `/recuperar-senha/${id}/${token}`,
+        {
+          password: data.password,
+          password_confirmation: data.password_confirmation,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+            Authorization: `Bearer ${Cookies.get('token')}`,
+          },
+        }
+      )
       toast.success('Email enviado com sucesso')
       reset({
         password: '',

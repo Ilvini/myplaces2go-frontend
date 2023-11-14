@@ -228,9 +228,9 @@ const Home: NextPage = () => {
         </h1> */}
         {/*   <p className="text-brand-gray-500 text-xl mt-1">Lugares por perto</p> */}
 
-        <div className="mt-3">
+        <div className="mt-3 ">
           {places?.results.length ? (
-            <Swiper slidesPerView={3} spaceBetween={12} className="">
+            <Swiper slidesPerView={3} spaceBetween={12} className="bg-white">
               {places?.results.map((place) => {
                 return (
                   <SwiperSlide key={place.uuid} className="flex flex-col">
