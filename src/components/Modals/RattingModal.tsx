@@ -1,5 +1,5 @@
 import { Dialog } from '@headlessui/react'
-
+import { RWebShare } from 'react-web-share'
 import ButtonPrimary from '../Buttons/ButtonPrimary'
 import rattingModalStore from '../../stores/modals/RattingModalStore'
 import toast from 'react-hot-toast'
@@ -9,6 +9,7 @@ import { Rating } from 'react-simple-star-rating'
 import { Icon } from '@iconify/react'
 import { useState } from 'react'
 import { api } from '../../services/axios'
+import ButtonOutline from '../Buttons/ButtonOutline'
 interface FormProps {
   star: string
   message: string
@@ -47,7 +48,6 @@ export function RattingModal() {
       errorHandler(error)
     }
   }
-  console.log(modalData)
 
   return (
     <Dialog
@@ -106,6 +106,29 @@ export function RattingModal() {
           >
             Enviar
           </ButtonPrimary>
+          <RWebShare
+            data={{
+              text: `My Place 2 GO - ${modalData?.results.nome}`,
+              url: `https://myplaces2go-frontend.vercel.app/dashboard/place/${modalData?.results.uuid}}`,
+              title: 'Venha conhecer esse ponto turístico',
+            }}
+            onClick={() => console.log('shared successfully!')}
+          >
+            <button
+              type="button"
+              className="border-brand-yellow-300 border rounded-lg p-3 mt-3 w-full text-center"
+              aria-label="Compartilhar"
+              /*  onClick={() =>
+              shareSomeContent(
+                modalData?.results.nome,
+                'Venha conhecer esse ponto turístico',
+                window.location.href
+              )
+            } */
+            >
+              Compartilhar
+            </button>
+          </RWebShare>
         </form>
       </Dialog.Panel>
     </Dialog>

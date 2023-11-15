@@ -38,3 +38,13 @@ body {
     brightness(105%) contrast(103%);
 }
 
+.window-card {
+  z-index: 99999999999999;
+  position: absolute;
+}
+
+.marker-pin {
+  z-index: 99;
+  position: relative;
+}
+

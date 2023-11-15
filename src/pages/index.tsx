@@ -117,6 +117,7 @@ const Home: NextPage = () => {
   // lugar onde podemos setar configurações do mapa
   const handleApiLoaded = (map: any, maps: any) => {
     // use map and maps objects
+
     map.setOptions({
       disableDefaultUI: true,
       zoomControl: true,
@@ -126,11 +127,6 @@ const Home: NextPage = () => {
       },
       zoom: defaultProps.zoom,
     })
-
-    /*  maps.event.addListener(map, 'click', function (e: any) {
-      console.log(e.latLng.lat())
-      console.log(e.latLng.lng())
-    }) */
   }
 
   const handleUpdateMap = (lat: number, long: number, e: any) => {
@@ -276,7 +272,7 @@ const Home: NextPage = () => {
       <section className="mt-2 relative">
         {typeof navigator !== 'undefined' && navigator?.geolocation ? (
           <div
-            className="aspect-square rounded-lg relative overflow-hidden"
+            className="aspect-square rounded-lg relative overflow-hidden h-[400px]"
             style={{ width: '100%' }}
           >
             {places?.results.length ? (
@@ -308,7 +304,9 @@ const Home: NextPage = () => {
                     bottom: 0,
                     left: 0,
                     width: '100%',
-                    height: '415px',
+
+                    height: '400px',
+
                   }}
                   onClick={() => {
                     if (openWindow) setOpenWindow(null)
@@ -322,7 +320,6 @@ const Home: NextPage = () => {
                       currentPosition.longitude,
                       e
                     )
-                    console.log(e)
                   }}
                   bootstrapURLKeys={{
                     key: 'AIzaSyAXVy2ejGB5cOb_FPd0J2mhxaMjJ4It6JA',
@@ -330,12 +327,6 @@ const Home: NextPage = () => {
                   onGoogleApiLoaded={({ map, maps }) =>
                     handleApiLoaded(map, maps)
                   }
-                  /*  onDragEnd={(e) => {
-                    setLoading(true)
-                    setTimeout(() => {
-                      setLoading(false)
-                    }, 300)
-                  }} */
                   defaultCenter={defaultProps.center}
                   defaultZoom={defaultProps.zoom}
                   options={{
@@ -361,11 +352,10 @@ const Home: NextPage = () => {
                         >
                           <>
                             {openWindow === place.uuid && (
-                              <div>
-                                <div
-                                  className="absolute bottom-16 -left-12 w-32 h-full  flex justify-center items-center"
-                                  style={{ zIndex: '99999' }}
-                                >
+
+                              <div className="">
+                                <div className="absolute bottom-16 -left-12 w-32 h-full z-50 flex justify-center items-center">
+
                                   {/*  <span
                                     className="absolute right-0 -top-6 p-2"
                                     onClick={() => setOpenWindow(null)}

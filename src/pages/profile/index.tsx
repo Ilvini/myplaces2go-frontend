@@ -20,6 +20,7 @@ const Profile: NextPage = () => {
   const router = useRouter()
   const [selected, setSelected] = useState(null)
   const [currentLanguage, setCurrentLanguage] = useState('' as string)
+  const [selectFlag, setSelectFlag] = useState('' as string)
   const { data: me } = useFetch('/cliente/me', Cookies.get('token'))
 
   useEffect(() => {
@@ -87,7 +88,13 @@ const Profile: NextPage = () => {
     }
   }
 
-  useEffect(() => {}, [])
+  useEffect(() => {
+    if (Cookies.get('googtrans') === '/auto/pt') {
+      setSelectFlag('brasil')
+    } else {
+      setSelectFlag('eua')
+    }
+  }, [])
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -137,18 +144,20 @@ const Profile: NextPage = () => {
             <img
               src="/img/bandeira-brasil.png"
               alt=""
-              className={`w-10 ${
-                Cookies.get('googtrans') === '/auto/pt' &&
-                'bg-black p-[3px] rounded-full '
+
+              className={`w-14 ${
+                selectFlag === 'brasil' && 'bg-black p-1 rounded-full'
+
               }`}
               onClick={(e) => langChange('/auto/pt', '/auto/pt', e)}
             />
             <img
               src="/img/bandeira-eua.png"
               alt=""
-              className={`w-10 ml-3 ${
-                Cookies.get('googtrans') === '/auto/en' &&
-                'bg-black p-[3px] rounded-full'
+
+              className={`w-14 ml-3 ${
+                selectFlag === 'eua' && 'bg-black p-1 rounded-full'
+
               }`}
               onClick={(e) => langChange('/auto/en', '/auto/en', e)}
             />

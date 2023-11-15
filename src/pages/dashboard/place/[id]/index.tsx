@@ -22,6 +22,7 @@ import { api } from '../../../../services/axios'
 import Cookies from 'js-cookie'
 import { errorHandler } from '../../../../services/errorHandler'
 import { HeaderNavigation } from '../../../../components/HeaderNavigation'
+import { NextSeo } from 'next-seo'
 interface IComments {
   results: {
     id: number
@@ -84,125 +85,156 @@ const PlaceDetails: NextPage = () => {
   }
 
   return (
-    <main className="relative pb-20">
-      <HeaderNavigation backRoute="/" />
-      <section className="mx-4 my-4">
-        <div>
-          <div className="mt-3">
-            {place?.results.imagens && place?.results.imagens.length > 0 ? (
-              <Swiper
-                slidesPerView={1}
-                spaceBetween={12}
-                className="SwiperPlaceDetails"
-                pagination={{
-                  clickable: true,
-                }}
-                modules={[Pagination]}
-              >
-                {place?.results?.imagens.map(
-                  (imagem: string, index: number) => {
-                    return (
-                      <SwiperSlide
-                        key={index + imagem}
-                        className="flex  flex-col rounded-3xl overflow-hidden aspect-square"
-                      >
-                        <img
-                          src={imagem}
-                          alt=""
-                          className="h-full w-full  object-cover scale-105"
-                        />
-                      </SwiperSlide>
-                    )
-                  }
-                )}
-                {/*   <SwiperSlide className="flex flex-col">
+    <>
+      <NextSeo
+        title={place?.results.nome}
+        description={place?.results.nome}
+        canonical={`https://myplaces2go-frontend.vercel.app//dashboard/place/${id}`}
+        openGraph={{
+          url: `https://myplaces2go-frontend.vercel.app//dashboard/place/${id}`,
+          title: place?.results.nome,
+          description: place?.results.nome,
+          images: [
+            {
+              url: place?.results.imagens[0] || '/seo.png',
+              width: 800,
+              height: 600,
+              alt: place?.results.nome,
+            },
+            {
+              url: place?.results.imagens[1] || '/seo.png',
+              width: 900,
+              height: 800,
+              alt: place?.results.nome,
+            },
+            { url: place?.results.imagens[2] || '/seo.png' },
+            { url: place?.results.imagens[3] || '/seo.png' },
+          ],
+          site_name: 'My Place 2 Go',
+        }}
+      />
+      <main className="relative pb-20">
+        <HeaderNavigation backRoute="/" />
+        <section className="mx-4 my-4">
+          <div>
+            <div className="mt-3">
+              {place?.results.imagens && place?.results.imagens.length > 0 ? (
+                <Swiper
+                  slidesPerView={1}
+                  spaceBetween={12}
+                  className="SwiperPlaceDetails"
+                  pagination={{
+                    clickable: true,
+                  }}
+                  modules={[Pagination]}
+                >
+                  {place?.results?.imagens.map(
+                    (imagem: string, index: number) => {
+                      return (
+                        <SwiperSlide
+                          key={index + imagem}
+                          className="flex  flex-col rounded-3xl overflow-hidden aspect-square"
+                        >
+                          <img
+                            src={imagem}
+                            alt=""
+                            className="h-full w-full  object-cover scale-105"
+                          />
+                        </SwiperSlide>
+                      )
+                    }
+                  )}
+                  {/*   <SwiperSlide className="flex flex-col">
                 <img
                   src="/img/no-image.png"
                   alt=""
                   className="aspect-square w-full rounded-3xl drop-shadow-lg"
                 />
               </SwiperSlide> */}
-              </Swiper>
-            ) : (
-              <div className="bg-zinc-300 aspect-square w-full h-full rounded-3xl"></div>
-            )}
-            <div className="flex justify-between items-center gap-4">
-              <div className="flex  flex-col mt-1 w-full">
-                <div className="flex">
-                  <Ratting size={24} count={place?.results?.avaliacao_media} />{' '}
-                  {!place?.results.avaliacao_media && (
-                    <p className="text-sm">Sem Avaliações</p>
-                  )}
-                </div>
-                {place?.results.nome ? (
-                  <h3 className="text-2xl ">{place?.results.nome}</h3>
-                ) : (
-                  <span className="bg-zinc-300 animate-pulse h-6 w-full rounded-md mt-2"></span>
-                )}
-                <div className=" flex items-center">
-                  {place?.results.endereco ? (
-                    <span className="text-base text-brand-gray-600 max-w-xs">
-                      {place?.results.endereco}
-                    </span>
-                  ) : (
-                    <span className="bg-zinc-300 animate-pulse h-6 w-full rounded-md mt-2 "></span>
-                  )}
-                </div>
-              </div>
-              {hasFavorite ? (
-                <button
-                  className="flex w-44 items-center justify-center flex-col p-3 border mt-4 rounded-md"
-                  onClick={() => handleAddOnFavorites(place)}
-                >
-                  <Icon
-                    icon="gg:check-o"
-                    fontSize={24}
-                    className="text-brand-green-400"
-                  />
-                  <p className="text-brand-gray-900 font-normal mt-1 text-center">
-                    Favorito
-                  </p>
-                </button>
+                </Swiper>
               ) : (
-                <button
-                  className="flex w-44 items-center justify-center flex-col p-3 border mt-4 rounded-md"
-                  onClick={() => handleAddOnFavorites(place)}
-                >
-                  <Icon
-                    icon="iconamoon:heart-fill"
-                    fontSize={24}
-                    className="text-brand-yellow-300"
-                  />
-                  <p className="text-brand-gray-900 font-normal mt-1 text-center">
-                    Adicionar aos favoritos
-                  </p>
-                </button>
+                <div className="bg-zinc-300 aspect-square w-full h-full rounded-3xl"></div>
               )}
+              <div className="flex justify-between items-center gap-4">
+                <div className="flex  flex-col mt-1 w-full">
+                  <div className="flex">
+                    <Ratting
+                      size={24}
+                      count={place?.results?.avaliacao_media}
+                    />{' '}
+                    {!place?.results.avaliacao_media && (
+                      <p className="text-sm">Sem Avaliações</p>
+                    )}
+                  </div>
+                  {place?.results.nome ? (
+                    <h3 className="text-2xl ">{place?.results.nome}</h3>
+                  ) : (
+                    <span className="bg-zinc-300 animate-pulse h-6 w-full rounded-md mt-2"></span>
+                  )}
+                  <div className=" flex items-center">
+                    {place?.results.endereco ? (
+                      <span className="text-base text-brand-gray-600 max-w-xs">
+                        {place?.results.endereco}
+                      </span>
+                    ) : (
+                      <span className="bg-zinc-300 animate-pulse h-6 w-full rounded-md mt-2 "></span>
+                    )}
+                  </div>
+                </div>
+                {hasFavorite ? (
+                  <button
+                    className="flex w-44 items-center justify-center flex-col p-3 border mt-4 rounded-md"
+                    onClick={() => handleAddOnFavorites(place)}
+                  >
+                    <Icon
+                      icon="gg:check-o"
+                      fontSize={24}
+                      className="text-brand-green-400"
+                    />
+                    <p className="text-brand-gray-900 font-normal mt-1 text-center">
+                      Favorito
+                    </p>
+                  </button>
+                ) : (
+                  <button
+                    className="flex w-44 items-center justify-center flex-col p-3 border mt-4 rounded-md"
+                    onClick={() => handleAddOnFavorites(place)}
+                  >
+                    <Icon
+                      icon="iconamoon:heart-fill"
+                      fontSize={24}
+                      className="text-brand-yellow-300"
+                    />
+                    <p className="text-brand-gray-900 font-normal mt-1 text-center">
+                      Adicionar aos favoritos
+                    </p>
+                  </button>
+                )}
+              </div>
             </div>
           </div>
-        </div>
-      </section>
-      <section className="mx-4 my-4">
-        <ul className="flex w-full">
-          <li
-            onClick={() => setCurrentTab('informacoes')}
-            className={`py-2 px-3 text-brand-gray-600 cursor-pointer ${
-              currentTab === 'informacoes' &&
-              'bg-gray-200  text-brand-gray-900 rounded-2xl '
-            } `}
-          >
-            Informações
-          </li>
-          <li
-            onClick={() => setCurrentTab('avaliacoes')}
-            className={`py-2  text-brand-gray-600 cursor-pointer ${
-              currentTab === 'avaliacoes' &&
-              'bg-gray-200  text-brand-gray-900 rounded-2xl '
-            }  px-3`}
-          >
-            Avaliações
-          </li>
-          {/* <li
+        </section>
+        <section className="mx-4 my-4">
+          <ul className="flex w-full">
+            <li
+              onClick={() => setCurrentTab('informacoes')}
+              className={`py-2 px-3 text-brand-gray-600 cursor-pointer ${
+                currentTab === 'informacoes' &&
+                'bg-gray-200  text-brand-gray-900 rounded-2xl '
+              } `}
+            >
+              Informações
+            </li>
+            <li
+              onClick={() => setCurrentTab('avaliacoes')}
+              className={`py-2  text-brand-gray-600 cursor-pointer ${
+                currentTab === 'avaliacoes' &&
+                'bg-gray-200  text-brand-gray-900 rounded-2xl '
+              }  px-3`}
+            >
+              Avaliações
+            </li>
+            {/* <li
             onClick={() => setCurrentTab('mais_fotos')}
             className={`py-2 text-brand-gray-600 ${
               currentTab === 'mais_fotos' &&
@@ -211,11 +243,12 @@ const PlaceDetails: NextPage = () => {
           >
             Mais Fotos
           </li> */}
-        </ul>
-        <div>{Tab[currentTab]}</div>
-      </section>
-      <BottomNavigation />
-    </main>
+          </ul>
+          <div>{Tab[currentTab]}</div>
+        </section>
+        <BottomNavigation />
+      </main>
+    </>
   )
 }
 
