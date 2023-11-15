@@ -127,11 +127,6 @@ const Home: NextPage = () => {
       },
       zoom: defaultProps.zoom,
     })
-
-    /*  maps.event.addListener(map, 'click', function (e: any) {
-      console.log(e.latLng.lat())
-      console.log(e.latLng.lng())
-    }) */
   }
 
   const handleUpdateMap = (lat: number, long: number, e: any) => {
@@ -280,7 +275,7 @@ const Home: NextPage = () => {
             className="aspect-square rounded-lg relative overflow-hidden h-[400px]"
             style={{ width: '100%' }}
           >
-            {places && places?.results.length ? (
+            {places?.results.length ? (
               <>
                 <div className="absolute left-2 top-3 flex flex-wrap z-30 space-x-2 ">
                   <Link href="/info-city">
@@ -323,20 +318,13 @@ const Home: NextPage = () => {
                       currentPosition.longitude,
                       e
                     )
-                    console.log(e)
                   }}
                   bootstrapURLKeys={{
                     key: 'AIzaSyAXVy2ejGB5cOb_FPd0J2mhxaMjJ4It6JA',
                   }}
-                  onGoogleApiLoaded={({ map, maps }) => {
-                    setLoading(true), handleApiLoaded(map, maps)
-                  }}
-                  onDragEnd={(e) => {
-                    setLoading(true)
-                    setTimeout(() => {
-                      setLoading(false)
-                    }, 300)
-                  }}
+                  onGoogleApiLoaded={({ map, maps }) =>
+                    handleApiLoaded(map, maps)
+                  }
                   defaultCenter={defaultProps.center}
                   defaultZoom={defaultProps.zoom}
                   options={{
