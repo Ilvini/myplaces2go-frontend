@@ -144,16 +144,20 @@ const Profile: NextPage = () => {
             <img
               src="/img/bandeira-brasil.png"
               alt=""
+
               className={`w-14 ${
                 selectFlag === 'brasil' && 'bg-black p-1 rounded-full'
+
               }`}
               onClick={(e) => langChange('/auto/pt', '/auto/pt', e)}
             />
             <img
               src="/img/bandeira-eua.png"
               alt=""
+
               className={`w-14 ml-3 ${
                 selectFlag === 'eua' && 'bg-black p-1 rounded-full'
+
               }`}
               onClick={(e) => langChange('/auto/en', '/auto/en', e)}
             />
