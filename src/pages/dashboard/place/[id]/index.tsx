@@ -31,39 +31,32 @@ interface IComments {
   }[]
 }
 
-const PlaceDetails: NextPage = () => {
+const PlaceDetails: NextPage = ({ data }) => {
   const { id } = useRouter().query
   const [hasFavorite, setHasFavorite] = useState<boolean>(false)
   const [currentTab, setCurrentTab] = React.useState<
     'informacoes' | 'avaliacoes' | 'mais_fotos'
   >('informacoes')
 
-  const { data: place } = useFetch<IPlaces>(`/pontos-turisticos/${id}`)
+  /*   const { data: place } = useFetch<IPlaces>(`/pontos-turisticos/${id}`)
+   */
+  console.log(data && data)
 
-  console.log(place)
-  const { data: comments } = useFetch<IComments>(
-    `/pontos-turisticos/${id}/avaliacoes`
-  )
-
-  const { data: MoreInfo } = useFetch(
-    `/pontos-turisticos/${id}/informacoes-adicionais`
-  )
-
-  const { data: avaliacoes } = useFetch(`/pontos-turisticos/${id}/avaliacoes`)
+  /*  const { data: avaliacoes } = useFetch(`/pontos-turisticos/${id}/avaliacoes`) */
   useEffect(() => {
-    if (place?.results?.favorito) {
+    if (data?.results?.favorito) {
       setHasFavorite(true)
     } else {
       setHasFavorite(false)
     }
   }, [])
-  async function handleAddOnFavorites(place: any) {
+  async function handleAddOnFavorites(data: any) {
     try {
-      console.log(place.results)
-      if (!place.results) return toast.error('Erro ao adicionar aos favoritos')
+      console.log(data.results)
+      if (!data.results) return toast.error('Erro ao adicionar aos favoritos')
 
       const response = await api.patch(
-        `/pontos-turisticos/${place.results.uuid}/favoritar`,
+        `/pontos-turisticos/${data.results.uuid}/favoritar`,
         null,
         {
           headers: {
@@ -79,36 +72,36 @@ const PlaceDetails: NextPage = () => {
   }
 
   const Tab = {
-    informacoes: <PlaceDetailsInformation data={place} />,
-    avaliacoes: <PlaceDetailsComments data={place} />,
+    informacoes: <PlaceDetailsInformation data={data} />,
+    avaliacoes: <PlaceDetailsComments data={data} />,
     mais_fotos: <div>Mais Fotos</div>,
   }
 
   return (
     <>
       <NextSeo
-        title={place?.results.nome}
-        description={place?.results.nome}
+        title={data?.results.nome}
+        description={data?.results.nome}
         canonical={`https://myplaces2go-frontend.vercel.app//dashboard/place/${id}`}
         openGraph={{
           url: `https://myplaces2go-frontend.vercel.app//dashboard/place/${id}`,
-          title: place?.results.nome,
-          description: place?.results.nome,
+          title: data?.results.nome,
+          description: data?.results.nome,
           images: [
             {
-              url: place?.results.imagens[0] || '/seo.png',
+              url: data?.results.imagens[0] || '/seo.png',
               width: 800,
               height: 600,
-              alt: place?.results.nome,
+              alt: data?.results.nome,
             },
             {
-              url: place?.results.imagens[1] || '/seo.png',
+              url: data?.results.imagens[1] || '/seo.png',
               width: 900,
               height: 800,
-              alt: place?.results.nome,
+              alt: data?.results.nome,
             },
-            { url: place?.results.imagens[2] || '/seo.png' },
-            { url: place?.results.imagens[3] || '/seo.png' },
+            { url: data?.results.imagens[2] || '/seo.png' },
+            { url: data?.results.imagens[3] || '/seo.png' },
           ],
           site_name: 'My Place 2 Go',
         }}
@@ -118,7 +111,7 @@ const PlaceDetails: NextPage = () => {
         <section className="mx-4 my-4">
           <div>
             <div className="mt-3">
-              {place?.results.imagens && place?.results.imagens.length > 0 ? (
+              {data?.results.imagens && data?.results.imagens.length > 0 ? (
                 <Swiper
                   slidesPerView={1}
                   spaceBetween={12}
@@ -128,7 +121,7 @@ const PlaceDetails: NextPage = () => {
                   }}
                   modules={[Pagination]}
                 >
-                  {place?.results?.imagens.map(
+                  {data?.results?.imagens.map(
                     (imagem: string, index: number) => {
                       return (
                         <SwiperSlide
@@ -158,23 +151,20 @@ const PlaceDetails: NextPage = () => {
               <div className="flex justify-between items-center gap-4">
                 <div className="flex  flex-col mt-1 w-full">
                   <div className="flex">
-                    <Ratting
-                      size={24}
-                      count={place?.results?.avaliacao_media}
-                    />{' '}
-                    {!place?.results.avaliacao_media && (
+                    <Ratting size={24} count={data?.results?.avaliacao_media} />{' '}
+                    {!data?.results.avaliacao_media && (
                       <p className="text-sm">Sem Avaliações</p>
                     )}
                   </div>
-                  {place?.results.nome ? (
-                    <h3 className="text-2xl ">{place?.results.nome}</h3>
+                  {data?.results.nome ? (
+                    <h3 className="text-2xl ">{data?.results.nome}</h3>
                   ) : (
                     <span className="bg-zinc-300 animate-pulse h-6 w-full rounded-md mt-2"></span>
                   )}
                   <div className=" flex items-center">
-                    {place?.results.endereco ? (
+                    {data?.results.endereco ? (
                       <span className="text-base text-brand-gray-600 max-w-xs">
-                        {place?.results.endereco}
+                        {data?.results.endereco}
                       </span>
                     ) : (
                       <span className="bg-zinc-300 animate-pulse h-6 w-full rounded-md mt-2 "></span>
@@ -184,7 +174,7 @@ const PlaceDetails: NextPage = () => {
                 {hasFavorite ? (
                   <button
                     className="flex w-44 items-center justify-center flex-col p-3 border mt-4 rounded-md"
-                    onClick={() => handleAddOnFavorites(place)}
+                    onClick={() => handleAddOnFavorites(data)}
                   >
                     <Icon
                       icon="gg:check-o"
@@ -198,7 +188,7 @@ const PlaceDetails: NextPage = () => {
                 ) : (
                   <button
                     className="flex w-44 items-center justify-center flex-col p-3 border mt-4 rounded-md"
-                    onClick={() => handleAddOnFavorites(place)}
+                    onClick={() => handleAddOnFavorites(data)}
                   >
                     <Icon
                       icon="iconamoon:heart-fill"
@@ -253,4 +243,20 @@ const PlaceDetails: NextPage = () => {
 }
 
 export default PlaceDetails
+
+export const getServerSideProps = async (context: any) => {
+  const { params } = context
+  const { id } = params
+
+  const response = await api.get(`/pontos-turisticos/${id}`)
+
+  const place = await response.data
+  console.log(place)
+  return {
+    props: {
+      data: place,
+    },
+    fallback: true,
+  }
+}
 
