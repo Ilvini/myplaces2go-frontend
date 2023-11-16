@@ -48,7 +48,7 @@ export function RattingModal() {
       errorHandler(error)
     }
   }
-
+  console.log(modalData)
   return (
     <Dialog
       open={modalState}
@@ -109,7 +109,7 @@ export function RattingModal() {
           <RWebShare
             data={{
               text: `My Place 2 GO - ${modalData?.results.nome}`,
-              url: `https://myplaces2go-frontend.vercel.app/dashboard/place/${modalData?.results.uuid}}`,
+              url: typeof window !== 'undefined' && window.location.href,
               title: 'Venha conhecer esse ponto turístico',
             }}
             onClick={() => console.log('shared successfully!')}
