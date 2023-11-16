@@ -250,13 +250,13 @@ export const getServerSideProps = async (context: any) => {
 
   const response = await api.get(`/pontos-turisticos/${id}`)
 
-  const place = await response.data
+  const place = response.data
   console.log(place)
   return {
     props: {
-      data: place,
+      data: response.data,
+      fallback: true,
     },
-    fallback: true,
   }
 }
 
