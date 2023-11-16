@@ -85,19 +85,19 @@ const PlaceDetails: NextPage = ({ data }) => {
         canonical={`https://myplaces2go-frontend.vercel.app//dashboard/place/${id}`}
         openGraph={{
           url: `https://myplaces2go-frontend.vercel.app//dashboard/place/${id}`,
-          title: data?.results.nome,
-          description: data?.results.nome,
+          title: `My Place 2 Go - Visite ${data?.results.nome}`,
+          description: `Venha Visitar ${data?.results.nome}`,
           images: [
             {
               url: data?.results.imagens[0] || '/seo.png',
-              width: 800,
-              height: 600,
+              width: 1200,
+              height: 627,
               alt: data?.results.nome,
             },
             {
               url: data?.results.imagens[1] || '/seo.png',
-              width: 900,
-              height: 800,
+              width: 1200,
+              height: 627,
               alt: data?.results.nome,
             },
             { url: data?.results.imagens[2] || '/seo.png' },
