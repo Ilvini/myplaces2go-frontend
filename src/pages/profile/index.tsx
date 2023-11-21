@@ -144,20 +144,16 @@ const Profile: NextPage = () => {
             <img
               src="/img/bandeira-brasil.png"
               alt=""
-
               className={`w-14 ${
                 selectFlag === 'brasil' && 'bg-black p-1 rounded-full'
-
               }`}
               onClick={(e) => langChange('/auto/pt', '/auto/pt', e)}
             />
             <img
               src="/img/bandeira-eua.png"
               alt=""
-
               className={`w-14 ml-3 ${
                 selectFlag === 'eua' && 'bg-black p-1 rounded-full'
-
               }`}
               onClick={(e) => langChange('/auto/en', '/auto/en', e)}
             />
@@ -190,6 +186,17 @@ const Profile: NextPage = () => {
         <Link href="/add-new-place">
           <button className="border-brand-yellow-300 border   rounded-lg p-3 mt-3 w-full text-center ">
             Sugerir Ponto Turístico
+          </button>
+        </Link>
+        <Link href="/rate-app">
+          <button className="border-brand-yellow-300 border   rounded-lg p-3 mt-3 w-full text-center flex justify-center items-center">
+            <Icon
+              icon="tabler:star"
+              color="black"
+              className="inline mr-2"
+              fontSize={20}
+            />
+            Avaliar Aplicativo
           </button>
         </Link>
         <Link href="/login" onClick={() => Cookies.remove('token')}>

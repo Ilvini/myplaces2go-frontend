@@ -32,20 +32,10 @@ const Forgetpassword: NextPage = () => {
 
   async function handleChangePassword(data: FormProps) {
     try {
-      const response = await api.put(
-        `/recuperar-senha/${id}/${token}`,
-        {
-          password: data.password,
-          password_confirmation: data.password_confirmation,
-        },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
-            Authorization: `Bearer ${Cookies.get('token')}`,
-          },
-        }
-      )
+      const response = await api.put(`/recuperar-senha/${id}/${token}`, {
+        password: data.password,
+        password_confirmation: data.password_confirmation,
+      })
       toast.success('Email enviado com sucesso')
       reset({
         password: '',
