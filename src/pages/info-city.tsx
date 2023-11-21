@@ -110,6 +110,7 @@ const Favorite: NextPage = () => {
             {InfoCity.results.fotos.map((foto) => {
               return (
                 <img
+                  key={foto}
                   src={foto}
                   alt="fotos do município"
                   className="aspect-square w-full h-full rounded-lg"

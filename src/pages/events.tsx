@@ -72,7 +72,7 @@ const Events: NextPage = () => {
         <div className="w-full">
           {events.results.map((event) => {
             return (
-              <div className="p-4 shadow-xl my-4 rounded-lg ">
+              <div key={event.id} className="p-4 shadow-xl my-4 rounded-lg ">
                 <div className="relative aspect-[16/12]">
                   <img
                     src={event.imagem_url}
