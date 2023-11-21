@@ -12,6 +12,7 @@ import { api } from '../services/axios'
 import Cookies from 'js-cookie'
 import Link from 'next/link'
 import { useState } from 'react'
+import { LoadingCircle } from '../components/Loading'
 interface FormProps {
   email: string
   password: string
@@ -112,11 +113,7 @@ const Login: NextPage = () => {
               type="submit"
               className="rounded-xl disabled:bg-brand-green-600 disabled:text-white/50 flex justify-center py-5   drop-shadow-2xl font-light bg-brand-blue-100 w-full text-xl text-white"
             >
-              {!isSubmitting ? (
-                'Fazer Login'
-              ) : (
-                <Icon icon="mingcute:loading-3-fill" />
-              )}
+              {!isSubmitting ? 'Fazer Login' : <LoadingCircle />}
             </button>
             <Link href="/">
               <button className="rounded-xl flex justify-center py-5 mt-2   drop-shadow-2xl font-light bg-brand-yellow-300 w-full text-xl text-black">

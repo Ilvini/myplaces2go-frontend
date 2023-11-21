@@ -23,6 +23,7 @@ import Cookies from 'js-cookie'
 import { errorHandler } from '../../../../services/errorHandler'
 import { HeaderNavigation } from '../../../../components/HeaderNavigation'
 import { NextSeo } from 'next-seo'
+import { LoadingCircle } from '../../../../components/Loading'
 interface IComments {
   results: {
     id: number
@@ -37,7 +38,7 @@ const PlaceDetails: NextPage = ({ data }) => {
   const [currentTab, setCurrentTab] = React.useState<
     'informacoes' | 'avaliacoes' | 'mais_fotos'
   >('informacoes')
-
+  const [loading, setLoading] = useState(false)
   /*   const { data: place } = useFetch<IPlaces>(`/pontos-turisticos/${id}`)
    */
   console.log(data && data)
@@ -52,6 +53,7 @@ const PlaceDetails: NextPage = ({ data }) => {
   }, [])
   async function handleAddOnFavorites(data: any) {
     try {
+      setLoading(true)
       console.log(data.results)
       if (!data.results) return toast.error('Erro ao adicionar aos favoritos')
 
@@ -64,8 +66,10 @@ const PlaceDetails: NextPage = ({ data }) => {
           },
         }
       )
+      setLoading(false)
       setHasFavorite(!hasFavorite)
     } catch (err) {
+      setLoading(false)
       console.log(err)
       errorHandler(err)
     }
@@ -171,7 +175,12 @@ const PlaceDetails: NextPage = ({ data }) => {
                     )}
                   </div>
                 </div>
-                {hasFavorite ? (
+
+                {loading ? (
+                  <div className="flex items-center justify-center w-44 border p-3 h-24">
+                    <LoadingCircle />
+                  </div>
+                ) : hasFavorite ? (
                   <button
                     className="flex w-44 items-center justify-center flex-col p-3 border mt-4 rounded-md"
                     onClick={() => handleAddOnFavorites(data)}
