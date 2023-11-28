@@ -14,7 +14,7 @@ import BottomNavigation from '../components/Partials/BottomNavigation'
 import GoogleMaps from '../components/GoogleMaps'
 import Link from 'next/link'
 import { useFetch } from '../services/useFetch'
-import React, { useCallback, useEffect } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import styleGoogleMaps from '../styles/googleMapsStyle/main'
 import { errorHandler } from '../services/errorHandler'
 import { api } from '../services/axios'
@@ -25,14 +25,18 @@ import { HeaderNavigation } from '../components/HeaderNavigation'
 import { Zoom } from 'swiper'
 interface IPlaces {
   results: {
-    uuid: string
-    nome: string
-    lat: number
-    lon: number
-    categoria: string
-    icone: string
-    imagem: string
-  }[]
+    cidade: string
+    estado: string
+    localidades: {
+      uuid: string
+      nome: string
+      lat: number
+      lon: number
+      categoria: string
+      icone: string
+      imagem: string
+    }[]
+  }
 }
 const Home: NextPage = () => {
   const [currentPosition, setCurrentPosition] = React.useState({
@@ -44,6 +48,10 @@ const Home: NextPage = () => {
   const [loading, setLoading] = React.useState(false)
   const [zoom, setZoom] = React.useState<number | null>(null)
   const router = useRouter()
+  const [latAndLgn, setLatAndLgn] = React.useState({
+    lat: 0,
+    lng: 0,
+  })
   const [openWindow, setOpenWindow] = React.useState<string | null>(null)
 
   function limitarCaracteres(texto: string, limite: number) {
@@ -58,6 +66,10 @@ const Home: NextPage = () => {
   // função para pegar os lugares baseado na latitude e longitude
   async function getPlaces(lat: number, lon: number, zoom = 14.28) {
     try {
+      setLatAndLgn({
+        lat: lat,
+        lng: lon,
+      })
       setLoading(true)
       const response = await api.get(
         `/pontos-turisticos?lat=${lat}&lon=${lon}&raio=${zoom}`
@@ -68,11 +80,10 @@ const Home: NextPage = () => {
       setLoading(false)
       errorHandler(erro)
     }
-    console.log('busca realizada')
   }
 
   // função para pegar informações sobre a latitude e longitude, atualmente é usada para pegar a cidade e o estado
-  const getInfoAboutLatAndLong = useCallback(async () => {
+  /*   const getInfoAboutLatAndLong = useCallback(async () => {
     try {
       const response = await fetch(
         `https://nominatim.openstreetmap.org/reverse?lat=${currentPosition.latitude}&lon=${currentPosition.longitude}&format=json`,
@@ -94,7 +105,7 @@ const Home: NextPage = () => {
     } catch (error) {
       console.log(error)
     }
-  }, [currentPosition])
+  }, [currentPosition]) */
   // configuração padrão para o mapa
   const defaultProps = {
     center: {
@@ -185,7 +196,7 @@ const Home: NextPage = () => {
         duration: 5000,
       })
     }
-    getInfoAboutLatAndLong()
+    /*   getInfoAboutLatAndLong() */
   }, [])
 
   useEffect(() => {
@@ -210,7 +221,7 @@ const Home: NextPage = () => {
           { enableHighAccuracy: true, maximumAge: 86400000, timeout: 15000 }
         )
       }
-    }, 5000)
+    }, 15000)
 
     return () => clearTimeout(timer)
   }, [])
@@ -225,9 +236,9 @@ const Home: NextPage = () => {
         {/*   <p className="text-brand-gray-500 text-xl mt-1">Lugares por perto</p> */}
 
         <div className="mt-3 ">
-          {places?.results.length ? (
+          {places?.results.localidades.length ? (
             <Swiper slidesPerView={3} spaceBetween={12} className="bg-white">
-              {places?.results.map((place) => {
+              {places?.results.localidades.map((place) => {
                 return (
                   <SwiperSlide key={place.uuid} className="flex flex-col">
                     <Link href={`/dashboard/place/${place.uuid}`}>
@@ -275,16 +286,21 @@ const Home: NextPage = () => {
             className="aspect-square rounded-lg relative overflow-hidden h-[400px]"
             style={{ width: '100%' }}
           >
-            {places?.results.length ? (
+            {places?.results.localidades.length ? (
               <>
                 <div className="absolute left-2 top-3 flex flex-wrap z-30 space-x-2 ">
-                  <Link href="/info-city">
+                  <Link
+                    href={`/info-city?lat=${latAndLgn.lat}&long=${latAndLgn.lng}`}
+                  >
                     <button className="text-sm drop-shadow-lg bg-white flex items-center px-4 py-2 text-brand-gray-900 font-normal  rounded-full">
-                      <Icon icon="mdi:city" className="mr-2" /> Belém
+                      <Icon icon="mdi:city" className="mr-2" />{' '}
+                      {places?.results.cidade}
                     </button>
                   </Link>
 
-                  <Link href="/guide">
+                  <Link
+                    href={`/guide?estado=${places.results.estado}&cidade=${places.results.cidade}`}
+                  >
                     <button className=" text-sm drop-shadow-lg bg-white flex items-center px-4 py-2 text-brand-gray-900 font-normal  rounded-full">
                       <Icon icon="solar:user-bold" className="mr-2" />
                       Guias
@@ -297,7 +313,20 @@ const Home: NextPage = () => {
                     </button>
                   </Link>
                 </div>
-
+                {/*  <button
+                  key="center"
+                  onClick={handleCenterClick}
+                  className=" bg-white p-2 rounded-md shadow-md w-12 flex items-center justify-center h-12 absolute bottom-40 right-2 z-50"
+                >
+                  <Icon
+                    icon="mdi:image-filter-center-focus-strong"
+                    fontSize={32}
+                    className="text-brand-gray-600"
+                    onClick={() => {
+                      handleCenterClick()
+                    }}
+                  />
+                </button> */}
                 <GoogleMapReact
                   style={{
                     position: 'absolute',
@@ -306,7 +335,6 @@ const Home: NextPage = () => {
                     width: '100%',
 
                     height: '400px',
-
                   }}
                   onClick={() => {
                     if (openWindow) setOpenWindow(null)
@@ -337,7 +365,7 @@ const Home: NextPage = () => {
                     lat={currentPosition.latitude}
                     lng={currentPosition.longitude}
                   />
-                  {places?.results?.map((place) => {
+                  {places?.results?.localidades.map((place) => {
                     return (
                       <div
                         key={place.uuid}
@@ -352,10 +380,8 @@ const Home: NextPage = () => {
                         >
                           <>
                             {openWindow === place.uuid && (
-
                               <div className="">
                                 <div className="absolute bottom-16 -left-12 w-32 h-full z-50 flex justify-center items-center">
-
                                   {/*  <span
                                     className="absolute right-0 -top-6 p-2"
                                     onClick={() => setOpenWindow(null)}
