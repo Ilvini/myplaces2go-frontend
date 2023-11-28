@@ -19,7 +19,7 @@ export const HeaderNavigation = ({ backRoute }: { backRoute: string }) => {
                   xmlns="http://www.w3.org/2000/svg"
                   aria-hidden="true"
                   role="img"
-                  font-size="32"
+                  fontSize="32"
                   className="iconify iconify--icon-park-outline"
                   width="1em"
                   height="1em"
@@ -29,9 +29,9 @@ export const HeaderNavigation = ({ backRoute }: { backRoute: string }) => {
                   <g
                     fill="none"
                     stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="4"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="4"
                   >
                     <path d="M10 33c0-7.299 4.103-13.583 10-16.408A16.147 16.147 0 0 1 27 15c9.389 0 17 8.059 17 18"></path>
                     <path d="m18 28l-8 5l-6-8"></path>
