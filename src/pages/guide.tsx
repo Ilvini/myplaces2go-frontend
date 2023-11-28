@@ -32,8 +32,11 @@ interface IResponse {
 
 const Guides: NextPage = () => {
   const router = useRouter()
+  const { estado, cidade } = router.query
 
-  const { data: guide } = useFetch<IResponse>(`/guias?estado=PA&cidade=Belém`)
+  const { data: guide } = useFetch<IResponse>(
+    `/guias?estado=${estado}&cidade=${cidade}`
+  )
 
   return (
     <main className="relative pb-20">

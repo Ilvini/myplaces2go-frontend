@@ -86,9 +86,9 @@ const PlaceDetails: NextPage = ({ data }) => {
       <NextSeo
         title={data?.results.nome}
         description={data?.results.nome}
-        canonical={`https://myplaces2go-frontend.vercel.app//dashboard/place/${id}`}
+        canonical={`https://myplaces2go-frontend.vercel.app/dashboard/place/${id}`}
         openGraph={{
-          url: `https://myplaces2go-frontend.vercel.app//dashboard/place/${id}`,
+          url: `https://myplaces2go-frontend.vercel.app/dashboard/place/${id}`,
           title: `My Place 2 Go - Visite ${data?.results.nome}`,
           description: `Venha Visitar ${data?.results.nome}`,
           images: [
