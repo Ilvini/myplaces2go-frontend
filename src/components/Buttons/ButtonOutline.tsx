@@ -6,6 +6,11 @@ export default function ButtonOutline(
     HTMLButtonElement
   >
 ) {
-  return <button {...props} className="btn btn-outline" />
+  return (
+    <button
+      {...props}
+      className="border border-brand-yellow-300 rounded-lg p-3 mt-3 w-full text-center"
+    />
+  )
 }
 

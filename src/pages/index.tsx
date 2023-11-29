@@ -52,6 +52,88 @@ const Home: NextPage = () => {
     lat: 0,
     lng: 0,
   })
+  const raios = [
+    {
+      zoom: 20,
+      raio: 0.046875,
+    },
+    {
+      zoom: 19,
+      raio: 0.09375,
+    },
+    {
+      zoom: 18,
+      raio: 0.1875,
+    },
+    {
+      zoom: 17,
+      raio: 0.375,
+    },
+    {
+      zoom: 16,
+      raio: 0.75,
+    },
+    {
+      zoom: 15,
+      raio: 1.5,
+    },
+    {
+      zoom: 14,
+      raio: 3,
+    },
+    {
+      zoom: 13,
+      raio: 6,
+    },
+    {
+      zoom: 12,
+      raio: 12,
+    },
+    {
+      zoom: 11,
+      raio: 24,
+    },
+    {
+      zoom: 10,
+      raio: 48,
+    },
+    {
+      zoom: 9,
+      raio: 96,
+    },
+    {
+      zoom: 8,
+      raio: 192,
+    },
+    {
+      zoom: 7,
+      raio: 385,
+    },
+    {
+      zoom: 6,
+      raio: 771,
+    },
+    {
+      zoom: 5,
+      raio: 1543,
+    },
+    {
+      zoom: 4,
+      raio: 3098,
+    },
+    {
+      zoom: 3,
+      raio: 6197,
+    },
+    {
+      zoom: 2,
+      raio: 295828775.3,
+    },
+    {
+      zoom: 1,
+      raio: 591657550.5,
+    },
+  ]
   const [openWindow, setOpenWindow] = React.useState<string | null>(null)
 
   function limitarCaracteres(texto: string, limite: number) {
@@ -64,7 +146,7 @@ const Home: NextPage = () => {
   }
 
   // função para pegar os lugares baseado na latitude e longitude
-  async function getPlaces(lat: number, lon: number, zoom = 14.28) {
+  async function getPlaces(lat: number, lon: number, zoom = 14) {
     try {
       setLatAndLgn({
         lat: lat,
@@ -112,7 +194,7 @@ const Home: NextPage = () => {
       lat: currentPosition.latitude,
       lng: currentPosition.longitude,
     },
-    zoom: 14.28,
+    zoom: 14,
     styles: styleGoogleMaps,
   }
   // marker para a localização atual
@@ -140,8 +222,16 @@ const Home: NextPage = () => {
     })
   }
 
+  function getRaio(zoom: number) {
+    console.log(zoom)
+    const raio: any = raios.find((raio) => raio.zoom === zoom)
+    console.log(raio)
+    return raio.raio
+  }
   const handleUpdateMap = (lat: number, long: number, e: any) => {
-    getPlaces(lat, long, e.zoom)
+    const raio = getRaio(e.zoom)
+    console.log(raio + 'test')
+    getPlaces(lat, long, raio)
   }
 
   useEffect(() => {
@@ -244,7 +334,9 @@ const Home: NextPage = () => {
                     <Link href={`/dashboard/place/${place.uuid}`}>
                       <div>
                         <img
-                          src={place.imagem}
+                          src={
+                            place.imagem ? place.imagem : '/img/no-image.png'
+                          }
                           alt=""
                           className="aspect-square object-cover rounded-3xl drop-shadow-lg  w-full bg-zinc-200"
                           onError={(e) => {
@@ -340,6 +432,7 @@ const Home: NextPage = () => {
                     if (openWindow) setOpenWindow(null)
                   }}
                   onChange={(e) => {
+                    console.log(e)
                     setZoom(e.zoom)
                     // chama a api somente se alterar o zoom
                     if (zoom === e.zoom) return

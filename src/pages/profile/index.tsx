@@ -15,6 +15,7 @@ import { HeaderNavigation } from '../../components/HeaderNavigation'
 import { api } from '../../services/axios'
 import toast from 'react-hot-toast'
 import { errorHandler } from '../../services/errorHandler'
+import deleteAccountModalStore from '../../stores/modals/deleteAccountModalStore'
 
 const Profile: NextPage = () => {
   const router = useRouter()
@@ -22,7 +23,7 @@ const Profile: NextPage = () => {
   const [currentLanguage, setCurrentLanguage] = useState('' as string)
   const [selectFlag, setSelectFlag] = useState('' as string)
   const { data: me } = useFetch('/cliente/me', Cookies.get('token'))
-
+  const { id, setId, modalState, setModalState } = deleteAccountModalStore()
   useEffect(() => {
     userIsLogged()
   }, [])
@@ -71,7 +72,7 @@ const Profile: NextPage = () => {
     )
   }
 
-  const handleDeleteAccount = async () => {
+  /*   const handleDeleteAccount = async () => {
     try {
       const response = await api.delete('/cliente', {
         headers: {
@@ -87,7 +88,11 @@ const Profile: NextPage = () => {
       console.log(error)
     }
   }
-
+ */
+  function saveModalInfo(id: string) {
+    console.log(id)
+    setId(id)
+  }
   useEffect(() => {
     if (Cookies.get('googtrans') === '/auto/pt') {
       setSelectFlag('brasil')
@@ -117,7 +122,7 @@ const Profile: NextPage = () => {
           <img
             src="/img/no-image.png"
             alt=""
-            className="rounded-full w-16 h-16"
+            className="rounded-full w-16 h-16 border"
           />
           <div className="flex items-start justify-between flex-col my-1 ml-2">
             <p className="text-xl font-normal uppercase">{me?.results.nome}</p>
@@ -207,7 +212,9 @@ const Profile: NextPage = () => {
 
         <button
           className="border-brand-red-500 border   rounded-lg p-3 mt-3 w-full text-center "
-          onClick={() => handleDeleteAccount()}
+          onClick={() => {
+            setModalState(true), saveModalInfo(id)
+          }}
         >
           Excluir conta
         </button>
