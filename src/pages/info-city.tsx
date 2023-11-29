@@ -96,21 +96,21 @@ const Favorite: NextPage = () => {
           <p className="text-xl">Bandeira:</p>
           <img
             src={city?.results.imagem_bandeira_url}
-            className="w-1/2 "
+            className="w-full "
             alt=""
           />
         </div>
         <div className="my-4">
           <strong>Descrição:</strong>
           <div
-            className="text-brand-gray-600 text-embed "
+            className="text-brand-gray-600 text-embed text-justify "
             dangerouslySetInnerHTML={{ __html: city?.results.historia || '' }}
           ></div>
         </div>
         <div className="my-4">
           <strong>Formação Administrativa:</strong>
           <div
-            className="text-brand-gray-600 text-embed "
+            className="text-brand-gray-600 text-embed text-justify "
             dangerouslySetInnerHTML={{
               __html: city?.results.formacao_administrativa || '',
             }}
@@ -120,7 +120,11 @@ const Favorite: NextPage = () => {
           <tr className={`w-full ${'even:bg-gray-50 odd:white'}`}>
             <td className="">População</td>
             <td className="text-brand-gray-600 float-right">
-              {city?.results.dados_gerais.populacao} Habitantes
+              {new Intl.NumberFormat('pt-BR', {
+                style: 'decimal',
+                currency: 'BRL',
+              }).format(city?.results.dados_gerais.populacao)}{' '}
+              Habitantes
             </td>
           </tr>
           {/* <tr className={`w-full ${'even:bg-gray-50 odd:white'}`}>
