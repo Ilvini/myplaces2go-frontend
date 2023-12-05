@@ -35,7 +35,7 @@ const Register: NextPage = () => {
     formState: { errors, isSubmitting },
     reset,
   } = useForm<FormProps>()
-
+  const [showPassword, setShowPassword] = useState(false)
   async function handleLoginOnRegister(email: string, password: string) {
     try {
       const response = await api.post('/auth/login', {
@@ -146,11 +146,11 @@ const Register: NextPage = () => {
                 required={true}
               />
             </div>
-            <div className="mb-5">
+            <div className="mb-5 relative">
               <input
                 placeholder="Senha"
                 autoComplete="off"
-                type="password"
+                type={showPassword ? 'text' : 'password'}
                 id="password"
                 style={errors.password && { border: '1px solid red' }}
                 {...register('password', {
@@ -159,16 +159,34 @@ const Register: NextPage = () => {
                 className="w-full py-5 h-20 px-6 text-xl placeholder:text-brand-gray-500 "
                 disabled={isSubmitting}
               />
+              <span
+                className="absolute right-4 top-6"
+                onClick={() => setShowPassword((state) => !state)}
+              >
+                {showPassword ? (
+                  <Icon
+                    icon="mdi:eye"
+                    fontSize={32}
+                    className="text-brand-gray-600"
+                  />
+                ) : (
+                  <Icon
+                    icon="ooui:eye-closed"
+                    fontSize={32}
+                    className="text-brand-gray-600"
+                  />
+                )}
+              </span>
               <LabelError
                 msg={errors.password?.message as string}
                 hasError={errors.password as any}
               />
               <p className="text-brand-gray-500">Mínimo 8 caracteres</p>
             </div>
-            <div className="mb-5">
+            <div className="mb-5 relative">
               <input
                 placeholder="Confirmar Senha"
-                type="password"
+                type={showPassword ? 'text' : 'password'}
                 id="password_confirmation"
                 style={
                   errors.password_confirmation && { border: '1px solid red' }
@@ -179,6 +197,24 @@ const Register: NextPage = () => {
                 className="w-full py-5 h-20 px-6 text-xl placeholder:text-brand-gray-500 "
                 disabled={isSubmitting}
               />
+              <span
+                className="absolute right-4 top-6"
+                onClick={() => setShowPassword((state) => !state)}
+              >
+                {showPassword ? (
+                  <Icon
+                    icon="mdi:eye"
+                    fontSize={32}
+                    className="text-brand-gray-600"
+                  />
+                ) : (
+                  <Icon
+                    icon="ooui:eye-closed"
+                    fontSize={32}
+                    className="text-brand-gray-600"
+                  />
+                )}
+              </span>
               <LabelError
                 msg={errors.password_confirmation?.message as string}
                 hasError={errors.password_confirmation as any}
