@@ -77,6 +77,21 @@ interface InfoCity {
     fotos: string[]
   }
 }
+function criarParagrafos(texto: string) {
+  // Divida o texto em parágrafos usando '\r\n' como delimitador
+  const paragrafos = texto.split('\r\n')
+
+  // Remova parágrafos vazios
+  const paragrafosFiltrados = paragrafos.filter((p) => p.trim() !== '')
+
+  // Crie elementos <p> para cada parágrafo
+  const elementosP = paragrafosFiltrados.map((p) => `<p class>${p.trim()}</p>`)
+
+  // Junte os elementos em uma única string
+  const resultado = elementosP.join('\n')
+
+  return resultado
+}
 
 const Favorite: NextPage = () => {
   const { lat, long } = useRouter().query
@@ -93,7 +108,7 @@ const Favorite: NextPage = () => {
         </h2>
 
         <div className="my-4">
-          <p className="text-xl">Bandeira:</p>
+          <p className="text-2xl">Bandeira:</p>
           <img
             src={city?.results.imagem_bandeira_url}
             className="w-full "
@@ -101,23 +116,31 @@ const Favorite: NextPage = () => {
           />
         </div>
         <div className="my-4">
-          <strong>Descrição:</strong>
-          <div
-            className="text-brand-gray-600 text-embed text-justify "
-            dangerouslySetInnerHTML={{ __html: city?.results.historia || '' }}
-          ></div>
-        </div>
-        <div className="my-4">
-          <strong>Formação Administrativa:</strong>
+          <strong className="text-2xl">Descrição:</strong>
           <div
             className="text-brand-gray-600 text-embed text-justify "
             dangerouslySetInnerHTML={{
-              __html: city?.results.formacao_administrativa || '',
+              __html:
+                (city?.results.historia &&
+                  criarParagrafos(city?.results.historia)) ||
+                '',
             }}
           ></div>
         </div>
-        <table className="w-full">
-          <tr className={`w-full ${'even:bg-gray-50 odd:white'}`}>
+        <div className="my-4">
+          <strong className="text-2xl">Formação Administrativa:</strong>
+          <div
+            className="text-brand-gray-600 text-embed text-justify text-sm"
+            dangerouslySetInnerHTML={{
+              __html:
+                (city?.results.formacao_administrativa &&
+                  criarParagrafos(city?.results.formacao_administrativa)) ||
+                '',
+            }}
+          ></div>
+        </div>
+        <table className="w-full text-xl">
+          <tr className={`w-full ${'even:bg-gray-50 odd:white'} `}>
             <td className="">População</td>
             <td className="text-brand-gray-600 float-right">
               {new Intl.NumberFormat('pt-BR', {
@@ -152,15 +175,15 @@ const Favorite: NextPage = () => {
             </td>
           </tr>
         </table>
-        {/*   {InfoCity.results.imagem_mapa_url && (
+        {city?.results.imagem_mapa_url && (
           <div className="my-4">
             <img
-              src={InfoCity.results.imagem_mapa_url}
+              src={city.results.imagem_mapa_url}
               alt="mapa do município"
               className="w-full"
             />
           </div>
-        )} */}
+        )}
         {/* <div className="">
           <h3 className="text-xl mb-2">Mais Fotos:</h3>
           <div className="grid grid-cols-2 gap-4"> */}

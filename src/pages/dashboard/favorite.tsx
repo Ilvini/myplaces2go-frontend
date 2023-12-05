@@ -46,7 +46,7 @@ const Favorite: NextPage = () => {
       <HeaderNavigation backRoute="/" />
       <section className="mx-4 my-4">
         <h3 className="text-brand-gray-600 text-3xl">Meus Favoritos</h3>
-        {favorites ? (
+        {favorites && favorites.results.length > 0 ? (
           favorites?.results.map((place) => {
             return (
               <Link key={place.id} href={`/dashboard/place/${place.id}`}>
@@ -75,7 +75,7 @@ const Favorite: NextPage = () => {
             Nenhum lugar encontrado
           </h2> */
           <h2 className=" mt-10 text-base text-brand-gray-600">
-            Nenhum lugar encontrado
+            Você não tem nenhum favorito!
           </h2>
         )}
       </section>

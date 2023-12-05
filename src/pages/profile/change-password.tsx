@@ -36,7 +36,7 @@ const ProfileUpdate: NextPage = () => {
     formState: { errors, isSubmitting },
     reset,
   } = useForm<FormProps>()
-
+  const [showPassword, setShowPassword] = React.useState(false)
   useEffect(() => {
     userIsLogged()
   }, [])
@@ -82,10 +82,10 @@ const ProfileUpdate: NextPage = () => {
           onSubmit={handleSubmit(handleChangePassword)}
         >
           <div>
-            <div className="mb-5 ">
+            <div className="mb-5 relative">
               <input
                 placeholder="Senha"
-                type="text"
+                type={showPassword ? 'text' : 'password'}
                 id="password"
                 style={errors.password && { border: '1px solid red' }}
                 {...register('password', {
@@ -94,16 +94,34 @@ const ProfileUpdate: NextPage = () => {
                 className="w-full py-5 h-20 px-6 text-xl placeholder:text-brand-gray-500 "
                 disabled={isSubmitting}
               />
+              <span
+                className="absolute right-4 top-6"
+                onClick={() => setShowPassword((state) => !state)}
+              >
+                {showPassword ? (
+                  <Icon
+                    icon="mdi:eye"
+                    fontSize={32}
+                    className="text-brand-gray-600"
+                  />
+                ) : (
+                  <Icon
+                    icon="ooui:eye-closed"
+                    fontSize={32}
+                    className="text-brand-gray-600"
+                  />
+                )}
+              </span>
               <LabelError
                 msg={errors.password?.message as string}
                 hasError={errors.password as any}
               />
               <p className="text-brand-gray-500">Mínimo 8 caracteres</p>
             </div>
-            <div className="mb-5">
+            <div className="mb-5 relative">
               <input
                 placeholder="Confirmar Senha"
-                type="text"
+                type={showPassword ? 'text' : 'password'}
                 autoComplete="off"
                 id="password_confirmation"
                 style={
@@ -115,6 +133,24 @@ const ProfileUpdate: NextPage = () => {
                 className="w-full py-5 h-20 px-6 text-xl placeholder:text-brand-gray-500 "
                 disabled={isSubmitting}
               />
+              <span
+                className="absolute right-4 top-6"
+                onClick={() => setShowPassword((state) => !state)}
+              >
+                {showPassword ? (
+                  <Icon
+                    icon="mdi:eye"
+                    fontSize={32}
+                    className="text-brand-gray-600"
+                  />
+                ) : (
+                  <Icon
+                    icon="ooui:eye-closed"
+                    fontSize={32}
+                    className="text-brand-gray-600"
+                  />
+                )}
+              </span>
               <LabelError
                 msg={errors.password_confirmation?.message as string}
                 hasError={errors.password_confirmation as any}
