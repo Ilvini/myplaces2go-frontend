@@ -120,7 +120,10 @@ const Favorite: NextPage = () => {
           <div
             className="text-brand-gray-600 text-embed text-justify "
             dangerouslySetInnerHTML={{
-              __html: criarParagrafos(city?.results.historia) || '',
+              __html:
+                (city?.results.historia &&
+                  criarParagrafos(city?.results.historia)) ||
+                '',
             }}
           ></div>
         </div>
@@ -130,7 +133,9 @@ const Favorite: NextPage = () => {
             className="text-brand-gray-600 text-embed text-justify text-sm"
             dangerouslySetInnerHTML={{
               __html:
-                criarParagrafos(city?.results.formacao_administrativa) || '',
+                (city?.results.formacao_administrativa &&
+                  criarParagrafos(city?.results.formacao_administrativa)) ||
+                '',
             }}
           ></div>
         </div>
