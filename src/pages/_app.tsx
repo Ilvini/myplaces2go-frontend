@@ -43,6 +43,16 @@ export default function MyApp({ Component, pageProps }: any) {
     }
   }, [])
 
+  useEffect(() => {
+    const script = document.createElement('script')
+    script.src = 'https://allevents.in/scripts/public/ae-plugin-embed-lib.js'
+    script.async = true
+    document.body.appendChild(script)
+    return () => {
+      document.body.removeChild(script)
+    }
+  }, [])
+
   if (currentWidth && currentWidth > 520) {
     return (
       <main className="w-full min-h-screen flex justify-center items-center ">
@@ -92,4 +102,3 @@ export default function MyApp({ Component, pageProps }: any) {
     </GlobalContextProvider>
   )
 }
-
