@@ -398,7 +398,9 @@ const Home: NextPage = () => {
                       Guias
                     </button>
                   </Link>
-                  <Link href="/events">
+                  <Link
+                    href={`/events?estado=${places.results.estado}&cidade=${places.results.cidade}`}
+                  >
                     <button className=" text-sm drop-shadow-lg bg-white flex items-center px-4 py-2 text-brand-gray-900 font-normal  rounded-full">
                       <Icon icon="solar:user-bold" className="mr-2" />
                       Eventos

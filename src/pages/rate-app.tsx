@@ -38,21 +38,20 @@ const ProfileUpdate: NextPage = () => {
         toast.error('Por favor, avalie o ponto turístico')
         return
       }
-      console.log(comment)
+
       if (comment === '') {
         return setComment('Sem comentário')
       }
       setLoading(true)
-      const response = await api.post(
-        `/pontos-turisticos/${modalData?.results.uuid}/avaliacoes/novo`,
-        {
-          estrelas: rating,
-          comentario: comment,
-        }
-      )
+      const response = await api.post(`/avaliar-app`, {
+        estrelas: rating,
+        comentario: comment,
+      })
+      console.log(response.data)
       setLoading(false)
 
       toast.success(response.data.message)
+      router.push('/configuration')
     } catch (error) {
       setLoading(false)
       console.log(error)
@@ -60,30 +59,6 @@ const ProfileUpdate: NextPage = () => {
     }
   }
 
-  const { data: me } = useFetch('/cliente/me', Cookies.get('token'))
-  console.log(me)
-
-  async function handleUpdateProfile(data: FormProps) {
-    try {
-      const response = await api.put('/cliente/alterar', {
-        nome: data.nome,
-        email: data.email,
-        celular: data.celular,
-      })
-      toast.success('Alteração realizada com sucesso')
-      reset({
-        nome: '',
-        email: '',
-        celular: '',
-        password: '',
-        password_confirmation: '',
-      })
-      router.push('/profile')
-    } catch (error) {
-      console.log(error)
-      errorHandler(error)
-    }
-  }
   return (
     <main className="relative pb-20">
       <HeaderNavigation backRoute="/profile" />
