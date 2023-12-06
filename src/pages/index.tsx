@@ -443,11 +443,6 @@ const Home: NextPage = () => {
 
                     height: '400px',
                   }}
-                  options={{
-                    fullscreenControl: true,
-                    mapTypeControl: true,
-                    streetViewControl: true,
-                  }}
                   onClick={() => {
                     if (openWindow) setOpenWindow(null)
                   }}
