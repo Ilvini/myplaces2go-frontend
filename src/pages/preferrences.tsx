@@ -19,11 +19,12 @@ import { mutate } from 'swr'
 
 interface IPreferrences {
   error: boolean
+  message: string
   results: {
     id: number
     nome: string
+    ativo: boolean
   }[]
-  message: string
 }
 
 const Preferrences: NextPage = () => {
@@ -86,6 +87,7 @@ const Preferrences: NextPage = () => {
                 <li key={preferrencia.id} className="flex items-center">
                   <input
                     type="checkbox"
+                    spellCheck={false}
                     defaultChecked={preferrencia.ativo}
                     id={preferrencia.id.toString()}
                     name={preferrencia.nome}

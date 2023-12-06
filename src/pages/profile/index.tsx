@@ -27,7 +27,7 @@ const Profile: NextPage = () => {
   useEffect(() => {
     userIsLogged()
   }, [])
-
+  console.log(me)
   function userIsLogged() {
     const token = Cookies.get('token')
     if (!token) return router.push('/login')
@@ -60,35 +60,6 @@ const Profile: NextPage = () => {
     window.location.reload()
   }
 
-  const googleTranslateElementInit = () => {
-    new window.google.translate.TranslateElement(
-      {
-        pageLanguage: 'pt',
-        autoDisplay: false,
-        includedLanguages: 'en,pt',
-        layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
-      },
-      'google_translate_element'
-    )
-  }
-
-  /*   const handleDeleteAccount = async () => {
-    try {
-      const response = await api.delete('/cliente', {
-        headers: {
-          Authorization: `Bearer ${Cookies.get('token')}`,
-        },
-      })
-
-      Cookies.remove('token')
-      toast.success(response.data.message)
-      router.push('/login')
-    } catch (error) {
-      errorHandler(error)
-      console.log(error)
-    }
-  }
- */
   function saveModalInfo(id: string) {
     console.log(id)
     setId(id)
@@ -101,35 +72,28 @@ const Profile: NextPage = () => {
     }
   }, [])
 
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      var addScript = document.createElement('script')
-      addScript.setAttribute(
-        'src',
-        '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit'
-      )
-      document.body.appendChild(addScript)
-      window.googleTranslateElementInit = googleTranslateElementInit
-    }
-  }, [])
-
   return (
     <main className="relative pb-20">
       <HeaderNavigation backRoute="/" />
       <section className="mx-4 my-4">
         <h3 className="text-brand-gray-600 text-xl">Meu Perfil</h3>
-        <div className="flex my-4">
-          <img
-            src="/img/no-image.png"
-            alt=""
-            className="rounded-full w-16 h-16 border"
-          />
-          <div className="flex items-start justify-between flex-col my-1 ml-2">
-            <p className="text-xl font-normal uppercase">{me?.results.nome}</p>
-            <p className="text-brand-green-300">0 Pontos </p>
+        <div className="flex my-4 justify-between">
+          <div className="flex">
+            <img
+              src={me?.results.foto}
+              alt=""
+              className="rounded-full w-16 h-16 border"
+            />
+            <div className="flex items-start justify-between flex-col my-1 ml-2">
+              <p className="text-xl font-normal uppercase">
+                {me?.results.nome}
+              </p>
+              <p className="text-brand-green-300">0 Pontos </p>
+            </div>
           </div>
+          <div className="flex items-center mr-4">Trocar foto</div>
         </div>
-        <table className="w-full">
+        <table className="w-full mb-4">
           <tr className={`w-full ${'even:bg-gray-50 odd:white'}`}>
             <td className="text-brand-gray-500">Email</td>
             <td className="text-brand-gray-500 float-right">
@@ -143,7 +107,7 @@ const Profile: NextPage = () => {
             </td>
           </tr>
         </table>
-        <div className="my-2">
+        {/*   <div className="my-2">
           <p className="text-brand-gray-900 text-2xl my-2">Idioma</p>
           <div className="flex my-4">
             <img
@@ -164,12 +128,8 @@ const Profile: NextPage = () => {
             />
           </div>
           <div id="google_translate_element"></div>
-        </div>
-        <Link href="/guide">
-          <button className="bg-brand-yellow-300   rounded-lg p-3  w-full text-center ">
-            Encontrar Guia Turístico
-          </button>
-        </Link>
+        </div> */}
+
         <Link href="/profile/change-password">
           <button className="bg-brand-yellow-300  mt-3  rounded-lg p-3  w-full text-center ">
             Trocar senha
@@ -178,6 +138,11 @@ const Profile: NextPage = () => {
         <Link href="/preferrences">
           <button className="bg-brand-yellow-300   rounded-lg p-3 mt-3 w-full text-center ">
             Mudar preferências
+          </button>
+        </Link>
+        <Link href="/achievements">
+          <button className="bg-brand-yellow-300   rounded-lg p-3 mt-3 w-full text-center ">
+            Minhas Conquistas
           </button>
         </Link>
         {/*  <button className="bg-brand-yellow-300   rounded-lg p-3 mt-3 w-full text-center ">
@@ -193,17 +158,7 @@ const Profile: NextPage = () => {
             Sugerir Ponto Turístico
           </button>
         </Link>
-        <Link href="/rate-app">
-          <button className="border-brand-yellow-300 border   rounded-lg p-3 mt-3 w-full text-center flex justify-center items-center">
-            <Icon
-              icon="tabler:star"
-              color="black"
-              className="inline mr-2"
-              fontSize={20}
-            />
-            Avaliar Aplicativo
-          </button>
-        </Link>
+
         <Link href="/login" onClick={() => Cookies.remove('token')}>
           <button className="border-brand-yellow-300 border   rounded-lg p-3 mt-3 w-full text-center ">
             Encerrar Sessão

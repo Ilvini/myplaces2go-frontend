@@ -19,7 +19,7 @@ interface FormProps {
 const TermoDeUso: NextPage = () => {
   return (
     <main className="relative pb-20">
-      <HeaderNavigation backRoute="/login" />
+      <HeaderNavigation backRoute="/" />
       <section className="mx-4 my-4">
         <h1 className="mb-3 text-2xl"> Política Privacidade</h1>
         <p className="mb-4 text-brand-gray-600">

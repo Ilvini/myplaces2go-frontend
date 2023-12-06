@@ -56,6 +56,17 @@ export default function BottomNavigation() {
                 <p className="text-white"> Perfil</p>
               </li>
             </Link>
+            <Link href="/configuration">
+              <li className="p-4 flex justify-center flex-col items-center">
+                <Icon
+                  icon="mdi:cog"
+                  fontSize={24}
+                  className="text-brand-yellow-300"
+                />
+
+                <p className="text-white"> Configurações</p>
+              </li>
+            </Link>
           </ul>
         </Container>
       </div>

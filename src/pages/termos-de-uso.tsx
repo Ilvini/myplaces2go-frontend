@@ -17,9 +17,10 @@ interface FormProps {
 }
 
 const TermoDeUso: NextPage = () => {
+  const router = useRouter()
   return (
     <main className="relative pb-20">
-      <HeaderNavigation backRoute="/login" />
+      <HeaderNavigation backRoute="/" />
       <section className="mx-4 my-4">
         <h1 className="mb-4 font-bold text-xl">
           TERMOS DE USO — My place 2 Go
