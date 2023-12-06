@@ -25,7 +25,7 @@ const Events: NextPage = () => {
         <h3 className="text-brand-gray-600 text-xl">Eventos na minha cidade</h3>
         <div className="w-full">
           <div
-            class="ae-embed-plugin"
+            className="ae-embed-plugin"
             data-type="city"
             data-cityname="Belem"
             data-category="All"
