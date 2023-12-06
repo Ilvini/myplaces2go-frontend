@@ -18,14 +18,13 @@ const Events: NextPage = () => {
   const { data: eventos } = useFetch(
     `/eventos?estado=${estado}&cidade=${cidade}`
   )
-  console.log(eventos)
   return (
     <main className="relative pb-20">
       <HeaderNavigation backRoute="/" />
       <section className="mx-4 my-4">
         <h3 className="text-brand-gray-600 text-xl">Eventos na minha cidade</h3>
         <div className="w-full">
-          {eventos?.results.length < 0 ? (
+          {eventos?.results.length > 0 ? (
             eventos?.results.map((event) => {
               return (
                 <div key={event.id} className="p-4 shadow-xl my-4 rounded-lg ">
@@ -111,4 +110,3 @@ const Events: NextPage = () => {
 }
 
 export default Events
-
