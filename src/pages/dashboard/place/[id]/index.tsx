@@ -24,6 +24,7 @@ import { errorHandler } from '../../../../services/errorHandler'
 import { HeaderNavigation } from '../../../../components/HeaderNavigation'
 import { NextSeo } from 'next-seo'
 import { LoadingCircle } from '../../../../components/Loading'
+import { RWebShare } from 'react-web-share'
 interface IComments {
   results: {
     id: number
@@ -214,25 +215,46 @@ const PlaceDetails: NextPage = ({ data }) => {
           </div>
         </section>
         <section className="mx-4 my-4">
-          <ul className="flex w-full">
-            <li
-              onClick={() => setCurrentTab('informacoes')}
-              className={`py-2 px-3 text-brand-gray-600 cursor-pointer ${
-                currentTab === 'informacoes' &&
-                'bg-gray-200  text-brand-gray-900 rounded-2xl '
-              } `}
-            >
-              Informações
-            </li>
-            <li
-              onClick={() => setCurrentTab('avaliacoes')}
-              className={`py-2  text-brand-gray-600 cursor-pointer ${
-                currentTab === 'avaliacoes' &&
-                'bg-gray-200  text-brand-gray-900 rounded-2xl '
-              }  px-3`}
-            >
-              Avaliações
-            </li>
+          <div className="flex w-full justify-between items-center">
+            <div className="flex">
+              <div
+                onClick={() => setCurrentTab('informacoes')}
+                className={`py-2 px-3 text-brand-gray-600 cursor-pointer ${
+                  currentTab === 'informacoes' &&
+                  'bg-gray-200  text-brand-gray-900 rounded-2xl '
+                } `}
+              >
+                Informações
+              </div>
+              <div
+                onClick={() => setCurrentTab('avaliacoes')}
+                className={`py-2  text-brand-gray-600 cursor-pointer ${
+                  currentTab === 'avaliacoes' &&
+                  'bg-gray-200  text-brand-gray-900 rounded-2xl '
+                }  px-3`}
+              >
+                Avaliações
+              </div>
+            </div>
+            <div>
+              <RWebShare
+                data={{
+                  text: `My Place 2 GO - ${data?.results.nome}`,
+                  url: typeof window !== 'undefined' && window.location.href,
+                  title: 'Venha conhecer esse ponto turístico',
+                }}
+                onClick={() => console.log('shared successfully!')}
+              >
+                <div className="flex flex-col items-center justify-center border rounded-lg p-2">
+                  <Icon
+                    icon="fluent:share-24-regular"
+                    fontSize={34}
+                    className="text-brand-green-300"
+                  />
+                </div>
+              </RWebShare>
+              {/*   <p className="text-center text-brand-gray-600">Compartilhar</p> */}
+            </div>
             {/* <li
             onClick={() => setCurrentTab('mais_fotos')}
             className={`py-2 text-brand-gray-600 ${
@@ -242,7 +264,8 @@ const PlaceDetails: NextPage = ({ data }) => {
           >
             Mais Fotos
           </li> */}
-          </ul>
+          </div>
+
           <div>{Tab[currentTab]}</div>
         </section>
         <BottomNavigation />
