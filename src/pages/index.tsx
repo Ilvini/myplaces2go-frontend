@@ -218,8 +218,19 @@ const Home: NextPage = () => {
         lat: currentPosition.latitude,
         lng: currentPosition.longitude,
       },
+      // options: {
+      //   gestureHandling: 'none',
+      //   zoomControl: true,
+      // },
       zoom: defaultProps.zoom,
     })
+  }
+
+  const handleOnChange = (e: any) => {
+    setZoom(e.zoom)
+    // chama a api somente se alterar o zoom
+    if (zoom === e.zoom) return
+    handleUpdateMap(currentPosition.latitude, currentPosition.longitude, e)
   }
 
   function getRaio(zoom: number) {
@@ -232,6 +243,7 @@ const Home: NextPage = () => {
     const raio = getRaio(e.zoom)
     console.log(raio + 'test')
     getPlaces(lat, long, raio)
+    console.log(e)
   }
 
   useEffect(() => {
@@ -422,6 +434,7 @@ const Home: NextPage = () => {
                   />
                 </button> */}
                 <GoogleMapReact
+                  yesIWantToUseGoogleMapApiInternals
                   style={{
                     position: 'absolute',
                     bottom: 0,
@@ -430,19 +443,27 @@ const Home: NextPage = () => {
 
                     height: '400px',
                   }}
+                  options={{
+                    fullscreenControl: true,
+                    mapTypeControl: true,
+                    streetViewControl: true,
+                  }}
                   onClick={() => {
                     if (openWindow) setOpenWindow(null)
                   }}
+                  // onChange={(e) => {
+                  //   console.log(e)
+                  //   setZoom(e.zoom)
+                  //   // chama a api somente se alterar o zoom
+                  //   if (zoom === e.zoom) return
+                  //   handleUpdateMap(
+                  //     currentPosition.latitude,
+                  //     currentPosition.longitude,
+                  //     e
+                  //   )
+                  // }}
                   onChange={(e) => {
-                    console.log(e)
-                    setZoom(e.zoom)
-                    // chama a api somente se alterar o zoom
-                    if (zoom === e.zoom) return
-                    handleUpdateMap(
-                      currentPosition.latitude,
-                      currentPosition.longitude,
-                      e
-                    )
+                    handleOnChange(e)
                   }}
                   bootstrapURLKeys={{
                     key: 'AIzaSyAXVy2ejGB5cOb_FPd0J2mhxaMjJ4It6JA',
@@ -542,4 +563,3 @@ const Home: NextPage = () => {
 }
 
 export default Home
-
