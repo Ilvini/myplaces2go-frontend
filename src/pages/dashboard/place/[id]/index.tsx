@@ -99,14 +99,6 @@ const PlaceDetails: NextPage = ({ data }) => {
               height: 627,
               alt: data?.results.nome,
             },
-            {
-              url: data?.results.imagens[1] || '/seo.png',
-              width: 1200,
-              height: 627,
-              alt: data?.results.nome,
-            },
-            { url: data?.results.imagens[2] || '/seo.png' },
-            { url: data?.results.imagens[3] || '/seo.png' },
           ],
           site_name: 'My Place 2 Go',
         }}
@@ -291,4 +283,3 @@ export const getServerSideProps = async (context: any) => {
     },
   }
 }
-
