@@ -16,6 +16,7 @@ import { api } from '../../services/axios'
 import toast from 'react-hot-toast'
 import { errorHandler } from '../../services/errorHandler'
 import deleteAccountModalStore from '../../stores/modals/deleteAccountModalStore'
+import changePhotoModalStore from '../../stores/modals/changePhotoModalStore'
 
 const Profile: NextPage = () => {
   const router = useRouter()
@@ -24,6 +25,7 @@ const Profile: NextPage = () => {
   const [selectFlag, setSelectFlag] = useState('' as string)
   const { data: me } = useFetch('/cliente/me', Cookies.get('token'))
   const { id, setId, modalState, setModalState } = deleteAccountModalStore()
+  const { modalStatePhoto, setModalStatePhoto } = changePhotoModalStore()
   useEffect(() => {
     userIsLogged()
   }, [])
@@ -39,25 +41,6 @@ const Profile: NextPage = () => {
     v = v.replace(/^(\d{2})(\d)/g, '($1) $2')
     v = v.replace(/(\d)(\d{4})$/, '$1-$2')
     return v
-  }
-
-  const languages = [
-    { label: 'English', value: '/auto/en' },
-    { label: `Português`, value: '/auto/pt' },
-  ]
-
-  const langChange = (e, m, evt) => {
-    evt.preventDefault()
-    setCurrentLanguage(e)
-    console.log(decodeURI(e))
-    if (Cookies.get('googtrans')) {
-      Cookies.set('googtrans', decodeURI(e))
-      setSelected(e)
-    } else {
-      Cookies.set('googtrans', e)
-      setSelected(e)
-    }
-    window.location.reload()
   }
 
   function saveModalInfo(id: string) {
@@ -82,7 +65,7 @@ const Profile: NextPage = () => {
             <img
               src={me?.results.foto}
               alt=""
-              className="rounded-full w-16 h-16 border"
+              className="rounded-full w-16 h-16 border object-cover"
             />
             <div className="flex items-start justify-between flex-col my-1 ml-2">
               <p className="text-xl font-normal uppercase">
@@ -91,7 +74,12 @@ const Profile: NextPage = () => {
               <p className="text-brand-green-300">0 Pontos </p>
             </div>
           </div>
-          <div className="flex items-center mr-4">Trocar foto</div>
+          <div
+            className="flex items-center mr-4"
+            onClick={() => setModalStatePhoto(true)}
+          >
+            Trocar foto
+          </div>
         </div>
         <table className="w-full mb-4">
           <tr className={`w-full ${'even:bg-gray-50 odd:white'}`}>
@@ -181,4 +169,3 @@ const Profile: NextPage = () => {
 }
 
 export default Profile
-
