@@ -23,6 +23,8 @@ import locationError from '../helpers/handlerErrorGeoLocation'
 import Cookies from 'js-cookie'
 import { HeaderNavigation } from '../components/HeaderNavigation'
 import { Zoom } from 'swiper'
+import placeModalStore from '../stores/modals/placeModalStore'
+import { set } from 'react-hook-form'
 interface IPlaces {
   results: {
     cidade: string
@@ -135,7 +137,8 @@ const Home: NextPage = () => {
     },
   ]
   /*  const [openWindow, setOpenWindow] = React.useState<string | null>(null) */
-  const [placeModal, setPlaceModal] = React.useState<any>(null)
+  const { modalState, modalData, setModalState, setModalData } =
+    placeModalStore()
   function limitarCaracteres(texto: string, limite: number) {
     if (texto.length <= limite) {
       return texto // Retorna a string sem fazer alterações se estiver dentro do limite.
@@ -218,8 +221,19 @@ const Home: NextPage = () => {
         lat: currentPosition.latitude,
         lng: currentPosition.longitude,
       },
+      // options: {
+      //   gestureHandling: 'none',
+      //   zoomControl: true,
+      // },
       zoom: defaultProps.zoom,
     })
+  }
+
+  const handleOnChange = (e: any) => {
+    setZoom(e.zoom)
+    // chama a api somente se alterar o zoom
+    if (zoom === e.zoom) return
+    handleUpdateMap(currentPosition.latitude, currentPosition.longitude, e)
   }
 
   function getRaio(zoom: number) {
@@ -232,6 +246,7 @@ const Home: NextPage = () => {
     const raio = getRaio(e.zoom)
     console.log(raio + 'test')
     getPlaces(lat, long, raio)
+    console.log(e)
   }
 
   useEffect(() => {
@@ -422,6 +437,7 @@ const Home: NextPage = () => {
                   />
                 </button> */}
                 <GoogleMapReact
+                  yesIWantToUseGoogleMapApiInternals
                   style={{
                     position: 'absolute',
                     bottom: 0,
@@ -433,16 +449,19 @@ const Home: NextPage = () => {
                   onClick={() => {
                     /*  if (openWindow) setOpenWindow(null) */
                   }}
+                  // onChange={(e) => {
+                  //   console.log(e)
+                  //   setZoom(e.zoom)
+                  //   // chama a api somente se alterar o zoom
+                  //   if (zoom === e.zoom) return
+                  //   handleUpdateMap(
+                  //     currentPosition.latitude,
+                  //     currentPosition.longitude,
+                  //     e
+                  //   )
+                  // }}
                   onChange={(e) => {
-                    console.log(e)
-                    setZoom(e.zoom)
-                    // chama a api somente se alterar o zoom
-                    if (zoom === e.zoom) return
-                    handleUpdateMap(
-                      currentPosition.latitude,
-                      currentPosition.longitude,
-                      e
-                    )
+                    handleOnChange(e)
                   }}
                   bootstrapURLKeys={{
                     key: 'AIzaSyAXVy2ejGB5cOb_FPd0J2mhxaMjJ4It6JA',
@@ -471,7 +490,8 @@ const Home: NextPage = () => {
                         <div
                           onClick={() => {
                             /*   setOpenWindow(place.uuid) */
-                            setPlaceModal(place)
+                            setModalData(place)
+                            setModalState(true)
                           }}
                         >
                           <>
