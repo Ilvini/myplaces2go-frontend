@@ -17,6 +17,7 @@ import toast from 'react-hot-toast'
 import { errorHandler } from '../services/errorHandler'
 import deleteAccountModalStore from '../stores/modals/deleteAccountModalStore'
 import { RWebShare } from 'react-web-share'
+import { set } from 'react-hook-form'
 
 const Configuration: NextPage = () => {
   const router = useRouter()
@@ -95,6 +96,9 @@ const Configuration: NextPage = () => {
   }, [])
   useEffect(() => {
     console.log(Cookies.get('googtrans'))
+    if (typeof Cookies.get('googtrans') === 'undefined') {
+      setSelectFlag('brasil')
+    }
     if (Cookies.get('googtrans') === '/auto/pt') {
       setSelectFlag('brasil')
     } else if (Cookies.get('googtrans') === '/auto/en') {

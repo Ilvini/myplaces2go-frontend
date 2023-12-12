@@ -30,7 +30,10 @@ bg-[rgba(0,0,0,0.5)]
 
         {modalData && (
           <Link href={`/dashboard/place/${modalData?.uuid}`}>
-            <button className="bg-brand-yellow-300 rounded-lg p-3 mt-3 w-full text-center flex justify-center items-center">
+            <button
+              onClick={() => setModalState(false)}
+              className="bg-brand-yellow-300 rounded-lg p-3 mt-3 w-full text-center flex justify-center items-center"
+            >
               <Icon
                 icon="bi:arrow-right-circle-fill"
                 color="black"
