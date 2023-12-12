@@ -16,6 +16,7 @@ import { api } from '../services/axios'
 import toast from 'react-hot-toast'
 import { errorHandler } from '../services/errorHandler'
 import deleteAccountModalStore from '../stores/modals/deleteAccountModalStore'
+import { RWebShare } from 'react-web-share'
 
 const Configuration: NextPage = () => {
   const router = useRouter()
@@ -23,15 +24,6 @@ const Configuration: NextPage = () => {
   const [currentLanguage, setCurrentLanguage] = useState('' as string)
   const [selectFlag, setSelectFlag] = useState('' as string)
   const { data: me } = useFetch('/cliente/me', Cookies.get('token'))
-
-  useEffect(() => {
-    userIsLogged()
-  }, [])
-
-  function userIsLogged() {
-    const token = Cookies.get('token')
-    if (!token) return router.push('/login')
-  }
 
   function mphone(v: string) {
     v = v.replace(/\D/g, '')
@@ -51,10 +43,10 @@ const Configuration: NextPage = () => {
     setCurrentLanguage(e)
     console.log(decodeURI(e))
     if (Cookies.get('googtrans')) {
-      Cookies.set('googtrans', decodeURI(e))
+      Cookies.set('googtrans', decodeURI(e), { expires: 365 })
       setSelected(e)
     } else {
-      Cookies.set('googtrans', e)
+      Cookies.set('googtrans', e, { expires: 365 })
       setSelected(e)
     }
     window.location.reload()
@@ -102,9 +94,10 @@ const Configuration: NextPage = () => {
     }
   }, [])
   useEffect(() => {
+    console.log(Cookies.get('googtrans'))
     if (Cookies.get('googtrans') === '/auto/pt') {
       setSelectFlag('brasil')
-    } else {
+    } else if (Cookies.get('googtrans') === '/auto/en') {
       setSelectFlag('eua')
     }
   }, [])
@@ -190,6 +183,36 @@ const Configuration: NextPage = () => {
             Avaliar Aplicativo
           </button>
         </Link>
+        <RWebShare
+          data={{
+            text: `Venha conhecer o App My Place 2 Go`,
+            url: 'https://myplaces2go-frontend.vercel.app/',
+            title: 'Venha conhecer Novo locais com o App My Place 2 Go',
+          }}
+          closeText="Fechar"
+          onClick={() => console.log('shared successfully!')}
+        >
+          <button
+            type="button"
+            className="bg-brand-yellow-300 rounded-lg p-3 mt-3 w-full text-center flex justify-center items-center"
+            aria-label="Compartilhar"
+            /*  onClick={() =>
+              shareSomeContent(
+                modalData?.results.nome,
+                'Venha conhecer esse ponto turístico',
+                window.location.href
+              )
+            } */
+          >
+            <Icon
+              icon="mdi:share-variant"
+              color="black"
+              className="inline mr-2"
+              fontSize={20}
+            />
+            Compartilhe com os amigos
+          </button>
+        </RWebShare>
 
         {/*  <button
           className="border-brand-red-500 border   rounded-lg p-3 mt-3 w-full text-center "

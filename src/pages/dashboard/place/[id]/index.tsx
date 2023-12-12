@@ -99,14 +99,6 @@ const PlaceDetails: NextPage = ({ data }) => {
               height: 627,
               alt: data?.results.nome,
             },
-            {
-              url: data?.results.imagens[1] || '/seo.png',
-              width: 1200,
-              height: 627,
-              alt: data?.results.nome,
-            },
-            { url: data?.results.imagens[2] || '/seo.png' },
-            { url: data?.results.imagens[3] || '/seo.png' },
           ],
           site_name: 'My Place 2 Go',
         }}
@@ -243,6 +235,7 @@ const PlaceDetails: NextPage = ({ data }) => {
                   url: typeof window !== 'undefined' && window.location.href,
                   title: 'Venha conhecer esse ponto turístico',
                 }}
+                closeText="Fechar"
                 onClick={() => console.log('shared successfully!')}
               >
                 <div className="flex flex-col items-center justify-center border rounded-lg p-2">
@@ -291,4 +284,3 @@ export const getServerSideProps = async (context: any) => {
     },
   }
 }
-

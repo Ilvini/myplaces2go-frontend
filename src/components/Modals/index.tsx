@@ -3,6 +3,7 @@ import { PrivacyPolicyModal } from './PrivacyPolicyModal'
 import { RattingModal } from './RattingModal'
 import { DeletaAccountModal } from './DeleteAccount'
 import { ChangePhotoModal } from './ChangePhoto'
+import { PlaceModal } from './PlaceModal'
 
 export default function Modals() {
   return (
@@ -11,6 +12,8 @@ export default function Modals() {
       <RattingModal />
       <DeletaAccountModal />
       <ChangePhotoModal />
+      <PlaceModal />
     </>
   )
 }
+
