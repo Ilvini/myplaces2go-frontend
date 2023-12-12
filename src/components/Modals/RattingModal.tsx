@@ -112,6 +112,7 @@ export function RattingModal() {
               url: typeof window !== 'undefined' && window.location.href,
               title: 'Venha conhecer esse ponto turístico',
             }}
+            closeText="Fechar"
             onClick={() => console.log('shared successfully!')}
           >
             <button

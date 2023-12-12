@@ -243,6 +243,7 @@ const PlaceDetails: NextPage = ({ data }) => {
                   url: typeof window !== 'undefined' && window.location.href,
                   title: 'Venha conhecer esse ponto turístico',
                 }}
+                closeText="Fechar"
                 onClick={() => console.log('shared successfully!')}
               >
                 <div className="flex flex-col items-center justify-center border rounded-lg p-2">

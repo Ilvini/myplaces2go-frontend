@@ -134,8 +134,8 @@ const Home: NextPage = () => {
       raio: 591657550.5,
     },
   ]
-  const [openWindow, setOpenWindow] = React.useState<string | null>(null)
-
+  /*  const [openWindow, setOpenWindow] = React.useState<string | null>(null) */
+  const [placeModal, setPlaceModal] = React.useState<any>(null)
   function limitarCaracteres(texto: string, limite: number) {
     if (texto.length <= limite) {
       return texto // Retorna a string sem fazer alterações se estiver dentro do limite.
@@ -431,7 +431,7 @@ const Home: NextPage = () => {
                     height: '400px',
                   }}
                   onClick={() => {
-                    if (openWindow) setOpenWindow(null)
+                    /*  if (openWindow) setOpenWindow(null) */
                   }}
                   onChange={(e) => {
                     console.log(e)
@@ -470,51 +470,49 @@ const Home: NextPage = () => {
                       >
                         <div
                           onClick={() => {
-                            setOpenWindow(place.uuid)
+                            /*   setOpenWindow(place.uuid) */
+                            setPlaceModal(place)
                           }}
                         >
                           <>
-                            {openWindow === place.uuid && (
-                              <div className="">
-                                <div className="absolute bottom-16 -left-12 w-32 h-full z-50 flex justify-center items-center">
-                                  {/*  <span
-                                    className="absolute right-0 -top-6 p-2"
-                                    onClick={() => setOpenWindow(null)}
-                                  >
-                                    <Icon
-                                      icon="zondicons:close-solid"
-                                      color="red"
-                                    />
-                                  </span> */}
-                                  <div className="bg-white rounded-lg p-2 relative z-50">
-                                    <p className="text-center font-bold text-brand-gray-900">
-                                      {place.nome}
-                                    </p>
-                                    <p className="text-center text-brand-gray-900">
-                                      {place.categoria}
-                                    </p>
-                                    <Link
-                                      href={`/dashboard/place/${place.uuid}`}
-                                    >
-                                      <button className="bg-brand-yellow-300 w-32 text-brand-gray-900 rounded-sm p-1 mt-2 ">
-                                        Ver mais
-                                      </button>
-                                    </Link>
-                                  </div>
+                            {/* <div
+                              className={`${
+                                openWindow === place.uuid
+                                  ? 'z-50'
+                                  : 'z-30 hidden'
+                              }`}
+                            >
+                              <div className="absolute bottom-16 -left-12 w-32 h-full z-10 flex justify-center items-center">
+                               
+                                <div className="bg-white rounded-lg p-2 relative z-50">
+                                  <p className="text-center font-bold text-brand-gray-900">
+                                    {place.nome}
+                                  </p>
+                                  <p className="text-center text-brand-gray-900">
+                                    {place.categoria}
+                                  </p>
+                                  <Link href={`/dashboard/place/${place.uuid}`}>
+                                    <button className="bg-brand-yellow-300 w-32 text-brand-gray-900 rounded-sm p-1 mt-2 ">
+                                      Ver mais
+                                    </button>
+                                  </Link>
                                 </div>
                               </div>
-                            )}
-                            <Icon
-                              icon="fontisto:map-marker"
-                              color="red"
-                              fontSize={30}
-                            />
-                            <img
-                              src={place.icone}
-                              alt=""
-                              loading="lazy"
-                              className="aspect-square w-5  absolute top-[2px] left-[3px] google_maps_icons"
-                            />
+                            </div> */}
+
+                            <div>
+                              <Icon
+                                icon="fontisto:map-marker"
+                                color="red"
+                                fontSize={30}
+                              />
+                              <img
+                                src={place.icone}
+                                alt=""
+                                loading="lazy"
+                                className="aspect-square w-5  absolute top-[2px] left-[3px] google_maps_icons z-10"
+                              />
+                            </div>
                           </>
                         </div>
                       </div>
