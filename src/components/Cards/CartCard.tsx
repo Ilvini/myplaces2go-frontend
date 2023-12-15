@@ -125,8 +125,7 @@ export const CartCard = ({
             <button
               className="flex items-center"
               onClick={() => {
-                handleAddToCart(product),
-               
+                handleAddToCart(product)
               }}
             >
               <div className="bg-brand-blue-800 font-bold border-brand-blue-800 border p-2 rounded-full text-sm">
@@ -162,4 +161,3 @@ export const CartCard = ({
     </div>
   )
 }
-
