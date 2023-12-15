@@ -10,8 +10,6 @@ interface Props {
 }
 
 export const UserComments = ({ image, name, comment, date, star }: Props) => {
-  console.log([...Array(5)])
-
   return (
     <div className="flex items-start py-3 border-b border-gray-200">
       {/*  <img
@@ -43,4 +41,3 @@ export const UserComments = ({ image, name, comment, date, star }: Props) => {
     </div>
   )
 }
-

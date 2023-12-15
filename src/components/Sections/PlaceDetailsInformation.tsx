@@ -40,7 +40,6 @@ export const PlaceDetailsInformation = ({ data }) => {
       })
     }
   }, [])
-  console.log(data)
 
   return (
     <section>
@@ -132,4 +131,3 @@ export const PlaceDetailsInformation = ({ data }) => {
     </section>
   )
 }
-

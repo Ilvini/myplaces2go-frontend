@@ -35,7 +35,7 @@ export const ProspectionForm = () => {
         telefone: phone_number,
       })
       toast.success(response.data.message)
-      console.log(company_name, lead_name, phone_number)
+
       /*   const response = await api.post('/login', {
               company_name,
               lead_name,
@@ -91,4 +91,3 @@ export const ProspectionForm = () => {
     </form>
   )
 }
-
