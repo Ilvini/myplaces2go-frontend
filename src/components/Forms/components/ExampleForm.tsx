@@ -17,7 +17,6 @@ export function ExampleForm() {
   } = useForm<FormProps>()
 
   async function handleLogin({ email, senha }: FormProps) {
-    console.log(email, senha)
     reset({ email: '', senha: '' })
   }
 

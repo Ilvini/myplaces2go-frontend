@@ -27,7 +27,7 @@ export function RattingModal() {
         toast.error('Por favor, avalie o ponto turístico')
         return
       }
-      console.log(comment)
+
       if (comment === '') {
         return setComment('Sem comentário')
       }
@@ -48,7 +48,7 @@ export function RattingModal() {
       errorHandler(error)
     }
   }
-  console.log(modalData)
+
   return (
     <Dialog
       open={modalState}
@@ -135,4 +135,3 @@ export function RattingModal() {
     </Dialog>
   )
 }
-

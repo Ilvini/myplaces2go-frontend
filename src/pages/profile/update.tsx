@@ -36,7 +36,6 @@ const ProfileUpdate: NextPage = () => {
   } = useForm<FormProps>()
 
   const { data: me } = useFetch('/cliente/me', Cookies.get('token'))
-  console.log(me)
 
   async function handleUpdateProfile(data: FormProps) {
     try {
@@ -142,4 +141,3 @@ const ProfileUpdate: NextPage = () => {
 }
 
 export default ProfileUpdate
-

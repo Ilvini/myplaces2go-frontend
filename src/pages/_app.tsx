@@ -75,9 +75,9 @@ export default function MyApp({ Component, pageProps }: any) {
       <DefaultSeo
         title="My Place 2 GO - Seu App de Turismo"
         description="Viage pelo mundo com o My Place 2 GO, seu app de turismo."
-        canonical="https://myplaces2go-frontend.vercel.app/"
+        canonical="https://www.myplaces2go.com.br"
         openGraph={{
-          url: 'https://myplaces2go-frontend.vercel.app/',
+          url: 'https://www.myplaces2go.com.br',
           title: 'MY Place 2 GO - Seu App de Turismo',
           description:
             'Viage pelo mundo com o My Place 2 GO, seu app de turismo.',
@@ -90,7 +90,7 @@ export default function MyApp({ Component, pageProps }: any) {
               type: 'image/png',
             },
           ],
-          siteName: 'https://myplaces2go-frontend.vercel.app/',
+          siteName: 'https://www.myplaces2go.com.br',
         }}
       />
       <Head>

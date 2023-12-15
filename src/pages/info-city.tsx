@@ -50,10 +50,9 @@ function criarParagrafos(texto: string) {
 
 const Favorite: NextPage = () => {
   const { lat, long } = useRouter().query
-  console.log(lat, long)
 
   const { data: city } = useFetch<InfoCity>(`/info-city?lat=${lat}&lon=${long}`)
-  console.log(city)
+
   return (
     <main className="relative pb-20">
       <HeaderNavigation backRoute="/" />
@@ -163,4 +162,3 @@ const Favorite: NextPage = () => {
 }
 
 export default Favorite
-

@@ -10,7 +10,6 @@ interface PropsGoogleMaps {
 }
 
 const GoogleMaps = ({ lat, lon }: PropsGoogleMaps) => {
-  console.log(lat, lon)
   const CurrentLocationMarker = ({ text }: { text: string }) => (
     <Icon
       icon="ic:round-emoji-people"
@@ -64,4 +63,3 @@ const GoogleMaps = ({ lat, lon }: PropsGoogleMaps) => {
 }
 
 export default GoogleMaps
-

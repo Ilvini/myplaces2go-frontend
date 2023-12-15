@@ -126,8 +126,7 @@ export const CartCard = ({
               className="flex items-center"
               onClick={() => {
                 handleAddToCart(product),
-                  console.log(qtd),
-                  console.log(useCartStore.getState().cart)
+               
               }}
             >
               <div className="bg-brand-blue-800 font-bold border-brand-blue-800 border p-2 rounded-full text-sm">
