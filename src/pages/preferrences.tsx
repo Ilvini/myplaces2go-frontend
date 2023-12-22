@@ -51,7 +51,6 @@ const Preferrences: NextPage = () => {
           Authorization: `Bearer ${Cookies.get('token')}`,
         },
       })
-      console.log(response.data)
     } catch (err) {
       errorHandler(err)
     }
@@ -73,7 +72,7 @@ const Preferrences: NextPage = () => {
   useEffect(() => {
     mutate()
   }, [])
-  console.log(preferrencias)
+
   return (
     <main className="relative pb-20">
       <HeaderNavigation backRoute="/profile" />
@@ -115,4 +114,3 @@ const Preferrences: NextPage = () => {
 }
 
 export default Preferrences
-

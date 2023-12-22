@@ -39,8 +39,6 @@ const Favorite: NextPage = () => {
     Cookies.get('token')
   )
 
-  console.log(favorites)
-
   return (
     <main className="relative pb-20">
       <HeaderNavigation backRoute="/" />
@@ -86,4 +84,3 @@ const Favorite: NextPage = () => {
 }
 
 export default Favorite
-

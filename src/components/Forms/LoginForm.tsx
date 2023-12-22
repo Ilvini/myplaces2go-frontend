@@ -33,7 +33,7 @@ export function LoginForm() {
           password,
         }
       )
-      console.log(response)
+
       Cookies.set('token', response.data.results.token)
 
       if (Cookies.get('token')) {
@@ -91,4 +91,3 @@ export function LoginForm() {
 }
 
 //test
-

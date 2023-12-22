@@ -29,7 +29,7 @@ const Profile: NextPage = () => {
   useEffect(() => {
     userIsLogged()
   }, [])
-  console.log(me)
+
   function userIsLogged() {
     const token = Cookies.get('token')
     if (!token) return router.push('/login')
