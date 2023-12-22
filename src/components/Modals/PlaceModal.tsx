@@ -18,11 +18,13 @@ bg-[rgba(0,0,0,0.5)]
     >
       <Dialog.Panel className="bg-white p-5 rounded-xl w-[80%] mx-3">
         <Dialog.Title>
-          <img
-            src={modalData?.imagem}
-            alt={modalData?.nome}
-            className="aspect-square w-full rounded-xl"
-          />
+          {modalData?.imagem && (
+            <img
+              src={modalData?.imagem}
+              alt={modalData?.nome}
+              className="aspect-square w-full rounded-xl"
+            />
+          )}
           <h3 className="text-brand-gray-900 text-2xl">
             <strong className=" text-brand-gray-900">{modalData?.nome}</strong>{' '}
           </h3>
