@@ -42,11 +42,6 @@ const PlaceDetails = ({
   /*   const { data: place } = useFetch<IPlaces>(`/pontos-turisticos/${id}`)
    */
 
-  if (!data) {
-    toast.error('Erro ao carregar dados da localidade')
-    return <Error statusCode={statusCode} />
-  }
-
   /*  const { data: avaliacoes } = useFetch(`/pontos-turisticos/${id}/avaliacoes`) */
   useEffect(() => {
     if (data?.results?.favorito) {
@@ -85,7 +80,10 @@ const PlaceDetails = ({
     avaliacoes: <PlaceDetailsComments data={data} />,
     mais_fotos: <div>Mais Fotos</div>,
   }
-
+  if (!data) {
+    toast.error('Erro ao carregar dados da localidade')
+    return <Error statusCode={statusCode} />
+  }
   return (
     <>
       <NextSeo
