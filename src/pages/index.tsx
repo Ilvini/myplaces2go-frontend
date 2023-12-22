@@ -224,25 +224,25 @@ const Home: NextPage = () => {
 
   useEffect(() => {
     if (navigator.geolocation) {
-      navigator.permissions.query({ name: 'geolocation' }).then((result) => {
-        if (result.state === 'granted') {
-          navigator.geolocation.getCurrentPosition(
-            (position: GeolocationPosition) => {
-              setCurrentPosition({
-                latitude: position.coords.latitude,
-                longitude: position.coords.longitude,
-              })
-              getPlaces(position.coords.latitude, position.coords.longitude)
-            },
-            (error: GeolocationPositionError) => {
-              console.log(locationError(error))
-              toast.error(locationError(error) as string, {
-                duration: 5000,
-              })
-            },
-            { enableHighAccuracy: true, maximumAge: 86400000, timeout: 5000 }
-          )
-        } else if (result.state === 'prompt') {
+      /*   navigator.permissions.query({ name: 'geolocation' }).then((result) => {
+        if (result.state === 'granted') { */
+      navigator.geolocation.getCurrentPosition(
+        (position: GeolocationPosition) => {
+          setCurrentPosition({
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+          })
+          getPlaces(position.coords.latitude, position.coords.longitude)
+        },
+        (error: GeolocationPositionError) => {
+          console.log(locationError(error))
+          toast.error(locationError(error) as string, {
+            duration: 5000,
+          })
+        } /* ,
+            { enableHighAccuracy: true, maximumAge: 86400000, timeout: 5000 } */
+      )
+      /* } else if (result.state === 'prompt') {
           navigator.geolocation.getCurrentPosition(
             (position: GeolocationPosition) => {
               setCurrentPosition({
@@ -267,8 +267,8 @@ const Home: NextPage = () => {
           toast.error('Você negou a permissão de geolocalização', {
             duration: 5000,
           })
-        }
-      })
+        } 
+      })*/
     } else {
       toast.error('Seu dispositivo não suporta geolocalização', {
         duration: 5000,
