@@ -2,8 +2,6 @@ import { Icon } from '@iconify/react'
 import React, { useState } from 'react'
 
 export const AditionalInformation = ({ data, title, keyName }) => {
-  console.log(data)
-  console.log(keyName)
   const [hasSpeech, setHasSpeech] = useState(false)
   const [speechActive, setSpeechActive] = useState(false)
   async function TextTooSpeech(text: string) {
@@ -17,9 +15,7 @@ export const AditionalInformation = ({ data, title, keyName }) => {
     /*  let voices = synth.getVoices() */
 
     let utterThis = new SpeechSynthesisUtterance(text)
-    utterThis.onend = function (event) {
-      console.log('SpeechSynthesisUtterance.onend')
-    }
+    utterThis.onend = function (event) {}
     utterThis.onerror = function (event) {
       console.error('SpeechSynthesisUtterance.onerror')
     }
@@ -72,4 +68,3 @@ export const AditionalInformation = ({ data, title, keyName }) => {
     </>
   )
 }
-

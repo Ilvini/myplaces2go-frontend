@@ -27,8 +27,9 @@ const TermoDeUso: NextPage = () => {
         </h1>
         <p className="mb-4 text-brand-gray-600">
           My place 2 Go, pessoa jurídica de direito privado descreve, através
-          deste documento, as regras de uso do site www.myplace2go.com.br e
-          qualquer outro site, loja ou aplicativo operado pelo proprietário.
+          deste documento, as regras de uso do site
+          https://www.myplaces2go.com.br e qualquer outro site, loja ou
+          aplicativo operado pelo proprietário.
         </p>
 
         <p className="mb-4 text-brand-gray-600">
@@ -207,4 +208,3 @@ const TermoDeUso: NextPage = () => {
 }
 
 export default TermoDeUso
-

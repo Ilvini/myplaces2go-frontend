@@ -12,7 +12,7 @@ import Cookies from 'js-cookie'
 
 export function ChangePhotoModal() {
   const { modalStatePhoto, setModalStatePhoto } = changePhotoModalStore()
-  console.log(modalStatePhoto)
+
   const [loading, setLoading] = useState(false)
   const [photo, setPhoto] = useState<File | null>(null)
   const [base64, setBase64] = useState<string | null>(null)

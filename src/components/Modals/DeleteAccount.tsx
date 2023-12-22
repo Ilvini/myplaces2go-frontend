@@ -44,7 +44,6 @@ export function DeletaAccountModal() {
     }
   }
 
-  console.log(id)
   return (
     <Dialog
       open={modalState}
@@ -84,4 +83,3 @@ export function DeletaAccountModal() {
     </Dialog>
   )
 }
-

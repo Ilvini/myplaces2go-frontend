@@ -42,7 +42,7 @@ const Configuration: NextPage = () => {
   const langChange = (e, m, evt) => {
     evt.preventDefault()
     setCurrentLanguage(e)
-    console.log(decodeURI(e))
+
     if (Cookies.get('googtrans')) {
       Cookies.set('googtrans', decodeURI(e), { expires: 365 })
       setSelected(e)
@@ -95,7 +95,6 @@ const Configuration: NextPage = () => {
     }
   }, [])
   useEffect(() => {
-    console.log(Cookies.get('googtrans'))
     if (typeof Cookies.get('googtrans') === 'undefined') {
       setSelectFlag('brasil')
     }
@@ -190,7 +189,7 @@ const Configuration: NextPage = () => {
         <RWebShare
           data={{
             text: `Venha conhecer o App My Place 2 Go`,
-            url: 'https://myplaces2go-frontend.vercel.app/',
+            url: 'https://www.myplaces2go.com.br',
             title: 'Venha conhecer Novo locais com o App My Place 2 Go',
           }}
           closeText="Fechar"
@@ -234,4 +233,3 @@ const Configuration: NextPage = () => {
 }
 
 export default Configuration
-

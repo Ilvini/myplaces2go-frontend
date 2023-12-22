@@ -7,7 +7,7 @@ import { useRouter } from 'next/router'
 import Cookies from 'js-cookie'
 export const PlaceDetailsComments = ({ data }) => {
   const router = useRouter()
-  console.log(data)
+
   const { modalState, setModalState, setModalData } = rattingModalStore()
   function saveModalInfo() {
     if (Cookies.get('token') === undefined) {
@@ -68,4 +68,3 @@ export const PlaceDetailsComments = ({ data }) => {
     </section>
   )
 }
-

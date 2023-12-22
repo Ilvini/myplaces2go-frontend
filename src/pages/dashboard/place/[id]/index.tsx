@@ -89,9 +89,9 @@ const PlaceDetails = ({
       <NextSeo
         title={data?.results.nome}
         description={data?.results.nome}
-        canonical={`https://myplaces2go-frontend.vercel.app/dashboard/place/${id}`}
+        canonical={`https://www.myplaces2go.com.br/dashboard/place/${id}`}
         openGraph={{
-          url: `https://myplaces2go-frontend.vercel.app/dashboard/place/${id}`,
+          url: `https://www.myplaces2go.com.br/dashboard/place/${id}`,
           title: `My Place 2 Go - Visite ${data?.results.nome}`,
           description: `Venha Visitar ${data?.results.nome}`,
           images: [
@@ -277,7 +277,6 @@ export const getServerSideProps = async (context: any) => {
 
   try {
     const response = await api.get(`/pontos-turisticos/${id}`)
-
     const place = response.data
     const statusCode = response.status
     console.log(place)

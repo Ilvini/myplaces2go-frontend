@@ -6,8 +6,9 @@ import { api } from '../../services/axios'
 import { mutate } from 'swr'
 
 export function Commit({ data }: { data: CommitProps }) {
-  const [dataAvisoIsChecked, setDataAvisoIsChecked] =
-    useState<CommitProps['data_aviso_estado'] | null>(null)
+  const [dataAvisoIsChecked, setDataAvisoIsChecked] = useState<
+    CommitProps['data_aviso_estado'] | null
+  >(null)
 
   useEffect(() => {
     setDataAvisoIsChecked(data.data_aviso_estado)
@@ -19,7 +20,7 @@ export function Commit({ data }: { data: CommitProps }) {
       const response = await api.post(`/comentarios/aviso/toggle`, {
         comentario_id: data.id,
       })
-      console.log(response.data.results)
+
       mutate('getFichaDetailsData')
     } catch (error) {
       console.log(error)
