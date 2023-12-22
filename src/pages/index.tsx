@@ -167,31 +167,6 @@ const Home: NextPage = () => {
     }
   }
 
-  // função para pegar informações sobre a latitude e longitude, atualmente é usada para pegar a cidade e o estado
-  /*   const getInfoAboutLatAndLong = useCallback(async () => {
-    try {
-      const response = await fetch(
-        `https://nominatim.openstreetmap.org/reverse?lat=${currentPosition.latitude}&lon=${currentPosition.longitude}&format=json`,
-        {
-          headers: {
-            'User-Agent': 'My Place 2 Go',
-            Authorization: `Bearer ${Cookies.get('token')}`,
-          },
-        }
-      )
-      const data = await response.json()
-      localStorage.setItem('city', data.address.city)
-      localStorage.setItem(
-        'state',
-        data.address['ISO3166-2-lvl4'].split('-')[1]
-      )
-
-      console.log(data)
-    } catch (error) {
-      console.log(error)
-    }
-  }, [currentPosition]) */
-  // configuração padrão para o mapa
   const defaultProps = {
     center: {
       lat: currentPosition.latitude,
@@ -237,16 +212,14 @@ const Home: NextPage = () => {
   }
 
   function getRaio(zoom: number) {
-    console.log(zoom)
     const raio: any = raios.find((raio) => raio.zoom === zoom)
-    console.log(raio)
+
     return raio.raio
   }
   const handleUpdateMap = (lat: number, long: number, e: any) => {
     const raio = getRaio(e.zoom)
-    console.log(raio + 'test')
+
     getPlaces(lat, long, raio)
-    console.log(e)
   }
 
   useEffect(() => {

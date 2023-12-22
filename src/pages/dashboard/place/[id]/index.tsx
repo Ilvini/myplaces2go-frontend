@@ -25,15 +25,14 @@ import { HeaderNavigation } from '../../../../components/HeaderNavigation'
 import { NextSeo } from 'next-seo'
 import { LoadingCircle } from '../../../../components/Loading'
 import { RWebShare } from 'react-web-share'
-interface IComments {
-  results: {
-    id: number
-    estrelas: number
-    comentario: string
-  }[]
-}
-
-const PlaceDetails: NextPage = ({ data }) => {
+import Error from 'next/error'
+const PlaceDetails = ({
+  data,
+  statusCode,
+}: {
+  data: IPlaces
+  statusCode: number
+}) => {
   const { id } = useRouter().query
   const [hasFavorite, setHasFavorite] = useState<boolean>(false)
   const [currentTab, setCurrentTab] = React.useState<
@@ -42,7 +41,11 @@ const PlaceDetails: NextPage = ({ data }) => {
   const [loading, setLoading] = useState(false)
   /*   const { data: place } = useFetch<IPlaces>(`/pontos-turisticos/${id}`)
    */
-  console.log(data && data)
+
+  if (!data) {
+    toast.error('Erro ao carregar dados da localidade')
+    return <Error statusCode={statusCode} />
+  }
 
   /*  const { data: avaliacoes } = useFetch(`/pontos-turisticos/${id}/avaliacoes`) */
   useEffect(() => {
@@ -52,6 +55,7 @@ const PlaceDetails: NextPage = ({ data }) => {
       setHasFavorite(false)
     }
   }, [])
+
   async function handleAddOnFavorites(data: any) {
     try {
       setLoading(true)
@@ -273,14 +277,28 @@ export const getServerSideProps = async (context: any) => {
   const { params } = context
   const { id } = params
 
-  const response = await api.get(`/pontos-turisticos/${id}`)
+  try {
+    const response = await api.get(`/pontos-turisticos/${id}`)
 
-  const place = response.data
-  console.log(place)
-  return {
-    props: {
-      data: response.data,
-      fallback: true,
-    },
+    const place = response.data
+    const statusCode = response.status
+    console.log(place)
+    return {
+      props: {
+        data: response.data,
+        statusCode,
+        fallback: true,
+      },
+    }
+  } catch (err: any) {
+    console.log(err)
+    return {
+      props: {
+        data: null,
+        statusCode: err.response.status,
+        fallback: true,
+      },
+    }
   }
 }
+
