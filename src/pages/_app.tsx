@@ -74,13 +74,13 @@ export default function MyApp({ Component, pageProps }: any) {
     <GlobalContextProvider>
       <DefaultSeo
         title="My Place 2 GO - Seu App de Turismo"
-        description="Viage pelo mundo com o My Place 2 GO, seu app de turismo."
+        description="Viaje pelo mundo com o My Place 2 GO, seu app de turismo."
         canonical="https://www.myplaces2go.com.br"
         openGraph={{
           url: 'https://www.myplaces2go.com.br',
           title: 'MY Place 2 GO - Seu App de Turismo',
           description:
-            'Viage pelo mundo com o My Place 2 GO, seu app de turismo.',
+            'Viaje pelo mundo com o My Place 2 GO, seu app de turismo.',
           images: [
             {
               url: '/seo.png',
@@ -102,3 +102,4 @@ export default function MyApp({ Component, pageProps }: any) {
     </GlobalContextProvider>
   )
 }
+
